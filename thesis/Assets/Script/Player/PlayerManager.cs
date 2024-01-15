@@ -11,10 +11,32 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public OnAirState onAir = new OnAirState();
     public OnDragState onDrag = new OnDragState();
 
-    public Vector2 movementInput;
+    [HideInInspector] public Vector2 movementInput;
+    [HideInInspector] public ProceduralAnimationController pac;
+
+    public float hardSpring;
+    public float softSpring;
+
+    [Header("Arm")]
+    public List<Rigidbody> armRB = new List<Rigidbody>();
+    public List<ConfigurableJoint> armJoint = new List<ConfigurableJoint>();
+    [Space(10f)]
+
+    [Header("Leg")]
+    public List<Rigidbody> legRB = new List<Rigidbody>();
+    public List<ConfigurableJoint> legJoint = new List<ConfigurableJoint>();
+    [Space(10f)]
+
+    [Header("Body")]
+    public Rigidbody rootRB;
+    public ConfigurableJoint rootJoint;
+    public List<Rigidbody> bodyRB = new List<Rigidbody>();
+    public List<ConfigurableJoint> bodyJoint = new List<ConfigurableJoint>();
+
 
     private void Awake()
     {
+        pac = GetComponent<ProceduralAnimationController>();
         SwitchState(balance);
     }
 

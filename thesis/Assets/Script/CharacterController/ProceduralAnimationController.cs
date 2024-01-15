@@ -23,7 +23,9 @@ public class ProceduralAnimationController : MonoBehaviour
     [Header("Move")]
     [SerializeField] float moveSpeed;
     [SerializeField] float nextStepDis;
+    [SerializeField] float nextFootDis;
     [SerializeField] float rotationSpeed;
+    [SerializeField] float rotationFootSpeed;
 
     [SerializeField] LayerMask groundMask;
 
@@ -33,11 +35,11 @@ public class ProceduralAnimationController : MonoBehaviour
 
     Rigidbody rootRB;
 
-    [Header("Anim")]
-    [SerializeField] float moveLegUpSpeed;
-    [SerializeField] float moveLegForwardSpeed;
-    [SerializeField] float stepHeight;
-    [SerializeField] float stepDuration;
+    //[Header("Anim")]
+    //[SerializeField] float moveLegUpSpeed;
+    //[SerializeField] float moveLegForwardSpeed;
+    //[SerializeField] float stepHeight;
+    //[SerializeField] float stepDuration;
 
     private void Awake()
     {
@@ -87,10 +89,16 @@ public class ProceduralAnimationController : MonoBehaviour
 
         Quaternion targetRot = Quaternion.LookRotation(targetDir);
         Quaternion playerRot = Quaternion.Slerp(COM.rotation, targetRot, rotationSpeed * Time.deltaTime);
-        //Quaternion LFootRot = Quaternion.Slerp(LFoot.rotation, targetRot, rotationSpeed * Time.deltaTime);
-        //Quaternion RFootRot = Quaternion.Slerp(RFoot.rotation, targetRot, rotationSpeed * Time.deltaTime);
 
         COM.rotation = playerRot;
+
+        //Quaternion xFootRot = Quaternion.Euler(new Vector3(-90, 0, 0));
+        //Quaternion footRot = targetRot;
+        //footRot.x = xFootRot.x;
+
+        //Quaternion LFootRot = Quaternion.Slerp(LFoot.rotation, footRot, rotationFootSpeed * Time.deltaTime);
+        //Quaternion RFootRot = Quaternion.Slerp(RFoot.rotation, footRot, rotationFootSpeed * Time.deltaTime);
+
         //LFoot.rotation = LFootRot;
         //RFoot.rotation = RFootRot;
 
@@ -123,11 +131,21 @@ public class ProceduralAnimationController : MonoBehaviour
         centerOfFoot = (LFoot.position + RFoot.position) / 2;
 
         float comAndCenterFootDis = Vector3.Distance(centerCOM, centerOfFoot);
-        float LfootAndCOMDis = Vector3.Distance(LFoot.position, centerCOM);
-        float RfootAndCOMDis = Vector3.Distance(RFoot.position, centerCOM);
 
-        if (comAndCenterFootDis >= nextStepDis /*|| LfootAndCOMDis >= nextStepDis ||*/
-           /* RfootAndCOMDis >= nextStepDis*/)
+        float RfootAndCOMDis = Vector3.Distance(RFoot.position, centerCOM);
+        if (RfootAndCOMDis >= nextFootDis)
+        {
+            RFoot.position = nextStepRPos;
+            //StartCoroutine(moveLeg(RFoot, nextStepRPos));
+        }
+        float LfootAndCOMDis = Vector3.Distance(LFoot.position, centerCOM);
+        if (LfootAndCOMDis >= nextFootDis)
+        {
+            LFoot.position = nextStepLPos;
+            //StartCoroutine(moveLeg(LFoot, nextStepLPos));
+        }
+
+        if (comAndCenterFootDis >= nextStepDis)
         {
             if (LIsFornt)
             {
@@ -140,6 +158,9 @@ public class ProceduralAnimationController : MonoBehaviour
                 //StartCoroutine(moveLeg(LFoot, nextStepLPos));
             }
         }
+
+        
+
     }
 
     private void OnDrawGizmos()
