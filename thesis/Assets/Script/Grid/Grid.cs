@@ -25,14 +25,19 @@ public class Grid
         {
             for (int z = 0; z < height; z++)
             {
-                Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.white, 100f);
-                Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.white, 100f);
+                cellArray[x, z] = new Cell();
+
+                if (x < width / 2)
+                {
+                    Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.red, 100f);
+                    Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.red, 100f);
+                }
 
             }
 
         }
-        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
-        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width / 2, height), Color.red, 100f);
+        Debug.DrawLine(GetWorldPosition(width / 2, 0), GetWorldPosition(width / 2, height), Color.red, 100f);
 
     }
 
@@ -62,12 +67,16 @@ public class Grid
         return false;
     }
 
-
+    public void SetupFloor(int x, int z, GameObject floor)
+    {
+        cellArray[x, z].floorObj = floor;
+    }
 
 }
 
 [Serializable]
 public class Cell
 {
+    public GameObject floorObj;
     public bool hasCharacter;
 }

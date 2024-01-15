@@ -17,13 +17,17 @@ public class GameManager : Auto_Singleton<GameManager>
     public BattlePhase battlePhase = new BattlePhase();
     public EndPhase endPhase = new EndPhase();
 
+    [Header("===== Genarate Map =====")]
+    public Transform mapParent;
+    public GameObject floorPrefabs;
+
     private void Awake()
     {
         SwitchState(standbyPhase);
 
         gridController = GetComponent<GridController>();
         gridController.GenerateGrid(gridWidth, gridHeight, gridSize, gridOrigin);
-
+        gridController.GenerateFloor(gridWidth, gridHeight);
     }
 
     void Update()
