@@ -6,7 +6,7 @@ public class OnAirState : BaseState
 {
     public override void EnterState(GameObject obj)
     {
-        
+        PlayerManager.Instance.pac.enabled = false;
     }
 
     public override void UpdateState(GameObject obj)

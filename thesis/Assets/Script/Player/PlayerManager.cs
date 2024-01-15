@@ -43,12 +43,55 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     private void Update()
     {
         currentState.UpdateState(transform.gameObject);
+
+
     }
 
     public void SwitchState(BaseState state)
     {
         currentState = state;
         currentState.EnterState(transform.gameObject);
+    }
+
+    public void SetupJointSpringWeight(float root, float body, float arm, float leg)
+    {
+        foreach (var joint in legJoint)
+        {
+            JointDrive jointDrive = new JointDrive();
+            jointDrive.positionSpring = leg;
+            jointDrive.maximumForce = leg;
+
+            joint.angularXDrive = jointDrive;
+            joint.angularYZDrive = jointDrive;
+        }
+
+        foreach (var joint in armJoint)
+        {
+            JointDrive jointDrive = new JointDrive();
+            jointDrive.positionSpring = arm;
+            jointDrive.maximumForce = arm;
+
+            joint.angularXDrive = jointDrive;
+            joint.angularYZDrive = jointDrive;
+        }
+
+        foreach (var joint in bodyJoint)
+        {
+            JointDrive jointDrive = new JointDrive();
+            jointDrive.positionSpring = body;
+            jointDrive.maximumForce = body;
+
+            joint.angularXDrive = jointDrive;
+            joint.angularYZDrive = jointDrive;
+        }
+
+        JointDrive rootJointDrive = new JointDrive();
+        rootJointDrive.positionSpring = root;
+        rootJointDrive.maximumForce = root;
+
+        rootJoint.angularXDrive = rootJointDrive;
+        rootJoint.angularYZDrive = rootJointDrive;
+
     }
 
 }
