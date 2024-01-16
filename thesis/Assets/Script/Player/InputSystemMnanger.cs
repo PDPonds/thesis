@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InputSystemMnanger : MonoBehaviour
+{
+    InputSystem inputSystem;
+
+    private void OnEnable()
+    {
+        if (inputSystem == null)
+        {
+            inputSystem = new InputSystem();
+
+            inputSystem.PlayerInput.Jump.performed += i => PlayerManager.Instance.JumpPerformed();
+            inputSystem.PlayerInput.Slide.performed += i => PlayerManager.Instance.SlidePerformed();
+
+        }
+
+        inputSystem.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputSystem.Disable();
+    }
+
+}

@@ -352,7 +352,10 @@ GameObject:
   - component: {fileID: 1953923920}
   - component: {fileID: 1953923923}
   - component: {fileID: 1953923924}
-  m_Layer: 0
+  - component: {fileID: 1953923926}
+  - component: {fileID: 1953923925}
+  - component: {fileID: 1953923927}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,6 +512,56 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1953923925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953923919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58c11fe4577f9342b8d133f93ce463b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1953923926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953923919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17502a1e590b9a488c2b44e165926c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputSystemMnanger: {fileID: 0}
+  playerAnimation: {fileID: 0}
+  rb: {fileID: 0}
+  col: {fileID: 0}
+  jumpForce: 7
+  checkGroundDistance: 1.5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  onGrounded: 0
+  jumpCount: 0
+  slideTime: 1
+  slideDrag: 10
+--- !u!114 &1953923927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953923919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082f4f82f7f72f54bb4c3cf0ae8bfbe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
 --- !u!1 &2085692217
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +573,7 @@ GameObject:
   - component: {fileID: 2085692219}
   - component: {fileID: 2085692218}
   - component: {fileID: 2085692220}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
