@@ -12,14 +12,18 @@ public class EnemyController : MonoBehaviour, IDamageable
     public int hp { get; set; }
 
     [HideInInspector] public Animator anim;
+    [HideInInspector] public Rigidbody2D rb;
 
     public CircleCollider2D attackCol;
     public float attackRange;
     public LayerMask playerMask;
 
     public float attackDelay;
+
     float currentAttackDelay;
     bool canAttack;
+
+    public float takedamageKnockback;
 
     private void OnEnable()
     {
@@ -37,7 +41,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         hp = maxHp;
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
+        currentAttackDelay = attackDelay;
         attackCol.radius = attackRange;
         attackCol.enabled = false;
 
@@ -89,6 +95,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         hp--;
         onDamage?.Invoke();
+
+        rb.AddForce(Vector2.right * takedamageKnockback, ForceMode2D.Impulse);
+
+        attackCol.enabled = false;
+        canAttack = false;
         if (hp <= 0)
         {
             Die();
