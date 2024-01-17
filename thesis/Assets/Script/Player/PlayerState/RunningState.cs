@@ -6,9 +6,14 @@ public class RunningState : BaseState
 {
     public override void EnterState(GameObject go)
     {
-        Animator anim = PlayerManager.Instance.playerAnimation.anim;
+        Animator anim = PlayerManager.Instance.anim;
         anim.SetBool("onAir", false);
         anim.SetBool("Slide", false);
+
+        Vector2 size = PlayerManager.Instance.runningCol;
+        Vector2 offset = PlayerManager.Instance.runningColPos;
+        PlayerManager.Instance.SetupPlayerCol(size, offset);
+
     }
 
     public override void UpdateState(GameObject go)
