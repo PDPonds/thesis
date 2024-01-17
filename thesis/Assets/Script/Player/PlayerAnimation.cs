@@ -25,7 +25,7 @@ public class PlayerAnimation : MonoBehaviour
                 PlayerManager.Instance.attackCol.enabled = false;
             }
         }
-
+        
     }
 
     void PlayAttackAnimation()

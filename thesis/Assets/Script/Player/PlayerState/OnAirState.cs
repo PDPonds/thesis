@@ -21,7 +21,7 @@ public class OnAirState : BaseState
     {
         if (PlayerManager.Instance.onGrounded)
         {
-            PlayerManager.Instance.SwitchState(PlayerManager.Instance.runningState);
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
         }
     }
 

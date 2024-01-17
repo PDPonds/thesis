@@ -25,7 +25,7 @@ public class SlideState : BaseState
         currentSlideTime -= Time.deltaTime;
         if (currentSlideTime < 0)
         {
-            PlayerManager.Instance.SwitchState(PlayerManager.Instance.runningState);
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
         }
     }
 

@@ -8,18 +8,26 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public event Action onJump;
     public event Action onSlide;
     public event Action onAttack;
+    public event Action onTakeDamage;
 
     public BaseState currentState;
 
-    public RunningState runningState = new RunningState();
-    public SlideState slideState = new SlideState();
+    public RunningState running = new RunningState();
+    public SlideState slide = new SlideState();
     public OnAirState onAir = new OnAirState();
+    public HurtState hurt = new HurtState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
     [HideInInspector] public PlayerAnimation playerAnimation;
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public BoxCollider2D col;
+
+    [Header("===== Game Play =====")]
+    [Header("- Hp")]
+    public int maxHp;
+    [HideInInspector] public int currentHp;
+    [Space(10f)]
 
     [Header("========== Controller ==========")]
     [Header("- Jump")]
@@ -57,7 +65,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         currentAttackDelay = attackDelay;
         attackCol.enabled = false;
 
-        SwitchState(runningState);
+        currentHp = maxHp;
+
+        SwitchState(running);
     }
 
     private void Update()
@@ -99,9 +109,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     public void SlidePerformed()
     {
-        if (currentState != slideState)
+        if (currentState != slide)
         {
-            SwitchState(slideState);
+            SwitchState(slide);
             onSlide?.Invoke();
         }
     }
@@ -135,10 +145,26 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         if (canAttack)
         {
             attackCol.enabled = true;
-            if (currentState == slideState) SwitchState(runningState);
+            if (currentState == slide) SwitchState(running);
             onAttack?.Invoke();
             canAttack = false;
         }
+    }
+
+    public void TakeDamage()
+    {
+        currentHp--;
+        onTakeDamage?.Invoke();
+        SwitchState(hurt);
+        if (currentHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Dead");
     }
 
 }
