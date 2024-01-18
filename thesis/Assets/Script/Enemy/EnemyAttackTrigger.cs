@@ -10,6 +10,9 @@ public class EnemyAttackTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
+                GameObject hitPar = GameManager.Instance.hitParticle;
+                GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
                 playerManager.TakeDamage();
             }
         }

@@ -4,30 +4,36 @@ using UnityEngine;
 
 public class GameManager : Auto_Singleton<GameManager>
 {
-    [Header("Game")]
+    [Header("===== Game =====")]
     public Transform CenterPoint;
     public float currentSpeed;
     public Transform DeadPoint;
 
+    [Header("- Frame Stop")]
     public float frameStopDuration;
     bool waiting;
 
+    [Header("- Camera Shake")]
     public float shakeDuration;
     public float shakeMagnitude;
 
-    [Header("Player")]
+    [Header("- Game Particle")]
+    public GameObject hitParticle;
+    [Space(10f)]
+
+    [Header("===== Player =====")]
     public Transform Camera;
     public Transform Player;
     public Transform DestroyGroundAndEnemy;
+    [Space(10f)]
 
-    [Header("Floor")]
+    [Header("===== Floor =====")]
     public GameObject floorPrefabs;
     public float minFloorSize;
     public float maxFloorSize;
 
-    [Header("Spawn Floor")]
+    [Header("- Spawn Floor")]
     public Transform[] spawnPoints;
-
 
     public void StopFrame(float duratuin)
     {
@@ -60,5 +66,9 @@ public class GameManager : Auto_Singleton<GameManager>
         Camera.localPosition = originalPos;
     }
 
+    public void SpawnParticle(GameObject particle, Vector3 pos)
+    {
+        GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+    }
 
 }
