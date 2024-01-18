@@ -6,7 +6,7 @@ public interface IDamageable
 {
     public int hp { get; set; }
 
-    public void TakeDamage();
+    public IEnumerator TakeDamage();
 
     public void Die();
 

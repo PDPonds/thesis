@@ -11,7 +11,7 @@ public class PlayerAttackTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
-                idamageable.TakeDamage();
+               StartCoroutine(idamageable.TakeDamage());
             }
         }
     }

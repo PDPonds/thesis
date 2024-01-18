@@ -21,5 +21,9 @@ public class HurtState : BaseState
                 PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
             }
         }
+        else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
+        {
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
+        }
     }
 }

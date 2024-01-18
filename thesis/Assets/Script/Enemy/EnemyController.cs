@@ -14,10 +14,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody2D rb;
 
-    public CircleCollider2D attackCol;
-    public float attackRange;
     public LayerMask playerMask;
-
     public float attackDelay;
 
     float currentAttackDelay;
@@ -43,62 +40,65 @@ public class EnemyController : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
+        canAttack = true;
         currentAttackDelay = attackDelay;
-        attackCol.radius = attackRange;
-        attackCol.enabled = false;
 
     }
 
     private void Update()
     {
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y);
 
-        Collider2D[] around = Physics2D.OverlapCircleAll(origin, attackRange, playerMask);
-        if (around.Length > 0)
-        {
-            if (canAttack)
-            {
-                onAttack?.Invoke();
-                attackCol.enabled = true;
-                canAttack = false;
-            }
-
-            if (!canAttack)
-            {
-                currentAttackDelay -= Time.deltaTime;
-                if (currentAttackDelay < 0)
-                {
-                    canAttack = true;
-                    currentAttackDelay = attackDelay;
-                }
-            }
-
-        }
-
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
             {
-                attackCol.enabled = false;
+                Destroy(gameObject);
+            }
+        }
+
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (collision.transform.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
+            {
+                if (canAttack)
+                {
+                    onAttack?.Invoke();
+                    StartCoroutine(playerManager.TakeDamage());
+                    canAttack = false;
+                }
+                else
+                {
+                    currentAttackDelay -= Time.deltaTime;
+                    if (currentAttackDelay < 0)
+                    {
+                        currentAttackDelay = attackDelay;
+                        canAttack = true;
+                    }
+                }
             }
         }
 
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y);
-        Gizmos.DrawWireSphere(origin, attackRange);
-    }
-
-    public void TakeDamage()
+    public IEnumerator TakeDamage()
     {
         hp--;
+        currentAttackDelay = attackDelay;
+        canAttack = false;
+
+        float time = GameManager.Instance.shakeDuration;
+        float mag = GameManager.Instance.shakeMagnitude;
+        StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+
+        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         onDamage?.Invoke();
-
-        rb.AddForce(Vector2.right * takedamageKnockback, ForceMode2D.Impulse);
-
-        attackCol.enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        rb.velocity = Vector2.right * takedamageKnockback;
         canAttack = false;
         if (hp <= 0)
         {
@@ -108,7 +108,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        Destroy(gameObject);
+        anim.Play("Dead");
     }
 
     void PlayHurtAnim()

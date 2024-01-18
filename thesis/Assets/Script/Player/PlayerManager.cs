@@ -86,6 +86,24 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
             }
         }
         #endregion
+
+        if (currentState != hurt)
+        {
+            float speed = GameManager.Instance.currentSpeed;
+            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
+            Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+            if (transform.position.x - targetPos.x < -0.01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                targetPos, speed * 2 * Time.deltaTime);
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                targetPos, speed * Time.deltaTime);
+            }
+        }
+
     }
 
     public void JumpPerformed()
@@ -151,11 +169,20 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         }
     }
 
-    public void TakeDamage()
+    public IEnumerator TakeDamage()
     {
         currentHp--;
         onTakeDamage?.Invoke();
+
         SwitchState(hurt);
+
+        float time = GameManager.Instance.shakeDuration;
+        float mag = GameManager.Instance.shakeMagnitude;
+        StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+
+        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+       
+        yield return new WaitForSeconds(0.2f);
         if (currentHp <= 0)
         {
             Die();
