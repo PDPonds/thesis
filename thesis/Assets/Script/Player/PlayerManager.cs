@@ -21,7 +21,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     [HideInInspector] public PlayerAnimation playerAnimation;
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public BoxCollider2D col;
+    [HideInInspector] public CapsuleCollider2D col;
 
     [Header("===== Game Play =====")]
     [Header("- Hp")]
@@ -56,7 +56,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     private void Awake()
     {
-        col = GetComponent<BoxCollider2D>();
+        col = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAnimation = GetComponent<PlayerAnimation>();

@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 353879335771992282}
   - component: {fileID: 677536527260425543}
   - component: {fileID: 8127462010369849792}
-  - component: {fileID: 1511655368893436657}
+  - component: {fileID: 4028611716822237321}
   - component: {fileID: 2416047573340153406}
   - component: {fileID: 6776582103779337134}
   - component: {fileID: 7106950719373651962}
@@ -398,8 +398,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!61 &1511655368893436657
-BoxCollider2D:
+--- !u!70 &4028611716822237321
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -431,18 +431,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.5}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 2.56}
-    newSize: {x: 5.12, y: 2.56}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.3, y: 1.5}
-  m_EdgeRadius: 0
+  m_Size: {x: 1, y: 1.5}
+  m_Direction: 0
 --- !u!50 &2416047573340153406
 Rigidbody2D:
   serializedVersion: 4
@@ -498,10 +488,10 @@ MonoBehaviour:
   jumpCount: 0
   slideTime: 0.5
   slideDrag: 10
-  runningCol: {x: 1.3, y: 1.5}
+  runningCol: {x: 1, y: 1.5}
   runningColPos: {x: 0, y: -0.5}
-  slideCol: {x: 1.3, y: 0.75}
-  slideColPos: {x: 0, y: -0.9}
+  slideCol: {x: 1, y: 1}
+  slideColPos: {x: 0, y: -0.75}
   attackCol: {fileID: 7619245140472870221}
   attackDelay: 0.2
 --- !u!114 &7106950719373651962

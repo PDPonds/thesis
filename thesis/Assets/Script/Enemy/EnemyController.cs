@@ -5,22 +5,25 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
+    public EnemySO enemySO;
+
     public event Action onDamage;
     public event Action onAttack;
 
-    public int maxHp;
     public int hp { get; set; }
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody2D rb;
 
     public LayerMask playerMask;
-    public float attackDelay;
 
     float currentAttackDelay;
     bool canAttack;
 
     public float takedamageKnockback;
+
+    [Header("===== IS Range Enemy =====")]
+    public Transform bulletSpawnPoint;
 
     private void OnEnable()
     {
@@ -36,11 +39,12 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        hp = maxHp;
+        hp = enemySO.maxHp;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
         canAttack = true;
+        float attackDelay = enemySO.attackSpeed;
         currentAttackDelay = attackDelay;
 
     }
@@ -56,32 +60,56 @@ public class EnemyController : MonoBehaviour, IDamageable
             }
         }
 
+        if (enemySO is RangeEnemy)
+        {
+            if (canAttack)
+            {
+                onAttack?.Invoke();
+                SpawnBullet();
+                canAttack = false;
+            }
+            else
+            {
+                currentAttackDelay -= Time.deltaTime;
+                if (currentAttackDelay < 0)
+                {
+                    float attackDelay = enemySO.attackSpeed;
+                    currentAttackDelay = attackDelay;
+                    canAttack = true;
+                }
+            }
+        }
 
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+
         if (collision.transform.tag == "Player")
         {
             if (collision.transform.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
-                if (canAttack)
+                if (enemySO is CloseCombatEnemy)
                 {
-                    onAttack?.Invoke();
-
-                    GameObject hitPar = GameManager.Instance.hitParticle;
-                    GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-
-                    StartCoroutine(playerManager.TakeDamage());
-                    canAttack = false;
-                }
-                else
-                {
-                    currentAttackDelay -= Time.deltaTime;
-                    if (currentAttackDelay < 0)
+                    if (canAttack)
                     {
-                        currentAttackDelay = attackDelay;
-                        canAttack = true;
+                        onAttack?.Invoke();
+
+                        GameObject hitPar = GameManager.Instance.hitParticle;
+                        GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+                        StartCoroutine(playerManager.TakeDamage());
+                        canAttack = false;
+                    }
+                    else
+                    {
+                        currentAttackDelay -= Time.deltaTime;
+                        if (currentAttackDelay < 0)
+                        {
+                            float attackDelay = enemySO.attackSpeed;
+                            currentAttackDelay = attackDelay;
+                            canAttack = true;
+                        }
                     }
                 }
             }
@@ -92,6 +120,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public IEnumerator TakeDamage()
     {
         hp--;
+        float attackDelay = enemySO.attackSpeed;
         currentAttackDelay = attackDelay;
         canAttack = false;
 
@@ -123,6 +152,18 @@ public class EnemyController : MonoBehaviour, IDamageable
     void PlayAttackAnim()
     {
         anim.Play("Attack");
+    }
+
+    void SpawnBullet()
+    {
+        RangeEnemy rangeEnemy = (RangeEnemy)enemySO;
+        GameObject bullet = rangeEnemy.bulletPrefab;
+        float bulletSpeed = rangeEnemy.bulletSpeed;
+
+        GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
+        Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+        bulletRb.AddForce(Vector2.left * bulletSpeed, ForceMode2D.Impulse);
+
     }
 
 }

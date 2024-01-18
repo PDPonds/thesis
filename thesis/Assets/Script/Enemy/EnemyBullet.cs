@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackTrigger : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,7 +13,8 @@ public class EnemyAttackTrigger : MonoBehaviour
                 GameObject hitPar = GameManager.Instance.hitParticle;
                 GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
-                playerManager.TakeDamage();
+                StartCoroutine(playerManager.TakeDamage());
+
             }
         }
     }
