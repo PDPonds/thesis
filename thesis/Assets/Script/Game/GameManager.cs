@@ -19,6 +19,7 @@ public class GameManager : Auto_Singleton<GameManager>
 
     [Header("- Game Particle")]
     public GameObject hitParticle;
+    public GameObject healParticle;
 
     [Header("- Score")]
     public float scoreMul;

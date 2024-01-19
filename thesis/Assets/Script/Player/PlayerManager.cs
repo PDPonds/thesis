@@ -9,6 +9,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public event Action onSlide;
     public event Action onAttack;
     public event Action onTakeDamage;
+    public event Action onDead;
+    public event Action onHeal;
+
 
     public BaseState currentState;
 
@@ -27,6 +30,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     [Header("- Hp")]
     public int maxHp;
     [HideInInspector] public int currentHp;
+    [HideInInspector] public bool isDead;
     [Space(10f)]
 
     [Header("========== Controller ==========")]
@@ -87,7 +91,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         }
         #endregion
 
-        if (currentState != hurt)
+        if (currentState != hurt && !isDead)
         {
             float speed = GameManager.Instance.currentSpeed;
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
@@ -102,6 +106,12 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
                 transform.position = Vector3.MoveTowards(transform.position,
                 targetPos, speed * Time.deltaTime);
             }
+        }
+
+        if (isDead)
+        {
+            rb.isKinematic = true;
+            rb.simulated = false;
         }
 
     }
@@ -181,7 +191,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-       
+
         yield return new WaitForSeconds(0.2f);
         if (currentHp <= 0)
         {
@@ -191,7 +201,20 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     public void Die()
     {
-        Debug.Log("Dead");
+        isDead = true;
+        anim.SetBool("isDead", true);
+        onDead?.Invoke();
+    }
+
+    public bool Heal()
+    {
+        if (currentHp < maxHp)
+        {
+            currentHp++;
+            onHeal?.Invoke();
+            return true;
+        }
+        return false;
     }
 
 }
