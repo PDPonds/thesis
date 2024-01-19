@@ -120,6 +120,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     {
         if (onGrounded && currentState != onAir)
         {
+            Vector3 spawnJumpParPos = transform.position + new Vector3(0, -1f, 0);
+            GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
+
             SwitchState(onAir);
             onJump?.Invoke();
             jumpCount--;
@@ -128,6 +131,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         {
             if (jumpCount > 0)
             {
+                GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle,
+               transform.position + new Vector3(0, 0.5f, 0));
+
                 SwitchState(onAir);
                 onJump?.Invoke();
                 jumpCount--;

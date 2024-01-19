@@ -169,7 +169,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 84ce2f114ad12bd4ebafc77060220324, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -283,6 +283,7 @@ MonoBehaviour:
   col: {fileID: 0}
   maxHp: 3
   currentHp: 0
+  isDead: 0
   jumpForce: 10
   checkGroundDistance: 1.5
   groundMask:
