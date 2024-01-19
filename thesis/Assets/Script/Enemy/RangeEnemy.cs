@@ -7,6 +7,7 @@ public class RangeEnemy : EnemySO
 {
     public GameObject bulletPrefab;
     public float bulletSpeed;
+    public float attackRange;
 
     public RangeEnemy()
     {

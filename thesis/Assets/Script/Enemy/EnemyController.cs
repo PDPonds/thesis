@@ -62,20 +62,25 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         if (enemySO is RangeEnemy)
         {
-            if (canAttack)
+            RangeEnemy rangeEnemy = (RangeEnemy)enemySO;
+            float range = Vector3.Distance(transform.position, GameManager.Instance.Player.position);
+            if (range <= rangeEnemy.attackRange)
             {
-                onAttack?.Invoke();
-                SpawnBullet();
-                canAttack = false;
-            }
-            else
-            {
-                currentAttackDelay -= Time.deltaTime;
-                if (currentAttackDelay < 0)
+                if (canAttack)
                 {
-                    float attackDelay = enemySO.attackSpeed;
-                    currentAttackDelay = attackDelay;
-                    canAttack = true;
+                    onAttack?.Invoke();
+                    SpawnBullet();
+                    canAttack = false;
+                }
+                else
+                {
+                    currentAttackDelay -= Time.deltaTime;
+                    if (currentAttackDelay < 0)
+                    {
+                        float attackDelay = enemySO.attackSpeed;
+                        currentAttackDelay = attackDelay;
+                        canAttack = true;
+                    }
                 }
             }
         }

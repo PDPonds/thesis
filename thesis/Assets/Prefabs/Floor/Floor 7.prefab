@@ -50,7 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba172e50471e9a4480c28bec0ab75b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpawnPoint: []
+  enemySpawnPoint:
+  - {fileID: 6012360927319683487}
+  - {fileID: 3317944917096756741}
 --- !u!61 &1232753208538899913
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -337,7 +339,7 @@ Transform:
   m_GameObject: {fileID: 7015039945469545190}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

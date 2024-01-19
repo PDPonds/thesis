@@ -15,7 +15,7 @@ public class CameraFollow : MonoBehaviour
         if (!PlayerManager.Instance.isDead)
         {
             Vector3 targetPos = target.position + offset;
-            offset.y = GameManager.Instance.Player.position.y;
+            //offset.y = GameManager.Instance.Player.position.y;
             transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime); ;
         }
     }
