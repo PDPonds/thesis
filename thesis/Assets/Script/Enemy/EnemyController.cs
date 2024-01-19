@@ -130,7 +130,8 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         onDamage?.Invoke();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
+
         rb.velocity = Vector2.right * takedamageKnockback;
         canAttack = false;
         if (hp <= 0)
