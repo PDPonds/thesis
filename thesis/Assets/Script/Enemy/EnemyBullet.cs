@@ -14,11 +14,7 @@ public class EnemyBullet : MonoBehaviour
         {
             if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
-                GameObject hitPar = GameManager.Instance.hitParticle;
-                GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-
-                StartCoroutine(playerManager.TakeDamage());
-
+                StartCoroutine(PlayerTakeDamage(collision, playerManager));
             }
         }
 
@@ -30,4 +26,16 @@ public class EnemyBullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    IEnumerator PlayerTakeDamage(Collider2D collision, PlayerManager playerManager)
+    {
+        GameObject hitPar = GameManager.Instance.hitParticle;
+        GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+        StartCoroutine(playerManager.TakeDamage());
+        yield return new WaitForSecondsRealtime(0.2f);
+        Destroy(gameObject);
+    }
+
+
 }

@@ -192,7 +192,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
         if (currentHp <= 0)
         {
             Die();

@@ -6,7 +6,9 @@ public class GameManager : Auto_Singleton<GameManager>
 {
     [Header("===== Game =====")]
     public Transform CenterPoint;
-    public float currentSpeed;
+    public float maxSpeed;
+    public float minSpeed;
+    /*[HideInInspector]*/ public float currentSpeed;
     public Transform DeadPoint;
 
     [Header("- Frame Stop")]
@@ -53,6 +55,20 @@ public class GameManager : Auto_Singleton<GameManager>
     {
         float score = Player.position.x - transform.position.x;
         currentScore = (int)score * (int)scoreMul;
+
+        if (currentScore / 1000 > minSpeed)
+        {
+            float speed = currentScore / 1000;
+            currentSpeed = speed;
+        }
+        else if (currentScore / 1000 < minSpeed)
+        {
+            currentSpeed = minSpeed;
+        }
+        else if (currentScore / 1000 > maxSpeed)
+        {
+            currentSpeed = maxSpeed;
+        }
     }
 
     public void StopFrame(float duratuin)
@@ -98,8 +114,8 @@ public class GameManager : Auto_Singleton<GameManager>
         Vector3 spawnPoint = new Vector3(currentXOffset + offset, 0, 0);
 
         GameObject floorObj = Instantiate(floorPrefab, spawnPoint, Quaternion.identity);
-        SpawnEnemy spawnEnemy = floorObj.GetComponent<SpawnEnemy>();
-        spawnEnemy.GenerateEnemy();
+        //SpawnEnemy spawnEnemy = floorObj.GetComponent<SpawnEnemy>();
+        //spawnEnemy.GenerateEnemy();
         currentXOffset += offset;
 
     }
