@@ -19,6 +19,10 @@ public class GameManager : Auto_Singleton<GameManager>
 
     [Header("- Game Particle")]
     public GameObject hitParticle;
+
+    [Header("- Score")]
+    public float scoreMul;
+    [HideInInspector] public int currentScore;
     [Space(10f)]
 
     [Header("===== Player =====")]
@@ -42,6 +46,12 @@ public class GameManager : Auto_Singleton<GameManager>
             GenerateFloor();
         }
 
+    }
+
+    private void Update()
+    {
+        float score = Player.position.x - transform.position.x;
+        currentScore = (int)score * (int)scoreMul;
     }
 
     public void StopFrame(float duratuin)
