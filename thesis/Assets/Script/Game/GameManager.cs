@@ -24,16 +24,15 @@ public class GameManager : Auto_Singleton<GameManager>
     [Header("===== Player =====")]
     public Transform Camera;
     public Transform Player;
-    public Transform DestroyGroundAndEnemy;
     [Space(10f)]
 
-    [Header("===== Floor =====")]
-    public GameObject floorPrefabs;
-    public float minFloorSize;
-    public float maxFloorSize;
+    [Header("- Spawn Floor")]
+    public GameObject[] floorPrefabs;
+    public Transform SpawnGround;
+    public Transform DestroyGroundAndEnemy;
 
     [Header("- Spawn Floor")]
-    public Transform[] spawnPoints;
+    public GameObject[] enemyPrefabs;
 
     public void StopFrame(float duratuin)
     {

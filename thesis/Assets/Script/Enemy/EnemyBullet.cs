@@ -17,5 +17,12 @@ public class EnemyBullet : MonoBehaviour
 
             }
         }
+        else if (collision.CompareTag("Ground"))
+        {
+            GameObject hitPar = GameManager.Instance.hitParticle;
+            GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+           
+            Destroy(gameObject);
+        }
     }
 }
