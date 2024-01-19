@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    private void Update()
+    {
+        Destroy(gameObject, 5f);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -21,7 +25,7 @@ public class EnemyBullet : MonoBehaviour
         {
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-           
+
             Destroy(gameObject);
         }
     }

@@ -18,7 +18,7 @@ public class RunningState : BaseState
 
     public override void UpdateState(GameObject go)
     {
-        if (PlayerManager.Instance.onGrounded) PlayerManager.Instance.jumpCount = 1;
+        if (PlayerManager.Instance.onGrounded) PlayerManager.Instance.jumpCount = 2;
 
     }
 

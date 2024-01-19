@@ -28,11 +28,21 @@ public class GameManager : Auto_Singleton<GameManager>
 
     [Header("- Spawn Floor")]
     public GameObject[] floorPrefabs;
-    public Transform SpawnGround;
     public Transform DestroyGroundAndEnemy;
 
     [Header("- Spawn Floor")]
     public GameObject[] enemyPrefabs;
+    [SerializeField] float offset;
+    float currentXOffset;
+
+    private void Awake()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            GenerateFloor();
+        }
+
+    }
 
     public void StopFrame(float duratuin)
     {
@@ -68,6 +78,19 @@ public class GameManager : Auto_Singleton<GameManager>
     public void SpawnParticle(GameObject particle, Vector3 pos)
     {
         GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+    }
+
+    public void GenerateFloor()
+    {
+        int floorIndex = Random.Range(0, GameManager.Instance.floorPrefabs.Length);
+        GameObject floorPrefab = GameManager.Instance.floorPrefabs[floorIndex];
+        Vector3 spawnPoint = new Vector3(currentXOffset + offset, 0, 0);
+
+        GameObject floorObj = Instantiate(floorPrefab, spawnPoint, Quaternion.identity);
+        SpawnEnemy spawnEnemy = floorObj.GetComponent<SpawnEnemy>();
+        spawnEnemy.GenerateEnemy();
+        currentXOffset += offset;
+
     }
 
 }

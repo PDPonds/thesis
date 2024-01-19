@@ -8,29 +8,31 @@ public class DestroyGround : MonoBehaviour
 
     private void Awake()
     {
-        float x = GameManager.Instance.Player.position.x + offset.x;
-        float z = GameManager.Instance.Player.position.z + offset.z;
-        Vector3 pos = new Vector3(x, 0, z);
+        float x = GameManager.Instance.Camera.position.x + offset.x;
+        Vector3 pos = new Vector3(x, 0, 0);
         transform.position = pos;
     }
 
     private void Update()
     {
-        float x = GameManager.Instance.Player.position.x + offset.x;
-        float z = GameManager.Instance.Player.position.z + offset.z;
-        Vector3 pos = new Vector3(x, 0, z);
+        float x = GameManager.Instance.Camera.position.x + offset.x;
+        Vector3 pos = new Vector3(x, 0, 0);
         transform.position = pos;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("DestroyGround"))
         {
             Destroy(collision.gameObject);
 
-            Transform spawnPos = GameManager.Instance.SpawnGround;
-            SpawnFloor spawnFloor = spawnPos.GetComponent<SpawnFloor>();
-            spawnFloor.GenerateFloor();
+            GameManager.Instance.GenerateFloor();
         }
+
+        if (collision.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+        }
+
     }
 }
