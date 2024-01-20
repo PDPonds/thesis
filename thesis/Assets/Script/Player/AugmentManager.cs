@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class AugmentManager : MonoBehaviour
 {
@@ -32,9 +30,48 @@ public class AugmentManager : MonoBehaviour
             }
         }
 
-        if(HasSkill(4,out int skillIndex))
+        if (HasSkill(1, out int counterSkillIndex))
         {
-            AugmentSlot slot = skillInventory[skillIndex];
+            AugmentSlot slot = skillInventory[counterSkillIndex];
+            if (slot.ready)
+            {
+                PlayerManager.Instance.counterEffect.SetActive(true);
+            }
+            else
+            {
+                PlayerManager.Instance.counterEffect.SetActive(false);
+            }
+        }
+
+        if (HasSkill(2, out int fireballSkillIndex))
+        {
+            AugmentSlot slot = skillInventory[fireballSkillIndex];
+            if (slot.ready)
+            {
+                PlayerManager.Instance.projectileEffect.SetActive(true);
+            }
+            else
+            {
+                PlayerManager.Instance.projectileEffect.SetActive(false);
+            }
+        }
+
+        if (HasSkill(3,out int shieldSkillIndex))
+        {
+            AugmentSlot slot = skillInventory[shieldSkillIndex];
+            if (slot.ready)
+            {
+                PlayerManager.Instance.shieldEffect.SetActive(true);
+            }
+            else
+            {
+                PlayerManager.Instance.shieldEffect.SetActive(false);
+            }
+        }
+
+        if (HasSkill(4,out int VampireskillIndex))
+        {
+            AugmentSlot slot = skillInventory[VampireskillIndex];
             if(slot.ready)
             {
                 SkillSO skill = slot.skill;

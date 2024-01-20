@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -233,7 +232,7 @@ public class UIManager : MonoBehaviour
             int level = augmentManager.skillInventory[i].level;
             GameObject icon = Instantiate(skillImagePrefab, skillInventory);
             SkillIcon skillIcon = icon.GetComponent<SkillIcon>();
-            skillIcon.UpdateLevelAndIcon(skill.skillIcon, level);
+            skillIcon.UpdateLevelAndIcon(skill, skill.skillIcon, level);
         }
 
     }

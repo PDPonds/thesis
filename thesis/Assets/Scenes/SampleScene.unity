@@ -946,11 +946,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 847989576}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -200}
-  m_SizeDelta: {x: 300, y: 70}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 10, y: 10}
+  m_SizeDelta: {x: 500, y: 160}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &778791818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,7 +968,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -2309,7 +2309,7 @@ MonoBehaviour:
   shakeDuration: 0.05
   shakeMagnitude: 0.1
   hitParticle: {fileID: 1967835574231978638, guid: 3e196c9e632c76841a71cb6e2dc6d010, type: 3}
-  healParticle: {fileID: 6445666186361868711, guid: 9deea548c44c9ac4e94d6932a0d85eaf, type: 3}
+  healParticle: {fileID: 1971643334344128500, guid: 404faefe3799f0247b8c2160ecba9390, type: 3}
   jumpParticle: {fileID: 1604227354005263177, guid: d6d04e4b024a73147a9b9f10d607f384, type: 3}
   scoreMul: 10
   currentScore: 0
@@ -2415,7 +2415,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -2721,18 +2721,6 @@ PrefabInstance:
     - target: {fileID: 353879335771992282, guid: 578c9a8138330a24bbc6e2169526b882, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6776582103779337134, guid: 578c9a8138330a24bbc6e2169526b882, type: 3}
-      propertyPath: expMul
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6776582103779337134, guid: 578c9a8138330a24bbc6e2169526b882, type: 3}
-      propertyPath: expTarget
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6776582103779337134, guid: 578c9a8138330a24bbc6e2169526b882, type: 3}
-      propertyPath: bulletSpeed
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7209539453814687223, guid: 578c9a8138330a24bbc6e2169526b882, type: 3}
       propertyPath: m_Name

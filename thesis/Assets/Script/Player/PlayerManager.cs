@@ -45,8 +45,15 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     [Header("- Augment")]
     public int maxSkillCount;
+    [Space(5f)]
+    public GameObject projectileEffect;
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
+    [Space(5f)]
+    public GameObject shieldEffect;
+    [Space(5f)]
+    public GameObject counterEffect;
+
     [Space(10f)]
 
     [Header("========== Controller ==========")]

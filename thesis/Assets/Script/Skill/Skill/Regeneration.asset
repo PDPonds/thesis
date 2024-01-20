@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0adac710025371a499b8f49a5e176207, type: 3}
-  m_Name: Vampire
+  m_Name: Regeneration
   m_EditorClassIdentifier: 
   skillID: 4
   skillIcon: {fileID: 21300000, guid: 8ae54f2c70ab07243b8c2f6e7b2c5d4c, type: 3}
-  skillName: Vampire
+  skillName: Regeneration
   skillDiscription: Every time after the countdown time. Heal 1 HP
   skillLevelAndDelays:
-  - delay: 10
+  - delay: 60
     level: 1
-  - delay: 13
+  - delay: 55
     level: 2
-  - delay: 15
+  - delay: 50
     level: 3
