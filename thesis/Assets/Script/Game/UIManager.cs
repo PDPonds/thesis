@@ -19,11 +19,15 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreOnDeadScene;
     public Button returnTolobbyButton;
 
+    [Header("===== Augment =====")]
+    public GameObject AugmentUI;
+
     private void OnEnable()
     {
         PlayerManager.Instance.onTakeDamage += RemoveHeartUI;
         PlayerManager.Instance.onDead += EnableDeadScene;
         PlayerManager.Instance.onHeal += AddHeartUI;
+        PlayerManager.Instance.onLevelup += OpenAugmentSelectionUI;
 
         returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
     }
@@ -33,12 +37,15 @@ public class UIManager : MonoBehaviour
         PlayerManager.Instance.onTakeDamage -= RemoveHeartUI;
         PlayerManager.Instance.onDead -= EnableDeadScene;
         PlayerManager.Instance.onHeal -= AddHeartUI;
+        PlayerManager.Instance.onLevelup -= OpenAugmentSelectionUI;
 
     }
 
     private void Awake()
     {
         deadScene.gameObject.SetActive(false);
+        AugmentUI.gameObject.SetActive(false);
+
     }
 
     private void Update()
@@ -70,6 +77,11 @@ public class UIManager : MonoBehaviour
     void ReturnToLobby()
     {
         SceneManager.LoadScene(0);
+    }
+
+    void OpenAugmentSelectionUI()
+    {
+        AugmentUI.SetActive(true);
     }
 
 }

@@ -7,6 +7,8 @@ public class EnemySO : ScriptableObject
     public int maxHp;
     public EnemyType type;
     public float attackSpeed;
+    public int minExpDropCount;
+    public int maxExpDropCount;
 }
 
 public enum EnemyType { Range, CloseCombat }

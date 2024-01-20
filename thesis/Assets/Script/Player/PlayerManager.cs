@@ -35,8 +35,8 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public float expMul;
     public float expTarget;
     public int startLevel;
-    [HideInInspector] public float currentExp;
-    [HideInInspector] public int currentLevel;
+    /*[HideInInspector]*/ public float currentExp;
+    /*[HideInInspector]*/ public int currentLevel;
     [Space(10f)]
 
     [Header("========== Controller ==========")]

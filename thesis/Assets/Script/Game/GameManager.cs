@@ -8,7 +8,7 @@ public class GameManager : Auto_Singleton<GameManager>
     public Transform CenterPoint;
     public float maxSpeed;
     public float minSpeed;
-    /*[HideInInspector]*/ public float currentSpeed;
+    [HideInInspector] public float currentSpeed;
     public Transform DeadPoint;
 
     [Header("- Frame Stop")]
@@ -32,13 +32,13 @@ public class GameManager : Auto_Singleton<GameManager>
     [Header("===== Player =====")]
     public Transform Camera;
     public Transform Player;
-    [Space(10f)]
+
+    [Header("- EXP And Level")]
+    public GameObject expObj;
 
     [Header("- Spawn Floor")]
     public GameObject[] floorPrefabs;
     public Transform DestroyGroundAndEnemy;
-
-    [Header("- Spawn Floor")]
     public GameObject[] enemyPrefabs;
     [SerializeField] float offset;
     float currentXOffset;
