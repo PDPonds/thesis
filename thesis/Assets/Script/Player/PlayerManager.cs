@@ -11,6 +11,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public event Action onTakeDamage;
     public event Action onDead;
     public event Action onHeal;
+    public event Action onGetExp;
     public event Action onLevelup;
 
     public BaseState currentState;
@@ -25,18 +26,27 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public CapsuleCollider2D col;
+    [HideInInspector] public AugmentManager augmentManager;
 
     [Header("===== Game Play =====")]
     [Header("- Hp")]
     public int maxHp;
     [HideInInspector] public int currentHp;
     [HideInInspector] public bool isDead;
+
     [Header("- Level")]
     public float expMul;
     public float expTarget;
     public int startLevel;
-    /*[HideInInspector]*/ public float currentExp;
-    /*[HideInInspector]*/ public int currentLevel;
+    /*[HideInInspector]*/
+    public float currentExp;
+    /*[HideInInspector]*/
+    public int currentLevel;
+
+    [Header("- Augment")]
+    public int maxSkillCount;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnPoint;
     [Space(10f)]
 
     [Header("========== Controller ==========")]
@@ -71,6 +81,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         anim = GetComponent<Animator>();
         playerAnimation = GetComponent<PlayerAnimation>();
         inputSystemMnanger = GetComponent<InputSystemMnanger>();
+        augmentManager = GetComponent<AugmentManager>();
 
         currentAttackDelay = attackDelay;
         attackCol.enabled = false;
@@ -187,6 +198,22 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     {
         if (canAttack)
         {
+            if (augmentManager.HasSkill(2, out int projectileSkillIndex))
+            {
+                AugmentSlot projectileSkillSlot = augmentManager.skillInventory[projectileSkillIndex];
+                if (projectileSkillSlot.ready)
+                {
+                    SkillSO skill = projectileSkillSlot.skill;
+                    int level = projectileSkillSlot.level;
+                    float delayTime = skill.skillLevelAndDelays[level - 1].delay;
+
+                    SpawnBullet();
+
+                    projectileSkillSlot.delay = delayTime;
+                    projectileSkillSlot.ready = false;
+
+                }
+            }
             attackCol.enabled = true;
             if (currentState == slide) SwitchState(running);
             onAttack?.Invoke();
@@ -196,22 +223,58 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     public IEnumerator TakeDamage()
     {
-        currentHp--;
-        onTakeDamage?.Invoke();
-
-        SwitchState(hurt);
-
-        float time = GameManager.Instance.shakeDuration;
-        float mag = GameManager.Instance.shakeMagnitude;
-        StartCoroutine(GameManager.Instance.SceneShake(time, mag));
-
-        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-
-        yield return new WaitForSecondsRealtime(0.2f);
-        if (currentHp <= 0)
+        if (augmentManager.HasSkill(3, out int skillIndex))
         {
-            Die();
+            AugmentSlot slot = augmentManager.skillInventory[skillIndex];
+            if (slot.ready)
+            {
+                SkillSO skill = slot.skill;
+                int level = slot.level;
+                float delayTime = skill.skillLevelAndDelays[level - 1].delay;
+
+                slot.delay = delayTime;
+                slot.ready = false;
+            }
+            else
+            {
+                onTakeDamage?.Invoke();
+                currentHp--;
+
+                SwitchState(hurt);
+
+                float time = GameManager.Instance.shakeDuration;
+                float mag = GameManager.Instance.shakeMagnitude;
+                StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+
+                GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+
+                yield return new WaitForSecondsRealtime(0.2f);
+                if (currentHp <= 0)
+                {
+                    Die();
+                }
+            }
         }
+        else
+        {
+            onTakeDamage?.Invoke();
+            currentHp--;
+
+            SwitchState(hurt);
+
+            float time = GameManager.Instance.shakeDuration;
+            float mag = GameManager.Instance.shakeMagnitude;
+            StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+
+            GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+
+            yield return new WaitForSecondsRealtime(0.2f);
+            if (currentHp <= 0)
+            {
+                Die();
+            }
+        }
+
     }
 
     public void Die()
@@ -235,6 +298,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public void AddExp(float amount)
     {
         currentExp += amount;
+        onGetExp?.Invoke();
         if (currentExp >= expTarget)
         {
             LevelUp();
@@ -247,6 +311,15 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         expTarget += expMul;
         currentExp = 0;
         currentLevel++;
+    }
+
+    public void SpawnBullet()
+    {
+        GameObject bullet = bulletPrefab;
+
+        GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
+        Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+        bulletRb.AddForce(Vector2.right * GameManager.Instance.currentSpeed * 2f, ForceMode2D.Impulse);
     }
 
 }

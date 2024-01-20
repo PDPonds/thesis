@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0adac710025371a499b8f49a5e176207, type: 3}
-  m_Name: ProjectileAttack
+  m_Name: Vampire
   m_EditorClassIdentifier: 
-  skillID: 2
-  skillIcon: {fileID: 21300000, guid: 971c99011e4d9f840910f37d757aa360, type: 3}
-  skillName: Slash
-  skillDiscription: Every time after the countdown timer The next attack will release
-    a wave of swords.
+  skillID: 4
+  skillIcon: {fileID: 21300000, guid: 8ae54f2c70ab07243b8c2f6e7b2c5d4c, type: 3}
+  skillName: Vampire
+  skillDiscription: Every time after the countdown time. Heal 1 HP
   skillLevelAndDelays:
-  - delay: 5
+  - delay: 10
     level: 1
-  - delay: 4
+  - delay: 13
     level: 2
-  - delay: 3
+  - delay: 15
     level: 3

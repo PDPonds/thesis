@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,12 @@ public class SkillSO : ScriptableObject
     public string skillDiscription;
 
     [Header("Skill Detail")]
-    public float delay;
+    public List<SkillLevelAndDelay> skillLevelAndDelays = new List<SkillLevelAndDelay>();
+}
 
+[Serializable]
+public class SkillLevelAndDelay
+{
+    public float delay;
+    public float level;
 }

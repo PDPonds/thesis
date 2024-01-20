@@ -29,6 +29,11 @@ public class GameManager : Auto_Singleton<GameManager>
     [HideInInspector] public int currentScore;
     [Space(10f)]
 
+    [Header("- AllSkill")]
+    public SkillSO[] allSkill;
+    public int augmentCountPerLevelUp;
+    public GameObject augmentCardPrefab;
+
     [Header("===== Player =====")]
     public Transform Camera;
     public Transform Player;
@@ -49,7 +54,6 @@ public class GameManager : Auto_Singleton<GameManager>
         {
             GenerateFloor();
         }
-
     }
 
     private void Update()
@@ -119,6 +123,15 @@ public class GameManager : Auto_Singleton<GameManager>
         //spawnEnemy.GenerateEnemy();
         currentXOffset += offset;
 
+    }
+
+    public bool CheckNoRepeatSkill(List<SkillSO> ingore, SkillSO skill)
+    {
+        foreach (SkillSO s in ingore)
+        {
+            if (s == skill) return false;
+        }
+        return true;
     }
 
 }

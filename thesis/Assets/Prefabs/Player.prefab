@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 6776582103779337134}
   - component: {fileID: 7106950719373651962}
   - component: {fileID: 7852663737266363954}
+  - component: {fileID: 8353594281266462698}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -127,6 +128,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2516509560186671549}
+  - {fileID: 6810503368739307759}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &677536527260425543
@@ -281,9 +283,18 @@ MonoBehaviour:
   anim: {fileID: 0}
   rb: {fileID: 0}
   col: {fileID: 0}
+  augmentManager: {fileID: 0}
   maxHp: 3
   currentHp: 0
   isDead: 0
+  expMul: 1
+  expTarget: 1
+  startLevel: 1
+  currentExp: 0
+  currentLevel: 0
+  maxSkillCount: 3
+  bulletPrefab: {fileID: 4008272483141151281, guid: 94508c8a4c981584498b94264ec427a9, type: 3}
+  bulletSpawnPoint: {fileID: 6810503368739307759}
   jumpForce: 10
   checkGroundDistance: 1.5
   groundMask:
@@ -291,7 +302,7 @@ MonoBehaviour:
     m_Bits: 64
   onGrounded: 0
   jumpCount: 0
-  slideTime: 0.5
+  slideTime: 0.7
   slideDrag: 10
   runningCol: {x: 1, y: 1.5}
   runningColPos: {x: 0, y: -0.5}
@@ -323,3 +334,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082f4f82f7f72f54bb4c3cf0ae8bfbe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8353594281266462698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209539453814687223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a019e321f0b8045a7a5a9dea7dec22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillInventory: []
+--- !u!1 &7563603268117416257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6810503368739307759}
+  m_Layer: 3
+  m_Name: BulletSpawnPoint
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6810503368739307759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563603268117416257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 353879335771992282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
