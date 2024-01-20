@@ -11,7 +11,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public event Action onTakeDamage;
     public event Action onDead;
     public event Action onHeal;
-
+    public event Action onLevelup;
 
     public BaseState currentState;
 
@@ -31,6 +31,12 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     public int maxHp;
     [HideInInspector] public int currentHp;
     [HideInInspector] public bool isDead;
+    [Header("- Level")]
+    public float expMul;
+    public float expTarget;
+    public int startLevel;
+    [HideInInspector] public float currentExp;
+    [HideInInspector] public int currentLevel;
     [Space(10f)]
 
     [Header("========== Controller ==========")]
@@ -72,6 +78,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         currentHp = maxHp;
 
         SwitchState(running);
+
+        currentLevel = startLevel;
+
     }
 
     private void Update()
@@ -221,6 +230,23 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
             return true;
         }
         return false;
+    }
+
+    public void AddExp(float amount)
+    {
+        currentExp += amount;
+        if (currentExp >= expTarget)
+        {
+            LevelUp();
+        }
+    }
+
+    public void LevelUp()
+    {
+        onLevelup?.Invoke();
+        expTarget += expMul;
+        currentExp = 0;
+        currentLevel++;
     }
 
 }
