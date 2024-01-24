@@ -42,6 +42,12 @@ public class PlayerAttackTrigger : MonoBehaviour
                 GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
                 StartCoroutine(idamageable.TakeDamage());
+
+                if(!PlayerManager.Instance.onGrounded)
+                {
+                    PlayerManager.Instance.Jump(PlayerManager.Instance.jumpForce * 0.75f);
+                }
+
             }
         }
     }

@@ -18,7 +18,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     public RunningState running = new RunningState();
     public SlideState slide = new SlideState();
-    public OnAirState onAir = new OnAirState();
+    //public OnAirState onAir = new OnAirState();
     public HurtState hurt = new HurtState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
@@ -59,8 +59,9 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
     [Header("========== Controller ==========")]
     [Header("- Jump")]
     public float jumpForce;
-    public float checkGroundDistance;
-    public LayerMask groundMask;
+    //public Collider2D groundCheck;
+    //public float checkGroundDistance;
+    //public LayerMask groundMask;
     [HideInInspector] public bool onGrounded;
     [HideInInspector] public int jumpCount;
     [Space(5f)]
@@ -103,7 +104,6 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     private void Update()
     {
-        onGrounded = isGrounded();
         currentState.UpdateState(transform.gameObject);
 
         #region Attack
@@ -141,31 +141,42 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
             rb.simulated = false;
         }
 
+        if (onGrounded) anim.SetBool("onAir", false);
+
     }
 
     public void JumpPerformed()
     {
-        if (onGrounded && currentState != onAir)
+        if (onGrounded)
         {
-            Vector3 spawnJumpParPos = transform.position + new Vector3(0, -1f, 0);
-            GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
-
-            SwitchState(onAir);
-            onJump?.Invoke();
-            jumpCount--;
+            Jump(jumpForce);
         }
         else
         {
             if (jumpCount > 0)
             {
-                GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle,
-               transform.position + new Vector3(0, 0.5f, 0));
-
-                SwitchState(onAir);
-                onJump?.Invoke();
-                jumpCount--;
+                Jump(jumpForce * 0.75f);
             }
         }
+    }
+
+    public void Jump(float force)
+    {
+        jumpCount--;
+
+        anim.SetBool("onAir", true);
+        anim.SetBool("Slide", false);
+
+        Vector2 size = runningCol;
+        Vector2 offset = runningColPos;
+        SetupPlayerCol(size, offset);
+        
+        Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
+        GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
+
+        rb.velocity = Vector2.up * force;
+
+        onJump?.Invoke();
     }
 
     public void SlidePerformed()
@@ -177,17 +188,17 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         }
     }
 
-    public bool isGrounded()
-    {
-        Vector3 legPosV3 = transform.position;
-        Vector2 legPos = new Vector2(legPosV3.x, legPosV3.y);
+    //public bool isGrounded()
+    //{
+    //    //Vector3 legPosV3 = transform.position;
+    //    //Vector2 legPos = new Vector2(legPosV3.x, legPosV3.y);
 
-        RaycastHit2D groundHit = Physics2D.Raycast(legPos, Vector2.down, checkGroundDistance, groundMask);
-        Debug.DrawRay(legPos, Vector2.down * checkGroundDistance, Color.red);
+    //    //RaycastHit2D groundHit = Physics2D.Raycast(legPos, Vector2.down, checkGroundDistance, groundMask);
+    //    //Debug.DrawRay(legPos, Vector2.down * checkGroundDistance, Color.red);
 
-        return groundHit.collider != null;
-
-    }
+    //    //return groundHit.collider != null;
+    //    return false;
+    //}
 
     public void SwitchState(BaseState state)
     {
