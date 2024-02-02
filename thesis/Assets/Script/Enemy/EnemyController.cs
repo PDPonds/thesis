@@ -125,6 +125,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public IEnumerator TakeDamage()
     {
         hp--;
+        rb.velocity = Vector2.right * takedamageKnockback;
         float attackDelay = enemySO.attackSpeed;
         currentAttackDelay = attackDelay;
         canAttack = false;
@@ -133,12 +134,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         float mag = GameManager.Instance.shakeMagnitude;
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
-        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         onDamage?.Invoke();
+        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         yield return new WaitForSecondsRealtime(0.2f);
 
-        rb.velocity = Vector2.right * takedamageKnockback;
-        canAttack = false;
         if (hp <= 0)
         {
             Die();

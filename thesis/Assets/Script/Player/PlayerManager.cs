@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("===== Game Play =====")]
     [Header("- Hp")]
+    public Transform mesh;
     public int maxHp;
     [HideInInspector] public int currentHp;
     [HideInInspector] public bool isDead;
@@ -65,8 +66,14 @@ public class PlayerManager : MonoBehaviour
     //public Collider2D groundCheck;
     //public float checkGroundDistance;
     //public LayerMask groundMask;
-    [HideInInspector] public bool onGrounded;
+    /*[HideInInspector]*/
+    public bool onGrounded;
     [HideInInspector] public int jumpCount;
+    public bool isUp;
+    float newHeight;
+    float currentJumpPos;
+    float lastJumpPos;
+
     [Space(5f)]
 
     [Header("- Slide")]
@@ -92,7 +99,7 @@ public class PlayerManager : MonoBehaviour
 
         col = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        anim = mesh.GetComponent<Animator>();
         playerAnimation = GetComponent<PlayerAnimation>();
         inputSystemMnanger = GetComponent<InputSystemMnanger>();
         augmentManager = GetComponent<AugmentManager>();
@@ -128,7 +135,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
             {
-                PlayerManager.Instance.attackCol.enabled = false;
+                attackCol.enabled = false;
             }
         }
 
@@ -158,7 +165,18 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (onGrounded) anim.SetBool("onAir", false);
+        else
+        {
+            anim.SetBool("onAir", true);
 
+            Vector3 up = transform.up;
+            float velocityAlongAxis = Vector3.Dot(rb.velocity, up);
+            if (velocityAlongAxis > 0) isUp = true;
+            else isUp = false;
+
+            anim.SetBool("isUp", isUp);
+
+        }
     }
 
     public void JumpPerformed()
@@ -180,12 +198,15 @@ public class PlayerManager : MonoBehaviour
     {
         jumpCount--;
 
-        anim.SetBool("onAir", true);
+        attackCol.enabled = false;
+
+        //anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
+        anim.Play("StartJump");
 
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
-        SetupPlayerCol(size, offset);
+        SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
 
         Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
         GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
@@ -199,6 +220,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (currentState != slide)
         {
+            attackCol.enabled = false;
             SwitchState(slide);
             onSlide?.Invoke();
         }
@@ -222,10 +244,11 @@ public class PlayerManager : MonoBehaviour
         currentState.EnterState(transform.gameObject);
     }
 
-    public void SetupPlayerCol(Vector2 size, Vector2 offset)
+    public void SetupPlayerCol(Vector2 size, Vector2 offset, CapsuleDirection2D direction)
     {
         col.offset = offset;
         col.size = size;
+        col.direction = direction;
     }
 
     public void AttackPerformed()
@@ -322,6 +345,7 @@ public class PlayerManager : MonoBehaviour
     public void Die()
     {
         isDead = true;
+        attackCol.enabled = false;
         anim.SetBool("isDead", true);
         onDead?.Invoke();
     }

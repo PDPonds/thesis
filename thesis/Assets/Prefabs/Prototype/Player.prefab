@@ -160,7 +160,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.3}
+  m_Size: {x: 0.6, y: 0.3}
   m_EdgeRadius: 0
 --- !u!114 &6944509692413143208
 MonoBehaviour:
@@ -469,7 +469,6 @@ GameObject:
   - component: {fileID: 2416047573340153406}
   - component: {fileID: 6776582103779337134}
   - component: {fileID: 7106950719373651962}
-  - component: {fileID: 7852663737266363954}
   - component: {fileID: 8353594281266462698}
   m_Layer: 3
   m_Name: Player
@@ -687,18 +686,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c58c11fe4577f9342b8d133f93ce463b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7852663737266363954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209539453814687223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 082f4f82f7f72f54bb4c3cf0ae8bfbe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8353594281266462698

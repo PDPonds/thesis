@@ -12,7 +12,7 @@ public class RunningState : BaseState
 
         Vector2 size = PlayerManager.Instance.runningCol;
         Vector2 offset = PlayerManager.Instance.runningColPos;
-        PlayerManager.Instance.SetupPlayerCol(size, offset);
+        PlayerManager.Instance.SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
 
     }
 

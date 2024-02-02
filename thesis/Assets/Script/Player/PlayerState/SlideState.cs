@@ -12,10 +12,10 @@ public class SlideState : BaseState
         anim.SetBool("Slide", true);
 
         PlayerManager.Instance.rb.velocity = Vector2.down * PlayerManager.Instance.slideDrag;
-        
+
         Vector2 size = PlayerManager.Instance.slideCol;
         Vector2 offset = PlayerManager.Instance.slideColPos;
-        PlayerManager.Instance.SetupPlayerCol(size, offset);
+        PlayerManager.Instance.SetupPlayerCol(size, offset, CapsuleDirection2D.Horizontal);
 
         currentSlideTime = PlayerManager.Instance.slideTime;
     }

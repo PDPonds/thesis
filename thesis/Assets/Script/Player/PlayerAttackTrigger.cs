@@ -13,6 +13,7 @@ public class PlayerAttackTrigger : MonoBehaviour
             {
                 if (collision.CompareTag("EnemyBullet"))
                 {
+
                     SkillSO skill = counterSkillSlot.skill;
                     int level = counterSkillSlot.level;
                     float delayTime = skill.skillLevelAndDelays[level - 1].delay;
@@ -29,6 +30,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 
                     counterSkillSlot.delay = delayTime;
                     counterSkillSlot.ready = false;
+                    PlayerManager.Instance.attackCol.enabled = false;
                 }
 
             }
@@ -43,11 +45,12 @@ public class PlayerAttackTrigger : MonoBehaviour
 
                 StartCoroutine(idamageable.TakeDamage());
 
-                if(!PlayerManager.Instance.onGrounded)
+                if (!PlayerManager.Instance.onGrounded)
                 {
                     PlayerManager.Instance.Jump(PlayerManager.Instance.jumpForce * 0.75f);
                 }
 
+                PlayerManager.Instance.attackCol.enabled = false;
             }
         }
     }
