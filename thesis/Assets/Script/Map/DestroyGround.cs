@@ -25,7 +25,6 @@ public class DestroyGround : MonoBehaviour
         if (collision.CompareTag("DestroyGround"))
         {
             Destroy(collision.gameObject);
-
             GameManager.Instance.GenerateFloor();
         }
 

@@ -53,8 +53,10 @@ public class GameManager : MonoBehaviour
     public GameObject[] floorPrefabs;
     public Transform DestroyGroundAndEnemy;
     public GameObject[] enemyPrefabs;
-    [SerializeField] float offset;
-    float currentXOffset;
+    //[SerializeField] float offset;
+    //float currentXOffset;
+
+    [SerializeField] Vector3 lastEndPos;
 
     private void Awake()
     {
@@ -158,13 +160,24 @@ public class GameManager : MonoBehaviour
     public void GenerateFloor()
     {
         int floorIndex = Random.Range(0, floorPrefabs.Length);
-        GameObject floorPrefab = floorPrefabs[floorIndex];
-        Vector3 spawnPoint = new Vector3(currentXOffset + offset, 0, 0);
 
-        GameObject floorObj = Instantiate(floorPrefab, spawnPoint, Quaternion.identity);
+        GameObject buildPrefab = floorPrefabs[floorIndex];
+
+        GameObject buildObj = Instantiate(buildPrefab);
+        Building currentBuilding = buildObj.GetComponent<Building>();
+
+        Vector3 offset = buildObj.transform.position - currentBuilding.startPos.position;
+        buildObj.transform.position = lastEndPos + offset;
+
+        lastEndPos = currentBuilding.endPos.position;
+
+        //GameObject floorPrefab = floorPrefabs[floorIndex];
+        //Vector3 spawnPoint = new Vector3(currentXOffset + offset, 0, 0);
+
+        //GameObject floorObj = Instantiate(floorPrefab, spawnPoint, Quaternion.identity);
         //SpawnEnemy spawnEnemy = floorObj.GetComponent<SpawnEnemy>();
         //spawnEnemy.GenerateEnemy();
-        currentXOffset += offset;
+        //currentXOffset += offset;
 
     }
 
