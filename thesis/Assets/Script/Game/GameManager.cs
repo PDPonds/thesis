@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : Auto_Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [Header("===== Game =====")]
     public Transform CenterPoint;
     public float maxSpeed;
@@ -50,6 +52,8 @@ public class GameManager : Auto_Singleton<GameManager>
 
     private void Awake()
     {
+        Instance = this;
+
         for (int i = 0; i < 2; i++)
         {
             GenerateFloor();

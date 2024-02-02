@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : Auto_Singleton<PlayerManager>
+public class PlayerManager : MonoBehaviour
 {
+
+    public static PlayerManager Instance;
+
     public event Action onJump;
     public event Action onSlide;
     public event Action onAttack;
@@ -84,6 +87,8 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
     private void Awake()
     {
+        Instance = this;
+
         col = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -116,6 +121,15 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
                 currentAttackDelay = attackDelay;
             }
         }
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
+            {
+                PlayerManager.Instance.attackCol.enabled = false;
+            }
+        }
+
         #endregion
 
         if (currentState != hurt && !isDead)
@@ -170,7 +184,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
         SetupPlayerCol(size, offset);
-        
+
         Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
         GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
 
@@ -232,6 +246,7 @@ public class PlayerManager : Auto_Singleton<PlayerManager>
 
                 }
             }
+            anim.Play("Attack");
             attackCol.enabled = true;
             if (currentState == slide) SwitchState(running);
             onAttack?.Invoke();

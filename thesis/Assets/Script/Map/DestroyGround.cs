@@ -6,7 +6,7 @@ public class DestroyGround : MonoBehaviour
 {
     [SerializeField] Vector3 offset;
 
-    private void Awake()
+    private void Start()
     {
         float x = GameManager.Instance.Camera.position.x + offset.x;
         Vector3 pos = new Vector3(x, 0, 0);
