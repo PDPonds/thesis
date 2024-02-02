@@ -157,8 +157,8 @@ public class GameManager : MonoBehaviour
 
     public void GenerateFloor()
     {
-        int floorIndex = Random.Range(0, GameManager.Instance.floorPrefabs.Length);
-        GameObject floorPrefab = GameManager.Instance.floorPrefabs[floorIndex];
+        int floorIndex = Random.Range(0, floorPrefabs.Length);
+        GameObject floorPrefab = floorPrefabs[floorIndex];
         Vector3 spawnPoint = new Vector3(currentXOffset + offset, 0, 0);
 
         GameObject floorObj = Instantiate(floorPrefab, spawnPoint, Quaternion.identity);
