@@ -8,9 +8,15 @@ public class GameManager : MonoBehaviour
 
     [Header("===== Game =====")]
     public Transform CenterPoint;
-    public float maxSpeed;
-    public float minSpeed;
-    [HideInInspector] public float currentSpeed;
+    public float maxNormalSpeed;
+    public float minNormalSpeed;
+
+    public float momentumMul;
+    public float momentumTime;
+    [HideInInspector] public float currentMomentumTime;
+    [HideInInspector] public bool isMomentum;
+
+    public float currentSpeed;
     public Transform DeadPoint;
 
     [Header("- Frame Stop")]
@@ -65,18 +71,51 @@ public class GameManager : MonoBehaviour
         float score = Player.position.x - transform.position.x;
         currentScore = (int)score * (int)scoreMul;
 
-        if (currentScore / 1000 > minSpeed)
+        if (!isMomentum)
         {
-            float speed = currentScore / 1000;
-            currentSpeed = speed;
+            if (currentScore / 1000 > minNormalSpeed)
+            {
+                float speed = currentScore / 1000;
+                currentSpeed = speed;
+            }
+            else if (currentScore / 1000 < minNormalSpeed)
+            {
+                currentSpeed = minNormalSpeed;
+            }
+            else if (currentScore / 1000 > maxNormalSpeed)
+            {
+                currentSpeed = maxNormalSpeed;
+            }
         }
-        else if (currentScore / 1000 < minSpeed)
+        else
         {
-            currentSpeed = minSpeed;
+            if (currentScore / 1000 > minNormalSpeed)
+            {
+                float speed = currentScore / 1000;
+                float targetSpeed = speed + momentumMul;
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
+            }
+            else if (currentScore / 1000 < minNormalSpeed)
+            {
+                float targetSpeed = minNormalSpeed + momentumMul;
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
+            }
+            else if (currentScore / 1000 > maxNormalSpeed)
+            {
+                float targetSpeed = maxNormalSpeed + momentumMul;
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
+            }
         }
-        else if (currentScore / 1000 > maxSpeed)
+
+
+        if (currentMomentumTime >= momentumTime)
         {
-            currentSpeed = maxSpeed;
+            isMomentum = true;
+        }
+        else
+        {
+            isMomentum = false;
+            currentMomentumTime += Time.deltaTime;
         }
     }
 

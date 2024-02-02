@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
     public Transform skillInventory;
     public GameObject skillImagePrefab;
 
+    [Header("===== Momentum =====")]
+    public GameObject momentumEffect;
+
     private void OnEnable()
     {
         PlayerManager.Instance.onTakeDamage += RemoveHeartUI;
@@ -63,6 +66,10 @@ public class UIManager : MonoBehaviour
     {
         scoreText.text = GameManager.Instance.currentScore.ToString();
         scoreOnDeadScene.text = GameManager.Instance.currentScore.ToString();
+
+        if (GameManager.Instance.isMomentum) momentumEffect.gameObject.SetActive(true);
+        else momentumEffect.gameObject.SetActive(false);
+
     }
 
     void AddHeartUI()

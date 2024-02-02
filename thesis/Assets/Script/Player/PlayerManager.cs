@@ -82,6 +82,7 @@ public class PlayerManager : MonoBehaviour
     public Collider2D attackCol;
     public float attackDelay;
 
+    int attackCount;
     float currentAttackDelay;
     bool canAttack;
 
@@ -122,7 +123,8 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack1") ||
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Attack2"))
         {
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
             {
@@ -246,7 +248,11 @@ public class PlayerManager : MonoBehaviour
 
                 }
             }
-            anim.Play("Attack");
+
+            if (attackCount % 2 != 0) anim.Play("Attack1");
+            else anim.Play("Attack2");
+            attackCount++;
+
             attackCol.enabled = true;
             if (currentState == slide) SwitchState(running);
             onAttack?.Invoke();
@@ -292,6 +298,9 @@ public class PlayerManager : MonoBehaviour
         {
             onTakeDamage?.Invoke();
             currentHp--;
+
+            GameManager.Instance.currentMomentumTime = 0;
+            GameManager.Instance.isMomentum = false;
 
             SwitchState(hurt);
 
