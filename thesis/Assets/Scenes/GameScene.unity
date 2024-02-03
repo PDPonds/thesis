@@ -11904,14 +11904,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CenterPoint: {fileID: 10521473}
   maxNormalSpeed: 7
-  minNormalSpeed: 3
+  minNormalSpeed: 4
   momentumMul: 1
   momentumTime: 20
   currentMomentumTime: 0
   isMomentum: 0
   currentSpeed: 3
   DeadPoint: {fileID: 1257209058}
-  frameStopDuration: 0.15
+  frameStopDuration: 0.1
   shakeDuration: 0.05
   shakeMagnitude: 0.1
   hitParticle: {fileID: 1967835574231978638, guid: 3e196c9e632c76841a71cb6e2dc6d010, type: 3}
@@ -11939,6 +11939,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 1587496449742422035, guid: f1338df997d739c4b87d3289c7ac85aa, type: 3}
   - {fileID: 6458583724398724889, guid: bc588d637256c2e44a11e22449d115a5, type: 3}
+  xOffset: 0.25
   lastEndPos: {x: 10, y: -3, z: 0}
 --- !u!114 &1638945990
 MonoBehaviour:
@@ -12076,8 +12077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b054f216e07c5a246a07d1f94cedfe84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 8, y: 0, z: -10}
-  smoothTime: 1
+  offset: {x: 6, y: 0, z: -10}
+  smoothTime: 0.1
   target: {fileID: 10521473}
 --- !u!1 &1826883808
 GameObject:
@@ -12270,9 +12271,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: jumpForce
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2207430127079035427, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835111725448418953, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: m_Size.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835111725448418953, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: m_Size.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8508032520400122251, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: m_Interpolate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8508032520400122251, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8684255493628567919, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_LocalPosition.x

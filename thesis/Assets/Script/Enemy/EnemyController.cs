@@ -135,8 +135,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
         onDamage?.Invoke();
-        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-        yield return new WaitForSecondsRealtime(0.2f);
+        //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+        yield return null;
 
         if (hp <= 0)
         {

@@ -32,15 +32,7 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerManager.Instance.onTakeDamage += RemoveHeartUI;
-        PlayerManager.Instance.onDead += EnableDeadScene;
-        PlayerManager.Instance.onHeal += AddHeartUI;
 
-        PlayerManager.Instance.onLevelup += LevelUp;
-
-        PlayerManager.Instance.onGetExp += UpdateExp;
-
-        returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
     }
 
     private void OnDisable()
@@ -59,6 +51,21 @@ public class UIManager : MonoBehaviour
     {
         deadScene.gameObject.SetActive(false);
         AugmentUI.gameObject.SetActive(false);
+        
+    }
+
+    private void Start()
+    {
+        PlayerManager.Instance.onTakeDamage += RemoveHeartUI;
+        PlayerManager.Instance.onDead += EnableDeadScene;
+        PlayerManager.Instance.onHeal += AddHeartUI;
+
+        PlayerManager.Instance.onLevelup += LevelUp;
+
+        PlayerManager.Instance.onGetExp += UpdateExp;
+
+        returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
+
         UpdateExp();
     }
 

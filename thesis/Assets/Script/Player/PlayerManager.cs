@@ -70,9 +70,6 @@ public class PlayerManager : MonoBehaviour
     public bool onGrounded;
     [HideInInspector] public int jumpCount;
     public bool isUp;
-    float newHeight;
-    float currentJumpPos;
-    float lastJumpPos;
 
     [Space(5f)]
 
@@ -308,9 +305,9 @@ public class PlayerManager : MonoBehaviour
                 float mag = GameManager.Instance.shakeMagnitude;
                 StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
-                GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+                //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
 
-                yield return new WaitForSecondsRealtime(0.2f);
+                yield return null;
                 if (currentHp <= 0)
                 {
                     Die();
@@ -331,9 +328,9 @@ public class PlayerManager : MonoBehaviour
             float mag = GameManager.Instance.shakeMagnitude;
             StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
-            GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+            //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
 
-            yield return new WaitForSecondsRealtime(0.2f);
+            yield return null;
             if (currentHp <= 0)
             {
                 Die();

@@ -8,5 +8,8 @@ public class CenterMove : MonoBehaviour
     {
         float speed = GameManager.Instance.currentSpeed;
         transform.Translate(Vector2.right * Time.deltaTime * speed);
+
+        transform.position = new Vector3(transform.position.x,
+            PlayerManager.Instance.transform.position.y, transform.position.z);
     }
 }

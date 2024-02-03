@@ -10,8 +10,6 @@ public class GroundCheck : MonoBehaviour
         if (collision.CompareTag("Ground"))
         {
             PlayerManager.Instance.jumpCount = 2;
-            PlayerManager.Instance.onGrounded = true;
-
         }
     }
 

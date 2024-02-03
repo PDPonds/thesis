@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] floorPrefabs;
     public Transform DestroyGroundAndEnemy;
     public GameObject[] enemyPrefabs;
+    public float xOffset;
     //[SerializeField] float offset;
     //float currentXOffset;
 
@@ -61,11 +62,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
-        for (int i = 0; i < 2; i++)
-        {
-            GenerateFloor();
-        }
     }
 
     private void Update()
@@ -119,6 +115,14 @@ public class GameManager : MonoBehaviour
             isMomentum = false;
             currentMomentumTime += Time.deltaTime;
         }
+
+        float playerAndSpawnPoint = Vector3.Distance(PlayerManager.Instance.transform.position,
+            lastEndPos);
+        if (playerAndSpawnPoint < 30f)
+        {
+            GenerateFloor();
+        }
+
     }
 
     public void StopFrame(float duratuin)
@@ -167,17 +171,10 @@ public class GameManager : MonoBehaviour
         Building currentBuilding = buildObj.GetComponent<Building>();
 
         Vector3 offset = buildObj.transform.position - currentBuilding.startPos.position;
-        buildObj.transform.position = lastEndPos + offset;
+        Vector3 speedOffset = new Vector3(currentSpeed * xOffset, 0, 0);
+        buildObj.transform.position = lastEndPos + offset + speedOffset;
 
         lastEndPos = currentBuilding.endPos.position;
-
-        //GameObject floorPrefab = floorPrefabs[floorIndex];
-        //Vector3 spawnPoint = new Vector3(currentXOffset + offset, 0, 0);
-
-        //GameObject floorObj = Instantiate(floorPrefab, spawnPoint, Quaternion.identity);
-        //SpawnEnemy spawnEnemy = floorObj.GetComponent<SpawnEnemy>();
-        //spawnEnemy.GenerateEnemy();
-        //currentXOffset += offset;
 
     }
 
@@ -188,6 +185,13 @@ public class GameManager : MonoBehaviour
             if (s == skill) return false;
         }
         return true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 pos = transform.position + new Vector3(30, 0, 0);
+        Gizmos.DrawSphere(pos, 0.1f);
+
     }
 
 }
