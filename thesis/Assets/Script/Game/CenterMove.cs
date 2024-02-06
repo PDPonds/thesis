@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CenterMove : MonoBehaviour
 {
+    public float CenterMoveHookSpeed;
     private void Update()
     {
         if (PlayerManager.Instance.currentState != PlayerManager.Instance.hook)
@@ -13,6 +14,10 @@ public class CenterMove : MonoBehaviour
 
             transform.position = new Vector3(transform.position.x,
                 PlayerManager.Instance.transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.Translate(Vector2.right * CenterMoveHookSpeed);
         }
     }
 }

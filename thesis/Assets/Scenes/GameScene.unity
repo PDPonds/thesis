@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8bb4254fe4f0e4ab6d04c9c0a64a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CenterMoveHookSpeed: 0.025
 --- !u!1 &82970738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5094,7 +5095,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5935,7 +5936,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -10, y: 0}
+  m_Offset: {x: -12, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5946,7 +5947,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 10}
+  m_Size: {x: 1, y: 13}
   m_EdgeRadius: 0
 --- !u!114 &1257209060
 MonoBehaviour:
@@ -5992,7 +5993,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -6}
+  m_Offset: {x: 0, y: -7}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6003,7 +6004,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 21, y: 1}
+  m_Size: {x: 24, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &1438319643
 GameObject:
@@ -11168,6 +11169,10 @@ MonoBehaviour:
   Player: {fileID: 1951651705}
   floorPrefabs:
   - {fileID: 716145625262010405, guid: 3165283a9bd9aa74793e739e6b7df5bd, type: 3}
+  - {fileID: 2859643952638044777, guid: 708a785a3877f58499d3a89c942fbc8a, type: 3}
+  - {fileID: 256940069092239221, guid: 4daf8c43490ee804e9dc5f52356552a4, type: 3}
+  - {fileID: 8953038372322894838, guid: b946234d54290054793574feb9450c5c, type: 3}
+  - {fileID: 3133302159370990623, guid: 9cdca19dd766bf54cb934fde0fcb4daa, type: 3}
   DestroyGroundAndEnemy: {fileID: 1466696924}
   enemyPrefabs:
   - {fileID: 1587496449742422035, guid: f1338df997d739c4b87d3289c7ac85aa, type: 3}
@@ -11238,9 +11243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b054f216e07c5a246a07d1f94cedfe84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 4.5, y: 0, z: -10}
-  smoothTime: 0.2
-  target: {fileID: 1951651705}
+  offset: {x: 4.5, y: 2, z: -10}
+  smoothTime: 0.1
+  target: {fileID: 10521473}
 --- !u!1 &1826883808
 GameObject:
   m_ObjectHideFlags: 0
@@ -11462,7 +11467,7 @@ PrefabInstance:
       objectReference: {fileID: 1564897295488959821, guid: 88d1686a3e88c2e44a130b13d3742731, type: 3}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: onHookTime
-      value: 0.2
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: hookSpawnPos
@@ -11478,11 +11483,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: moveToHookSpeed
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: curDelayHookTime
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 786971182156005496, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_SortingOrder
