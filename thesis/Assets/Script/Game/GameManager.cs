@@ -37,25 +37,16 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public int currentScore;
     [Space(10f)]
 
-    [Header("- AllSkill")]
-    public SkillSO[] allSkill;
-    public int augmentCountPerLevelUp;
-    public GameObject augmentCardPrefab;
 
     [Header("===== Player =====")]
     public Transform Camera;
     public Transform Player;
-
-    [Header("- EXP And Level")]
-    public GameObject expObj;
 
     [Header("- Spawn Floor")]
     public GameObject[] floorPrefabs;
     public Transform DestroyGroundAndEnemy;
     public GameObject[] enemyPrefabs;
     public float xOffset;
-    //[SerializeField] float offset;
-    //float currentXOffset;
 
     [SerializeField] Vector3 lastEndPos;
 
@@ -176,15 +167,6 @@ public class GameManager : MonoBehaviour
 
         lastEndPos = currentBuilding.endPos.position;
 
-    }
-
-    public bool CheckNoRepeatSkill(List<SkillSO> ingore, SkillSO skill)
-    {
-        foreach (SkillSO s in ingore)
-        {
-            if (s == skill) return false;
-        }
-        return true;
     }
 
     private void OnDrawGizmos()

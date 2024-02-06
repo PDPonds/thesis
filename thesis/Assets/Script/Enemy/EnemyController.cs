@@ -147,9 +147,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void Die()
     {
         anim.Play("Dead");
-
-        int expDropCount = UnityEngine.Random.Range(enemySO.minExpDropCount, enemySO.maxExpDropCount);
-        SpawnExpOrb(expDropCount);
     }
 
     void PlayHurtAnim()
@@ -171,22 +168,6 @@ public class EnemyController : MonoBehaviour, IDamageable
         GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
         Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
         bulletRb.AddForce(Vector2.left * bulletSpeed, ForceMode2D.Impulse);
-
-    }
-
-    void SpawnExpOrb(int count)
-    {
-        GameObject expPrefab = GameManager.Instance.expObj;
-
-        for (int i = 0; i < count; i++)
-        {
-            float x = UnityEngine.Random.Range(2f, -2f);
-            float y = UnityEngine.Random.Range(2f, -2f);
-            Vector3 offset = new Vector3(x, y, 0);
-            Vector3 spawnPoint = transform.position + offset;
-
-            GameObject expObj = Instantiate(expPrefab, spawnPoint, Quaternion.identity);
-        }
 
     }
 

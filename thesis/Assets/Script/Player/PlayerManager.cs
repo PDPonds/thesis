@@ -14,8 +14,6 @@ public class PlayerManager : MonoBehaviour
     public event Action onTakeDamage;
     public event Action onDead;
     public event Action onHeal;
-    public event Action onGetExp;
-    public event Action onLevelup;
 
     public BaseState currentState;
 
@@ -29,7 +27,6 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public CapsuleCollider2D col;
-    [HideInInspector] public AugmentManager augmentManager;
 
     [Header("===== Game Play =====")]
     [Header("- Hp")]
@@ -38,35 +35,11 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public int currentHp;
     [HideInInspector] public bool isDead;
 
-    [Header("- Level")]
-    public float expMul;
-    public float expTarget;
-    public int startLevel;
-    /*[HideInInspector]*/
-    public float currentExp;
-    /*[HideInInspector]*/
-    public int currentLevel;
-
-    [Header("- Augment")]
-    public int maxSkillCount;
-    [Space(5f)]
-    public GameObject projectileEffect;
-    public GameObject bulletPrefab;
-    public Transform bulletSpawnPoint;
-    [Space(5f)]
-    public GameObject shieldEffect;
-    [Space(5f)]
-    public GameObject counterEffect;
-
     [Space(10f)]
 
     [Header("========== Controller ==========")]
     [Header("- Jump")]
     public float jumpForce;
-    //public Collider2D groundCheck;
-    //public float checkGroundDistance;
-    //public LayerMask groundMask;
-    /*[HideInInspector]*/
     public bool onGrounded;
     [HideInInspector] public int jumpCount;
     public bool isUp;
@@ -99,7 +72,6 @@ public class PlayerManager : MonoBehaviour
         anim = mesh.GetComponent<Animator>();
         playerAnimation = GetComponent<PlayerAnimation>();
         inputSystemMnanger = GetComponent<InputSystemMnanger>();
-        augmentManager = GetComponent<AugmentManager>();
 
         currentAttackDelay = attackDelay;
         attackCol.enabled = false;
@@ -108,7 +80,6 @@ public class PlayerManager : MonoBehaviour
 
         SwitchState(running);
 
-        currentLevel = startLevel;
 
     }
 
@@ -223,17 +194,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    //public bool isGrounded()
-    //{
-    //    //Vector3 legPosV3 = transform.position;
-    //    //Vector2 legPos = new Vector2(legPosV3.x, legPosV3.y);
-
-    //    //RaycastHit2D groundHit = Physics2D.Raycast(legPos, Vector2.down, checkGroundDistance, groundMask);
-    //    //Debug.DrawRay(legPos, Vector2.down * checkGroundDistance, Color.red);
-
-    //    //return groundHit.collider != null;
-    //    return false;
-    //}
 
     public void SwitchState(BaseState state)
     {
@@ -252,23 +212,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (canAttack)
         {
-            if (augmentManager.HasSkill(2, out int projectileSkillIndex))
-            {
-                AugmentSlot projectileSkillSlot = augmentManager.skillInventory[projectileSkillIndex];
-                if (projectileSkillSlot.ready)
-                {
-                    SkillSO skill = projectileSkillSlot.skill;
-                    int level = projectileSkillSlot.level;
-                    float delayTime = skill.skillLevelAndDelays[level - 1].delay;
-
-                    SpawnBullet();
-
-                    projectileSkillSlot.delay = delayTime;
-                    projectileSkillSlot.ready = false;
-
-                }
-            }
-
             if (attackCount % 2 != 0) anim.Play("Attack1");
             else anim.Play("Attack2");
             attackCount++;
@@ -282,59 +225,24 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator TakeDamage()
     {
-        if (augmentManager.HasSkill(3, out int skillIndex))
+        onTakeDamage?.Invoke();
+        currentHp--;
+
+        GameManager.Instance.currentMomentumTime = 0;
+        GameManager.Instance.isMomentum = false;
+
+        SwitchState(hurt);
+
+        float time = GameManager.Instance.shakeDuration;
+        float mag = GameManager.Instance.shakeMagnitude;
+        StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+
+        //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+
+        yield return null;
+        if (currentHp <= 0)
         {
-            AugmentSlot slot = augmentManager.skillInventory[skillIndex];
-            if (slot.ready)
-            {
-                SkillSO skill = slot.skill;
-                int level = slot.level;
-                float delayTime = skill.skillLevelAndDelays[level - 1].delay;
-
-                slot.delay = delayTime;
-                slot.ready = false;
-            }
-            else
-            {
-                onTakeDamage?.Invoke();
-                currentHp--;
-
-                SwitchState(hurt);
-
-                float time = GameManager.Instance.shakeDuration;
-                float mag = GameManager.Instance.shakeMagnitude;
-                StartCoroutine(GameManager.Instance.SceneShake(time, mag));
-
-                //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-
-                yield return null;
-                if (currentHp <= 0)
-                {
-                    Die();
-                }
-            }
-        }
-        else
-        {
-            onTakeDamage?.Invoke();
-            currentHp--;
-
-            GameManager.Instance.currentMomentumTime = 0;
-            GameManager.Instance.isMomentum = false;
-
-            SwitchState(hurt);
-
-            float time = GameManager.Instance.shakeDuration;
-            float mag = GameManager.Instance.shakeMagnitude;
-            StartCoroutine(GameManager.Instance.SceneShake(time, mag));
-
-            //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-
-            yield return null;
-            if (currentHp <= 0)
-            {
-                Die();
-            }
+            Die();
         }
 
     }
@@ -358,31 +266,5 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    public void AddExp(float amount)
-    {
-        currentExp += amount;
-        onGetExp?.Invoke();
-        if (currentExp >= expTarget)
-        {
-            LevelUp();
-        }
-    }
-
-    public void LevelUp()
-    {
-        onLevelup?.Invoke();
-        expTarget += expMul;
-        currentExp = 0;
-        currentLevel++;
-    }
-
-    public void SpawnBullet()
-    {
-        GameObject bullet = bulletPrefab;
-
-        GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
-        Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
-        bulletRb.AddForce(Vector2.right * GameManager.Instance.currentSpeed * 2f, ForceMode2D.Impulse);
-    }
 
 }
