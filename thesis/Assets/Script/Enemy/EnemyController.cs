@@ -28,6 +28,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("Hook")]
     float dis;
     public bool hookable;
+    public Transform targetVisual;
 
     private void OnEnable()
     {
