@@ -12,7 +12,8 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        if (!PlayerManager.Instance.isDead)
+        if (!PlayerManager.Instance.isDead &&
+            PlayerManager.Instance.currentState != PlayerManager.Instance.hook)
         {
             Vector3 targetPos = target.position + offset;
             //offset.y = GameManager.Instance.Player.position.y;

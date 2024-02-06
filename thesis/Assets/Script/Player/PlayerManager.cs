@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -19,7 +22,7 @@ public class PlayerManager : MonoBehaviour
 
     public RunningState running = new RunningState();
     public SlideState slide = new SlideState();
-    //public OnAirState onAir = new OnAirState();
+    public HookState hook = new HookState();
     public HurtState hurt = new HurtState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
@@ -62,6 +65,24 @@ public class PlayerManager : MonoBehaviour
     int attackCount;
     float currentAttackDelay;
     bool canAttack;
+    [Space(5f)]
+
+    [Header("- Hook")]
+    public GameObject hookPrefab;
+    public Transform hookSpawnPos;
+    public float hookSpeed;
+    public float onHookTime;
+    public float moveToHookSpeed;
+    public bool canHook;
+    public float delayHookTime;
+    public float curDelayHookTime;
+
+    public List<Collider2D> enemyInFornt = new List<Collider2D>();
+
+    public float hookLength;
+    public LayerMask hookMask;
+
+    public Transform curHook;
 
     private void Awake()
     {
@@ -80,11 +101,13 @@ public class PlayerManager : MonoBehaviour
 
         SwitchState(running);
 
-
+        canHook = true;
+        curDelayHookTime = delayHookTime;
     }
 
     private void Update()
     {
+
         currentState.UpdateState(transform.gameObject);
 
         #region Attack
@@ -109,7 +132,46 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
-        if (currentState != hurt && !isDead)
+        #region Hook
+
+        if (!canHook)
+        {
+            curDelayHookTime -= Time.deltaTime;
+            if (curDelayHookTime < 0)
+            {
+                curDelayHookTime = delayHookTime;
+                canHook = true;
+            }
+        }
+
+        Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
+        if (enemys.Length > 0)
+        {
+            enemyInFornt.Clear();
+            foreach (Collider2D col in enemys)
+            {
+                EnemyController controller = col.GetComponent<EnemyController>();
+                if (controller.hookable)
+                {
+                    enemyInFornt.Add(col);
+                }
+            }
+        }
+        else
+        {
+            if (enemyInFornt.Count > 0) enemyInFornt.Clear();
+        }
+
+        if (enemyInFornt.Count > 0)
+        {
+            enemyInFornt = enemyInFornt.OrderBy
+                (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
+        }
+
+        #endregion
+
+        #region Move
+        if (currentState != hurt && !isDead && currentState != hook)
         {
             float speed = GameManager.Instance.currentSpeed;
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
@@ -125,6 +187,7 @@ public class PlayerManager : MonoBehaviour
                 targetPos, speed * Time.deltaTime);
             }
         }
+        #endregion
 
         if (isDead)
         {
@@ -193,7 +256,6 @@ public class PlayerManager : MonoBehaviour
             onSlide?.Invoke();
         }
     }
-
 
     public void SwitchState(BaseState state)
     {
@@ -266,5 +328,45 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, hookLength);
+    }
+
+    public void FirstHookPerformed()
+    {
+        if (enemyInFornt.Count > 0 && canHook)
+        {
+            canHook = false;
+            SpawnHook(enemyInFornt[0].transform);
+        }
+    }
+
+    public void SecondHookPerformed()
+    {
+        if (enemyInFornt.Count > 0 && canHook)
+        {
+            canHook = false;
+            if (enemyInFornt[1] != null)
+            {
+                SpawnHook(enemyInFornt[1].transform);
+            }
+            else
+            {
+                SpawnHook(enemyInFornt[0].transform);
+            }
+
+        }
+    }
+
+    void SpawnHook(Transform enemy)
+    {
+        GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
+        Hook hookScr = hookObj.GetComponent<Hook>();
+        hookScr.target = enemy;
+
+        curHook = hookObj.transform;
+        SwitchState(hook);
+    }
 
 }

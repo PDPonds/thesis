@@ -25,6 +25,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("===== IS Range Enemy =====")]
     public Transform bulletSpawnPoint;
 
+    [Header("Hook")]
+    float dis;
+    public bool hookable;
+
     private void OnEnable()
     {
         onDamage += PlayHurtAnim;
@@ -85,6 +89,9 @@ public class EnemyController : MonoBehaviour, IDamageable
             }
         }
 
+        dis = transform.position.x - PlayerManager.Instance.transform.position.x;
+        if (dis > 0) hookable = true; 
+        else hookable = false;
     }
 
     private void OnCollisionStay2D(Collision2D collision)

@@ -53,13 +53,31 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FirstHook"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b5d5df6-f841-4317-acdc-e8fa1c80d664"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecondHook"",
+                    ""type"": ""Button"",
+                    ""id"": ""9fdb4fe0-4e14-4346-bd0f-e0007bcc24a7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""f5aadd87-c317-4403-b65a-148d8c24392a"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -70,7 +88,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1282c479-4d06-48ec-8aa4-a8c1753c9ec7"",
-                    ""path"": ""<Keyboard>/x"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -81,11 +99,33 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2f286586-7308-46a1-9d3c-6ca31a88711c"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2217b4cb-a9b8-468f-a4a7-9f73517ecb7c"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10243c5f-2da0-4d46-bb67-65cb2f2cdc64"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondHook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -99,6 +139,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_PlayerInput_Jump = m_PlayerInput.FindAction("Jump", throwIfNotFound: true);
         m_PlayerInput_Slide = m_PlayerInput.FindAction("Slide", throwIfNotFound: true);
         m_PlayerInput_Attack = m_PlayerInput.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerInput_FirstHook = m_PlayerInput.FindAction("FirstHook", throwIfNotFound: true);
+        m_PlayerInput_SecondHook = m_PlayerInput.FindAction("SecondHook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,6 +205,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Jump;
     private readonly InputAction m_PlayerInput_Slide;
     private readonly InputAction m_PlayerInput_Attack;
+    private readonly InputAction m_PlayerInput_FirstHook;
+    private readonly InputAction m_PlayerInput_SecondHook;
     public struct PlayerInputActions
     {
         private @InputSystem m_Wrapper;
@@ -170,6 +214,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerInput_Jump;
         public InputAction @Slide => m_Wrapper.m_PlayerInput_Slide;
         public InputAction @Attack => m_Wrapper.m_PlayerInput_Attack;
+        public InputAction @FirstHook => m_Wrapper.m_PlayerInput_FirstHook;
+        public InputAction @SecondHook => m_Wrapper.m_PlayerInput_SecondHook;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +234,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @FirstHook.started += instance.OnFirstHook;
+            @FirstHook.performed += instance.OnFirstHook;
+            @FirstHook.canceled += instance.OnFirstHook;
+            @SecondHook.started += instance.OnSecondHook;
+            @SecondHook.performed += instance.OnSecondHook;
+            @SecondHook.canceled += instance.OnSecondHook;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -201,6 +253,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @FirstHook.started -= instance.OnFirstHook;
+            @FirstHook.performed -= instance.OnFirstHook;
+            @FirstHook.canceled -= instance.OnFirstHook;
+            @SecondHook.started -= instance.OnSecondHook;
+            @SecondHook.performed -= instance.OnSecondHook;
+            @SecondHook.canceled -= instance.OnSecondHook;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -223,5 +281,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnFirstHook(InputAction.CallbackContext context);
+        void OnSecondHook(InputAction.CallbackContext context);
     }
 }
