@@ -17,7 +17,7 @@ public class CenterMove : MonoBehaviour
         }
         else
         {
-            transform.Translate(Vector2.right * CenterMoveHookSpeed);
+            transform.Translate(Vector2.right * Time.deltaTime * CenterMoveHookSpeed);
         }
     }
 }
