@@ -13,7 +13,8 @@ public class RunningState : BaseState
         Vector2 size = PlayerManager.Instance.runningCol;
         Vector2 offset = PlayerManager.Instance.runningColPos;
         PlayerManager.Instance.SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
-
+        Rigidbody2D rb = PlayerManager.Instance.rb;
+        rb.gravityScale = 3;
     }
 
     public override void UpdateState(GameObject go)

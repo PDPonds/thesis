@@ -8,6 +8,8 @@ public class HookState : BaseState
     public override void EnterState(GameObject go)
     {
         curOnHookTime = PlayerManager.Instance.onHookTime;
+        Rigidbody2D rb = PlayerManager.Instance.rb;
+        rb.gravityScale = 0;
     }
 
     public override void UpdateState(GameObject go)

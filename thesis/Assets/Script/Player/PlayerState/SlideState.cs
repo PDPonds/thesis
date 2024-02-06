@@ -18,6 +18,8 @@ public class SlideState : BaseState
         PlayerManager.Instance.SetupPlayerCol(size, offset, CapsuleDirection2D.Horizontal);
 
         currentSlideTime = PlayerManager.Instance.slideTime;
+        Rigidbody2D rb = PlayerManager.Instance.rb;
+        rb.gravityScale = 3;
     }
 
     public override void UpdateState(GameObject go)

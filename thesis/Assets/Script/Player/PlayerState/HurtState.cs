@@ -9,6 +9,8 @@ public class HurtState : BaseState
         Animator anim = PlayerManager.Instance.anim;
         anim.Play("Hurt");
         anim.SetBool("Slide", false);
+        Rigidbody2D rb = PlayerManager.Instance.rb;
+        rb.gravityScale = 3;
     }
 
     public override void UpdateState(GameObject go)

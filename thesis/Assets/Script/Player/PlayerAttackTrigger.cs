@@ -10,6 +10,12 @@ public class PlayerAttackTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
+                if (PlayerManager.Instance.curHook != null)
+                {
+                    Hook hook = PlayerManager.Instance.curHook.GetComponent<Hook>();
+                    hook.DestroyHook();
+                }
+
                 GameObject hitPar = GameManager.Instance.hitParticle;
                 GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
