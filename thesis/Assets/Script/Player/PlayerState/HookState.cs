@@ -16,16 +16,17 @@ public class HookState : BaseState
     {
         Transform targetHook = PlayerManager.Instance.curHook;
         Rigidbody2D rb = PlayerManager.Instance.rb;
-
-        Vector3 dir = targetHook.position - PlayerManager.Instance.transform.position;
-
-        rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
         curOnHookTime -= Time.deltaTime;
-
-        if (curOnHookTime < 0)
+        if (curOnHookTime < 0 || targetHook == null)
         {
             PlayerManager.Instance.curHook = null;
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
         }
+        Vector3 dir = targetHook.position - PlayerManager.Instance.transform.position;
+
+        rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
+       
+
+       
     }
 }
