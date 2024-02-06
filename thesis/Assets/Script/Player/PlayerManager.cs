@@ -168,6 +168,49 @@ public class PlayerManager : MonoBehaviour
                 (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
         }
 
+        if (canHook)
+        {
+            if (enemyInFornt.Count > 0)
+            {
+                if (enemyInFornt[0] != null)
+                {
+                    EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
+                    controller.targetVisual.gameObject.SetActive(true);
+                }
+                
+            }
+
+            if (enemyInFornt.Count > 1)
+            {
+                if (enemyInFornt[1] != null)
+                {
+                    EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+                    controller.targetVisual.gameObject.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            if (enemyInFornt.Count > 0)
+            {
+                if (enemyInFornt[0] != null)
+                {
+                    EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
+                    controller.targetVisual.gameObject.SetActive(false);
+                }
+
+            }
+
+            if (enemyInFornt.Count > 1)
+            {
+                if (enemyInFornt[1] != null)
+                {
+                    EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+                    controller.targetVisual.gameObject.SetActive(false);
+                }
+            }
+
+        }
         #endregion
 
         #region Move
@@ -346,16 +389,18 @@ public class PlayerManager : MonoBehaviour
     {
         if (enemyInFornt.Count > 0 && canHook)
         {
-            canHook = false;
-            if (enemyInFornt[1] != null)
+            if (enemyInFornt.Count > 1)
             {
-                SpawnHook(enemyInFornt[1].transform);
+                if (enemyInFornt[1] != null)
+                {
+                    SpawnHook(enemyInFornt[1].transform);
+                }
             }
             else
             {
                 SpawnHook(enemyInFornt[0].transform);
             }
-
+            canHook = false;
         }
     }
 
