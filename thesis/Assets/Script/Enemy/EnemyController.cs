@@ -94,6 +94,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         if (dis > 0) hookable = true; 
         else hookable = false;
 
+        if(!hookable) targetVisual.gameObject.SetActive(false);
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)

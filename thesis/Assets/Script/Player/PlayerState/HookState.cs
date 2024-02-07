@@ -17,14 +17,23 @@ public class HookState : BaseState
         Transform targetHook = PlayerManager.Instance.curHook;
         Rigidbody2D rb = PlayerManager.Instance.rb;
         curOnHookTime -= Time.deltaTime;
-        if (curOnHookTime < 0 || targetHook == null)
+
+        if (curOnHookTime < 0)
         {
-            PlayerManager.Instance.curHook = null;
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.endHook);
+            PlayerManager.Instance.curHook = null;
         }
-        Vector3 dir = targetHook.position - PlayerManager.Instance.transform.position;
 
-        rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
-
+        if (targetHook != null)
+        {
+            Vector3 dir = targetHook.position - PlayerManager.Instance.transform.position;
+            rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
+        }
+        else
+        {
+            rb.gravityScale = 3;
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.endHook);
+            PlayerManager.Instance.curHook = null;
+        }
     }
 }

@@ -216,7 +216,8 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
         #region Move
-        if (currentState != hurt && !isDead && currentState != hook)
+        if (currentState != hurt && !isDead && currentState != hook &&
+            currentState != endHook)
         {
             float speed = GameManager.Instance.currentSpeed;
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;

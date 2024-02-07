@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8bb4254fe4f0e4ab6d04c9c0a64a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CenterMoveHookSpeed: 0.035
+  CenterMoveHookSpeed: 0.025
 --- !u!1 &82970738
 GameObject:
   m_ObjectHideFlags: 0
@@ -11467,7 +11467,7 @@ PrefabInstance:
       objectReference: {fileID: 1564897295488959821, guid: 88d1686a3e88c2e44a130b13d3742731, type: 3}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: onHookTime
-      value: 0.5
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: hookSpawnPos
@@ -11475,11 +11475,11 @@ PrefabInstance:
       objectReference: {fileID: 1059411698}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: waitHookTime
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: delayHookTime
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: slideColPos.y
@@ -11491,7 +11491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: moveToHookSpeed
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: runningColPos.y
@@ -11499,7 +11499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: curDelayHookTime
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 786971182156005496, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_SortingOrder
