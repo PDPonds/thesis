@@ -20,13 +20,11 @@ public class HookState : BaseState
         if (curOnHookTime < 0 || targetHook == null)
         {
             PlayerManager.Instance.curHook = null;
-            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.endHook);
         }
         Vector3 dir = targetHook.position - PlayerManager.Instance.transform.position;
 
         rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
-       
 
-       
     }
 }

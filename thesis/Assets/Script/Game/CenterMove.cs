@@ -15,9 +15,9 @@ public class CenterMove : MonoBehaviour
             transform.position = new Vector3(transform.position.x,
                 PlayerManager.Instance.transform.position.y, transform.position.z);
         }
-        else
-        {
-            transform.Translate(Vector2.right * Time.deltaTime * CenterMoveHookSpeed);
-        }
+        //else
+        //{
+        //    transform.Translate(Vector2.right * Time.deltaTime * CenterMoveHookSpeed);
+        //}
     }
 }

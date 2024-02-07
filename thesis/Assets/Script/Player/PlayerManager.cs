@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour
     public RunningState running = new RunningState();
     public SlideState slide = new SlideState();
     public HookState hook = new HookState();
+    public EndHookState endHook = new EndHookState();
     public HurtState hurt = new HurtState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
@@ -83,6 +84,7 @@ public class PlayerManager : MonoBehaviour
     public LayerMask hookMask;
 
     public Transform curHook;
+    public float waitHookTime;
 
     private void Awake()
     {
@@ -177,7 +179,7 @@ public class PlayerManager : MonoBehaviour
                     EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
                     controller.targetVisual.gameObject.SetActive(true);
                 }
-                
+
             }
 
             if (enemyInFornt.Count > 1)
@@ -255,15 +257,18 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpPerformed()
     {
-        if (onGrounded)
+        if (currentState != endHook)
         {
-            Jump(jumpForce);
-        }
-        else
-        {
-            if (jumpCount > 0)
+            if (onGrounded)
             {
-                Jump(jumpForce * 0.75f);
+                Jump(jumpForce);
+            }
+            else
+            {
+                if (jumpCount > 0)
+                {
+                    Jump(jumpForce * 0.75f);
+                }
             }
         }
     }
@@ -290,13 +295,44 @@ public class PlayerManager : MonoBehaviour
         onJump?.Invoke();
     }
 
+    public void JumpAfterAttack(float force)
+    {
+        if (currentState != endHook)
+        {
+            attackCol.enabled = false;
+
+            anim.SetBool("onAir", true);
+            anim.SetBool("Slide", false);
+            anim.Play("StartJump");
+
+            Vector2 size = runningCol;
+            Vector2 offset = runningColPos;
+            SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
+
+            Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
+            GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
+
+            rb.velocity = Vector2.up * force;
+
+            onJump?.Invoke();
+        }
+    }
+
     public void SlidePerformed()
     {
-        if (currentState != slide)
+        if (currentState != slide && currentState != endHook)
         {
             attackCol.enabled = false;
             SwitchState(slide);
             onSlide?.Invoke();
+        }
+    }
+
+    public void SliderCancle()
+    {
+        if (currentState == slide)
+        {
+            SwitchState(running);
         }
     }
 

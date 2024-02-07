@@ -14,6 +14,7 @@ public class InputSystemMnanger : MonoBehaviour
 
             inputSystem.PlayerInput.Jump.performed += i => PlayerManager.Instance.JumpPerformed();
             inputSystem.PlayerInput.Slide.performed += i => PlayerManager.Instance.SlidePerformed();
+            inputSystem.PlayerInput.Slide.canceled += i => PlayerManager.Instance.SliderCancle();
             inputSystem.PlayerInput.Attack.performed += i => PlayerManager.Instance.AttackPerformed();
             inputSystem.PlayerInput.FirstHook.performed += i => PlayerManager.Instance.FirstHookPerformed();
             inputSystem.PlayerInput.SecondHook.performed += i => PlayerManager.Instance.SecondHookPerformed();
@@ -21,6 +22,11 @@ public class InputSystemMnanger : MonoBehaviour
         }
 
         inputSystem.Enable();
+    }
+
+    private void i(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        throw new System.NotImplementedException();
     }
 
     private void OnDisable()

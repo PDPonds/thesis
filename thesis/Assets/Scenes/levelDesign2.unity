@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8bb4254fe4f0e4ab6d04c9c0a64a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CenterMoveHookSpeed: 0.025
+  CenterMoveHookSpeed: 0.035
 --- !u!1 &82970738
 GameObject:
   m_ObjectHideFlags: 0
@@ -11168,8 +11168,7 @@ MonoBehaviour:
   Camera: {fileID: 519420032}
   Player: {fileID: 1951651705}
   floorPrefabs:
-  - {fileID: 716145625262010405, guid: 01c809da6d62eae49b5dcfc44e0dbfa3, type: 3}
-  - {fileID: 716145625262010405, guid: 01c809da6d62eae49b5dcfc44e0dbfa3, type: 3}
+  - {fileID: 2859643952638044777, guid: d1f35570fdbc48643bcbf2e3a36aba2d, type: 3}
   DestroyGroundAndEnemy: {fileID: 1466696924}
   enemyPrefabs:
   - {fileID: 1587496449742422035, guid: f1338df997d739c4b87d3289c7ac85aa, type: 3}
@@ -11240,7 +11239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b054f216e07c5a246a07d1f94cedfe84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 4.5, y: 2, z: -10}
+  offset: {x: 6.5, y: 2, z: -10}
   smoothTime: 0.1
   target: {fileID: 10521473}
 --- !u!1 &1826883808
@@ -11460,7 +11459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: hookLength
-      value: 9
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: hookPrefab
@@ -11468,12 +11467,16 @@ PrefabInstance:
       objectReference: {fileID: 1564897295488959821, guid: 88d1686a3e88c2e44a130b13d3742731, type: 3}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: onHookTime
-      value: 0.35
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: hookSpawnPos
       value: 
       objectReference: {fileID: 1059411698}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: waitHookTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: delayHookTime
       value: 4
@@ -11488,7 +11491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: moveToHookSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: runningColPos.y
