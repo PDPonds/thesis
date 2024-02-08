@@ -7,6 +7,7 @@ public class HookState : BaseState
     float curOnHookTime;
     public override void EnterState(GameObject go)
     {
+        PlayerManager.Instance.anim.SetBool("isHookPulling", true);
         curOnHookTime = PlayerManager.Instance.onHookTime;
         Rigidbody2D rb = PlayerManager.Instance.rb;
         rb.gravityScale = 0;

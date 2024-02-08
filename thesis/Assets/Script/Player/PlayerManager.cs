@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -254,24 +255,32 @@ public class PlayerManager : MonoBehaviour
             anim.SetBool("isUp", isUp);
 
         }
+
+        if (isDead)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("levelDesign2");
+            }
+        }
+
     }
 
     public void JumpPerformed()
     {
-        if (currentState != endHook)
+
+        if (onGrounded)
         {
-            if (onGrounded)
+            Jump(jumpForce);
+        }
+        else
+        {
+            if (jumpCount > 0)
             {
-                Jump(jumpForce);
-            }
-            else
-            {
-                if (jumpCount > 0)
-                {
-                    Jump(jumpForce * 0.75f);
-                }
+                Jump(jumpForce * 0.75f);
             }
         }
+
     }
 
     public void Jump(float force)
@@ -280,9 +289,15 @@ public class PlayerManager : MonoBehaviour
 
         attackCol.enabled = false;
 
-        //anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
-        anim.Play("StartJump");
+        if (jumpCount == 1)
+        {
+            anim.Play("StartJump");
+        }
+        else
+        {
+            anim.Play("SecondJump");
+        }
 
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
@@ -324,8 +339,8 @@ public class PlayerManager : MonoBehaviour
         if (currentState != slide && currentState != endHook)
         {
             attackCol.enabled = false;
-            SwitchState(slide);
             onSlide?.Invoke();
+            SwitchState(slide);
         }
     }
 
@@ -354,8 +369,16 @@ public class PlayerManager : MonoBehaviour
     {
         if (canAttack)
         {
-            if (attackCount % 2 != 0) anim.Play("Attack1");
-            else anim.Play("Attack2");
+            if (currentState == slide)
+            {
+                anim.Play("SlideAttack");
+            }
+            else
+            {
+                if (attackCount % 2 != 0) anim.Play("Attack1");
+                else anim.Play("Attack2");
+            }
+
             attackCount++;
 
             attackCol.enabled = true;
@@ -446,6 +469,8 @@ public class PlayerManager : MonoBehaviour
         GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
         Hook hookScr = hookObj.GetComponent<Hook>();
         hookScr.target = enemy;
+
+        anim.Play("HookUsing");
 
         curHook = hookObj.transform;
         SwitchState(hook);

@@ -8,6 +8,7 @@ public class EndHookState : BaseState
     public override void EnterState(GameObject go)
     {
         curTime = PlayerManager.Instance.waitHookTime;
+        PlayerManager.Instance.anim.SetBool("isHookPulling", false);
     }
 
     public override void UpdateState(GameObject go)
