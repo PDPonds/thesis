@@ -22,6 +22,9 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public float takedamageKnockback;
 
+    [Header("===== Score =====")]
+    public int score;
+
     [Header("===== IS Range Enemy =====")]
     public Transform bulletSpawnPoint;
 
@@ -91,8 +94,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
 
         dis = transform.position.x - PlayerManager.Instance.transform.position.x;
-        if (dis > 0) hookable = true; 
+        if (dis > 0) hookable = true;
         else hookable = false;
+
+        if (!hookable) targetVisual.gameObject.SetActive(false);
 
     }
 
@@ -156,6 +161,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void Die()
     {
         anim.Play("Dead");
+        GameManager.Instance.hitScore += score;
+        Destroy(gameObject);
     }
 
     void PlayHurtAnim()

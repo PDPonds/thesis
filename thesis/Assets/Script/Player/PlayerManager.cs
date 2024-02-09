@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     public RunningState running = new RunningState();
     public SlideState slide = new SlideState();
     public HookState hook = new HookState();
+    public EndHookState endHook = new EndHookState();
     public HurtState hurt = new HurtState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
@@ -83,6 +85,7 @@ public class PlayerManager : MonoBehaviour
     public LayerMask hookMask;
 
     public Transform curHook;
+    public float waitHookTime;
 
     private void Awake()
     {
@@ -177,7 +180,7 @@ public class PlayerManager : MonoBehaviour
                     EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
                     controller.targetVisual.gameObject.SetActive(true);
                 }
-                
+
             }
 
             if (enemyInFornt.Count > 1)
@@ -214,29 +217,28 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
         #region Move
-        if (currentState != hurt && !isDead && currentState != hook)
+        if (currentState != hurt && !isDead && currentState != hook &&
+            currentState != endHook)
         {
             float speed = GameManager.Instance.currentSpeed;
-            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
-            Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
-            if (transform.position.x - targetPos.x < -0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position,
-                targetPos, speed * 2 * Time.deltaTime);
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position,
-                targetPos, speed * Time.deltaTime);
-            }
+            transform.Translate(Vector2.right * Time.deltaTime * speed);
+
+            //float speed = GameManager.Instance.currentSpeed;
+            //Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
+            //Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+            //if (transform.position.x - targetPos.x < -0.01f)
+            //{
+            //    transform.position = Vector3.MoveTowards(transform.position,
+            //    targetPos, speed * 2 * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    transform.position = Vector3.MoveTowards(transform.position,
+            //    targetPos, speed * Time.deltaTime);
+            //}
         }
         #endregion
 
-        if (isDead)
-        {
-            rb.isKinematic = true;
-            rb.simulated = false;
-        }
 
         if (onGrounded) anim.SetBool("onAir", false);
         else
@@ -251,21 +253,34 @@ public class PlayerManager : MonoBehaviour
             anim.SetBool("isUp", isUp);
 
         }
+
+        if (isDead)
+        {
+            rb.isKinematic = true;
+            rb.simulated = false;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("levelDesign2");
+            }
+        }
+
     }
 
     public void JumpPerformed()
     {
-        if (onGrounded)
+
+        if (onGrounded && !isDead)
         {
             Jump(jumpForce);
         }
-        else
+        else if (!onGrounded && !isDead)
         {
             if (jumpCount > 0)
             {
                 Jump(jumpForce * 0.75f);
             }
         }
+
     }
 
     public void Jump(float force)
@@ -274,9 +289,15 @@ public class PlayerManager : MonoBehaviour
 
         attackCol.enabled = false;
 
-        //anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
-        anim.Play("StartJump");
+        if (jumpCount == 1)
+        {
+            anim.Play("StartJump");
+        }
+        else
+        {
+            anim.Play("SecondJump");
+        }
 
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
@@ -290,13 +311,43 @@ public class PlayerManager : MonoBehaviour
         onJump?.Invoke();
     }
 
+    public void JumpAfterAttack(float force)
+    {
+        attackCol.enabled = false;
+
+        anim.SetBool("onAir", true);
+        anim.SetBool("Slide", false);
+        anim.Play("SecondJump");
+
+        Vector2 size = runningCol;
+        Vector2 offset = runningColPos;
+        SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
+
+        Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
+        GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
+
+        rb.velocity = Vector2.up * force;
+
+        onJump?.Invoke();
+
+    }
+
     public void SlidePerformed()
     {
-        if (currentState != slide)
+        if (currentState != slide && currentState != endHook &&
+            currentState != hook)
         {
             attackCol.enabled = false;
-            SwitchState(slide);
             onSlide?.Invoke();
+            SwitchState(slide);
+        }
+    }
+
+    public void SliderCancle()
+    {
+        if (currentState == slide)
+        {
+            SwitchState(running);
         }
     }
 
@@ -315,10 +366,18 @@ public class PlayerManager : MonoBehaviour
 
     public void AttackPerformed()
     {
-        if (canAttack)
+        if (canAttack && !isDead)
         {
-            if (attackCount % 2 != 0) anim.Play("Attack1");
-            else anim.Play("Attack2");
+            if (currentState == slide)
+            {
+                anim.Play("SlideAttack");
+            }
+            else
+            {
+                if (attackCount % 2 != 0) anim.Play("Attack1");
+                else anim.Play("Attack2");
+            }
+
             attackCount++;
 
             attackCol.enabled = true;
@@ -378,7 +437,7 @@ public class PlayerManager : MonoBehaviour
 
     public void FirstHookPerformed()
     {
-        if (enemyInFornt.Count > 0 && canHook)
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
         {
             canHook = false;
             SpawnHook(enemyInFornt[0].transform);
@@ -387,7 +446,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SecondHookPerformed()
     {
-        if (enemyInFornt.Count > 0 && canHook)
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
         {
             if (enemyInFornt.Count > 1)
             {
@@ -409,6 +468,8 @@ public class PlayerManager : MonoBehaviour
         GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
         Hook hookScr = hookObj.GetComponent<Hook>();
         hookScr.target = enemy;
+
+        anim.Play("HookUsing");
 
         curHook = hookObj.transform;
         SwitchState(hook);

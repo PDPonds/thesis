@@ -10,10 +10,14 @@ public class PlayerAttackTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
+
                 if (PlayerManager.Instance.curHook != null)
                 {
+                    PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
+
                     Hook hook = PlayerManager.Instance.curHook.GetComponent<Hook>();
                     hook.DestroyHook();
+                    PlayerManager.Instance.curHook = null;
                 }
 
                 GameObject hitPar = GameManager.Instance.hitParticle;
@@ -23,7 +27,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 
                 if (!PlayerManager.Instance.onGrounded)
                 {
-                    PlayerManager.Instance.Jump(PlayerManager.Instance.jumpForce * 0.75f);
+                    PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
                 }
 
                 PlayerManager.Instance.attackCol.enabled = false;

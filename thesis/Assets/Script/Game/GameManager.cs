@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     [Header("- Score")]
     public float scoreMul;
     [HideInInspector] public int currentScore;
+    [HideInInspector] public int hitScore;
     [Space(10f)]
 
 
@@ -57,8 +58,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        float score = Player.position.x - transform.position.x;
-        currentScore = (int)score * (int)scoreMul;
+        float dis = Player.position.x - transform.position.x;
+        float disScore = dis * scoreMul;
+        float totalScore = disScore + hitScore;
+        if (totalScore > currentScore) currentScore = (int)totalScore;
 
         if (!isMomentum)
         {
@@ -116,6 +119,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    
     public void StopFrame(float duratuin)
     {
         if (waiting) return;
