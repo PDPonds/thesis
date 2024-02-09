@@ -239,11 +239,6 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
-        if (isDead)
-        {
-            rb.isKinematic = true;
-            rb.simulated = false;
-        }
 
         if (onGrounded) anim.SetBool("onAir", false);
         else
@@ -261,6 +256,8 @@ public class PlayerManager : MonoBehaviour
 
         if (isDead)
         {
+            rb.isKinematic = true;
+            rb.simulated = false;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene("levelDesign2");
@@ -272,11 +269,11 @@ public class PlayerManager : MonoBehaviour
     public void JumpPerformed()
     {
 
-        if (onGrounded)
+        if (onGrounded && !isDead)
         {
             Jump(jumpForce);
         }
-        else
+        else if (!onGrounded && !isDead)
         {
             if (jumpCount > 0)
             {
@@ -316,30 +313,29 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpAfterAttack(float force)
     {
-        if (currentState != endHook)
-        {
-            attackCol.enabled = false;
+        attackCol.enabled = false;
 
-            anim.SetBool("onAir", true);
-            anim.SetBool("Slide", false);
-            anim.Play("StartJump");
+        anim.SetBool("onAir", true);
+        anim.SetBool("Slide", false);
+        anim.Play("SecondJump");
 
-            Vector2 size = runningCol;
-            Vector2 offset = runningColPos;
-            SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
+        Vector2 size = runningCol;
+        Vector2 offset = runningColPos;
+        SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
 
-            Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
-            GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
+        Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
+        GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
 
-            rb.velocity = Vector2.up * force;
+        rb.velocity = Vector2.up * force;
 
-            onJump?.Invoke();
-        }
+        onJump?.Invoke();
+
     }
 
     public void SlidePerformed()
     {
-        if (currentState != slide && currentState != endHook)
+        if (currentState != slide && currentState != endHook &&
+            currentState != hook)
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
@@ -370,7 +366,7 @@ public class PlayerManager : MonoBehaviour
 
     public void AttackPerformed()
     {
-        if (canAttack)
+        if (canAttack && !isDead)
         {
             if (currentState == slide)
             {
@@ -441,7 +437,7 @@ public class PlayerManager : MonoBehaviour
 
     public void FirstHookPerformed()
     {
-        if (enemyInFornt.Count > 0 && canHook)
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
         {
             canHook = false;
             SpawnHook(enemyInFornt[0].transform);
@@ -450,7 +446,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SecondHookPerformed()
     {
-        if (enemyInFornt.Count > 0 && canHook)
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
         {
             if (enemyInFornt.Count > 1)
             {

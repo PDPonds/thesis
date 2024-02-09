@@ -11160,6 +11160,7 @@ MonoBehaviour:
   jumpParticle: {fileID: 1604227354005263177, guid: d6d04e4b024a73147a9b9f10d607f384, type: 3}
   scoreMul: 10
   currentScore: 0
+  hitScore: 0
   Camera: {fileID: 519420032}
   Player: {fileID: 1951651705}
   floorPrefabs:
@@ -11429,8 +11430,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: canHook
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: onHookTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: waitHookTime
-      value: 0.2
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: delayHookTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: moveToHookSpeed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: curDelayHookTime
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2207430127079035427, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Name

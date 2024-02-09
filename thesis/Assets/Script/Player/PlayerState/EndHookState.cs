@@ -7,6 +7,10 @@ public class EndHookState : BaseState
     float curTime;
     public override void EnterState(GameObject go)
     {
+        Rigidbody2D rb = PlayerManager.Instance.rb;
+        rb.gravityScale = 3;
+        //rb.velocity = Vector3.zero;
+
         curTime = PlayerManager.Instance.waitHookTime;
         PlayerManager.Instance.anim.SetBool("isHookPulling", false);
     }
