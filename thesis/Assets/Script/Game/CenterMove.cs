@@ -9,19 +9,19 @@ public class CenterMove : MonoBehaviour
     {
         if (PlayerManager.Instance.currentState != PlayerManager.Instance.hook)
         {
-            float speed = GameManager.Instance.currentSpeed;
-            transform.Translate(Vector2.right * Time.deltaTime * speed);
-
-            transform.position = new Vector3(transform.position.x,
-                PlayerManager.Instance.transform.position.y, transform.position.z);
-        }
-        else
-        {
             //float speed = GameManager.Instance.currentSpeed;
-            transform.Translate(Vector2.right * CenterMoveHookSpeed);
+            //transform.Translate(Vector2.right * Time.deltaTime * speed);
 
-            transform.position = new Vector3(transform.position.x,
-                PlayerManager.Instance.transform.position.y, transform.position.z);
+            //transform.position = new Vector3(transform.position.x,
+            //    PlayerManager.Instance.transform.position.y, transform.position.z);
         }
+        //else
+        //{
+        //    //float speed = GameManager.Instance.currentSpeed;
+        //    transform.Translate(Vector2.right * CenterMoveHookSpeed);
+
+        //    transform.position = new Vector3(transform.position.x,
+        //        PlayerManager.Instance.transform.position.y, transform.position.z);
+        //}
     }
 }

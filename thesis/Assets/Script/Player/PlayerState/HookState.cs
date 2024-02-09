@@ -28,7 +28,8 @@ public class HookState : BaseState
         if (targetHook != null)
         {
             Vector3 dir = targetHook.position - PlayerManager.Instance.transform.position;
-            rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
+            //rb.AddForce(dir * PlayerManager.Instance.moveToHookSpeed);
+            rb.velocity = dir * PlayerManager.Instance.moveToHookSpeed;
         }
         else
         {
