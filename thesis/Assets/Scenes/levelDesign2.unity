@@ -11165,6 +11165,7 @@ MonoBehaviour:
   jumpParticle: {fileID: 1604227354005263177, guid: d6d04e4b024a73147a9b9f10d607f384, type: 3}
   scoreMul: 10
   currentScore: 0
+  hitScore: 0
   Camera: {fileID: 519420032}
   Player: {fileID: 1951651705}
   floorPrefabs:
@@ -11241,7 +11242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 4.5, y: 2, z: -10}
   smoothTime: 0.1
-  target: {fileID: 10521473}
+  target: {fileID: 1951651705}
 --- !u!1 &1826883808
 GameObject:
   m_ObjectHideFlags: 0
@@ -11487,7 +11488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: moveToHookSpeed
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: runningColPos.y
