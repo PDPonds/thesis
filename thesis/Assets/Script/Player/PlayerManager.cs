@@ -63,6 +63,7 @@ public class PlayerManager : MonoBehaviour
     [Header("- Attack")]
     public Collider2D attackCol;
     public float attackDelay;
+    //public GameObject attackParticle;
 
     int attackCount;
     float currentAttackDelay;
@@ -378,7 +379,7 @@ public class PlayerManager : MonoBehaviour
                 if (attackCount % 2 != 0) anim.Play("Attack1");
                 else anim.Play("Attack2");
             }
-
+            //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
 
             attackCol.enabled = true;
@@ -402,7 +403,7 @@ public class PlayerManager : MonoBehaviour
         float mag = GameManager.Instance.shakeMagnitude;
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
-        //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
 
         yield return null;
         if (currentHp <= 0)

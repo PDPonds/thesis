@@ -20,8 +20,8 @@ public class PlayerAttackTrigger : MonoBehaviour
                     PlayerManager.Instance.curHook = null;
                 }
 
-                GameObject hitPar = GameManager.Instance.hitParticle;
-                GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+                //GameObject hitPar = GameManager.Instance.hitParticle;
+                //GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
                 StartCoroutine(idamageable.TakeDamage());
 

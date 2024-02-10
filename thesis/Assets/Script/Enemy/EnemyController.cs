@@ -101,7 +101,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,
                 PlayerManager.Instance.hookLength, hookMask);
-            
+
             if (hit.collider != null)
             {
                 if (hit.collider.CompareTag("Player")) hookable = true;
@@ -162,9 +162,9 @@ public class EnemyController : MonoBehaviour, IDamageable
         float time = GameManager.Instance.shakeDuration;
         float mag = GameManager.Instance.shakeMagnitude;
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
-
+        GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
         onDamage?.Invoke();
-        //GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         yield return null;
 
         if (hp <= 0)

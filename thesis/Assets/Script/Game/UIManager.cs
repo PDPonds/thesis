@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     [Header("===== Dead Scene =====")]
     public Transform deadScene;
     public TextMeshProUGUI scoreOnDeadScene;
-    public Button returnTolobbyButton;
+    //public Button returnTolobbyButton;
 
     [Header("===== Momentum =====")]
     public GameObject momentumEffect;
@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerManager.Instance.onDead += EnableDeadScene;
 
-        returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
+        //returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
 
     }
 

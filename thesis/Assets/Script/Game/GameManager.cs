@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject hitParticle;
     public GameObject healParticle;
     public GameObject jumpParticle;
+    public GameObject slashParticle;
 
     [Header("- Score")]
     public float scoreMul;
@@ -119,7 +120,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    
+
     public void StopFrame(float duratuin)
     {
         if (waiting) return;
@@ -154,6 +155,22 @@ public class GameManager : MonoBehaviour
     public void SpawnParticle(GameObject particle, Vector3 pos)
     {
         GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+    }
+
+    public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot)
+    {
+        if (randomRot)
+        {
+            float rotZ = Random.Range(-90f, 90f);
+            Vector3 rot = new Vector3(0, 0, rotZ);
+            Vector3 rot2 = new Vector3(0, 0, rotZ + 90f);
+            GameObject particleObj = Instantiate(particle, pos, Quaternion.Euler(rot));
+            GameObject particleObj2 = Instantiate(particle, pos, Quaternion.Euler(rot2));
+        }
+        else
+        {
+            GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+        }
     }
 
     public void GenerateFloor()
