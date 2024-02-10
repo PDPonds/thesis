@@ -95,12 +95,13 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
 
         dis = transform.position.x - PlayerManager.Instance.transform.position.x;
-        Vector3 dir = PlayerManager.Instance.transform.position - transform.position;
+        Vector3 dir = PlayerManager.Instance.checkHookablePoint.position - transform.position;
 
         if (dis > 0)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,
                 PlayerManager.Instance.hookLength, hookMask);
+            
             if (hit.collider != null)
             {
                 if (hit.collider.CompareTag("Player")) hookable = true;

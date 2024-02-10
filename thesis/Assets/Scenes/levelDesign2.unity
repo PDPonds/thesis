@@ -11169,7 +11169,7 @@ MonoBehaviour:
   Camera: {fileID: 519420032}
   Player: {fileID: 1951651705}
   floorPrefabs:
-  - {fileID: 2859643952638044777, guid: d1f35570fdbc48643bcbf2e3a36aba2d, type: 3}
+  - {fileID: 4547391558005571658, guid: 59c84605c406289469ed22ca483af2fb, type: 3}
   DestroyGroundAndEnemy: {fileID: 1466696924}
   enemyPrefabs:
   - {fileID: 1587496449742422035, guid: f1338df997d739c4b87d3289c7ac85aa, type: 3}
@@ -11240,6 +11240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b054f216e07c5a246a07d1f94cedfe84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxY: 2.5
   offset: {x: 4.5, y: 2, z: -10}
   smoothTime: 0.1
   target: {fileID: 1951651705}

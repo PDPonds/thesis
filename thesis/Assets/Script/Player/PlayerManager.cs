@@ -75,17 +75,18 @@ public class PlayerManager : MonoBehaviour
     public float hookSpeed;
     public float onHookTime;
     public float moveToHookSpeed;
-    public bool canHook;
+    [HideInInspector] public bool canHook;
     public float delayHookTime;
-    public float curDelayHookTime;
+    [HideInInspector] public float curDelayHookTime;
 
-    public List<Collider2D> enemyInFornt = new List<Collider2D>();
+    [HideInInspector] public List<Collider2D> enemyInFornt = new List<Collider2D>();
 
     public float hookLength;
     public LayerMask hookMask;
 
-    public Transform curHook;
+    [HideInInspector] public Transform curHook;
     public float waitHookTime;
+    public Transform checkHookablePoint;
 
     private void Awake()
     {
@@ -260,7 +261,7 @@ public class PlayerManager : MonoBehaviour
             rb.simulated = false;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene("levelDesign2");
+                SceneManager.LoadScene("levelDesign3.2");
             }
         }
 
