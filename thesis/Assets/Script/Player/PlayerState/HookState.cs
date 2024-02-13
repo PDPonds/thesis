@@ -13,7 +13,7 @@ public class HookState : BaseState
         rb.gravityScale = 0;
     }
 
-    public override void UpdateState(GameObject go)
+    public override void FixedUpdateState(GameObject go)
     {
         Transform targetHook = PlayerManager.Instance.curHook;
         Rigidbody2D rb = PlayerManager.Instance.rb;
@@ -45,5 +45,10 @@ public class HookState : BaseState
             //rb.velocity = Vector3.zero;
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.endHook);
         }
+    }
+
+    public override void UpdateState(GameObject go)
+    {
+        
     }
 }

@@ -11499,6 +11499,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: holdTarget
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: delayHookTime
       value: 4
       objectReference: {fileID: 0}
@@ -11508,7 +11512,7 @@ PrefabInstance:
       objectReference: {fileID: 5318806482385187766, guid: d4de230d1e0d8e44c8279a388000b259, type: 3}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: moveToHookSpeed
-      value: 11
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2207430127079035427, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Name

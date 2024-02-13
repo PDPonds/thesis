@@ -16,6 +16,11 @@ public class OnAirState : BaseState
 
     }
 
+    public override void FixedUpdateState(GameObject go)
+    {
+        
+    }
+
     public override void UpdateState(GameObject go)
     {
         //if (PlayerManager.Instance.onGrounded)

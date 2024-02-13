@@ -15,6 +15,11 @@ public class EndHookState : BaseState
         PlayerManager.Instance.anim.SetBool("isHookPulling", false);
     }
 
+    public override void FixedUpdateState(GameObject go)
+    {
+        
+    }
+
     public override void UpdateState(GameObject go)
     {
         curTime -= Time.deltaTime;
