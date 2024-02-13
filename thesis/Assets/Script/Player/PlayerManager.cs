@@ -226,6 +226,19 @@ public class PlayerManager : MonoBehaviour
             }
 
         }
+
+        if (curHook != null)
+        {
+            if (currentState == hook || currentState == endHook)
+            {
+                if (curHook.position.x < transform.position.x)
+                {
+                    curHook = null;
+                    SwitchState(running);
+                }
+            }
+        }
+
         #endregion
 
         #region Move
