@@ -87,6 +87,8 @@ public class PlayerManager : MonoBehaviour
     public float waitHookTime;
     public Transform checkHookablePoint;
 
+    public Transform hookableImage;
+
     [Header("- Hook Controller")]
     public bool inputHookPerformed;
     public float holdTarget;
@@ -144,12 +146,17 @@ public class PlayerManager : MonoBehaviour
 
         if (!canHook)
         {
+            hookableImage.gameObject.SetActive(false);
             curDelayHookTime -= Time.deltaTime;
             if (curDelayHookTime < 0)
             {
                 curDelayHookTime = delayHookTime;
                 canHook = true;
             }
+        }
+        else
+        {
+            hookableImage.gameObject.SetActive(true);
         }
 
         Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
@@ -453,10 +460,9 @@ public class PlayerManager : MonoBehaviour
     {
         if (enemyInFornt.Count > 0)
         {
-            canHook = false;
             SpawnHook(enemyInFornt[0].transform);
         }
-
+        canHook = false;
     }
 
     void SecondHookPerformed()
@@ -499,15 +505,18 @@ public class PlayerManager : MonoBehaviour
     public void CancleHoldHook()
     {
         inputHookPerformed = false;
-        if (holdTime >= holdTarget)
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
         {
-            SecondHookPerformed();
-            holdTime = 0;
-        }
-        else
-        {
-            FirstHookPerformed();
-            holdTime = 0;
+            if (holdTime >= holdTarget)
+            {
+                SecondHookPerformed();
+                holdTime = 0;
+            }
+            else
+            {
+                FirstHookPerformed();
+                holdTime = 0;
+            }
         }
     }
 
