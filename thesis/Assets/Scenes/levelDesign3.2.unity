@@ -16249,7 +16249,7 @@ MonoBehaviour:
   Camera: {fileID: 519420032}
   Player: {fileID: 1951651705}
   floorPrefabs:
-  - {fileID: 4547391558005571658, guid: ce9e84f02c05b124494e2dc194cb701d, type: 3}
+  - {fileID: 4547391558005571658, guid: 385c2c8e0c1de10408b59647418502e8, type: 3}
   DestroyGroundAndEnemy: {fileID: 1466696924}
   enemyPrefabs:
   - {fileID: 1587496449742422035, guid: f1338df997d739c4b87d3289c7ac85aa, type: 3}
@@ -16763,6 +16763,10 @@ PrefabInstance:
     - target: {fileID: 2875380164289505322, guid: 3fccde36c0a27164284adcb2b0d4fea2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736457359680402729, guid: 3fccde36c0a27164284adcb2b0d4fea2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.46
       objectReference: {fileID: 0}
     - target: {fileID: 8088047966335929744, guid: 3fccde36c0a27164284adcb2b0d4fea2, type: 3}
       propertyPath: m_Offset.x
