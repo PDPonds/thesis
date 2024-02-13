@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
@@ -52,7 +50,7 @@ public class PlayerManager : MonoBehaviour
     [Space(5f)]
 
     [Header("- Slide")]
-    public float slideTime;
+    //public float slideTime;
     public float slideDrag;
     public Vector2 runningCol;
     public Vector2 runningColPos;
@@ -88,6 +86,13 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public Transform curHook;
     public float waitHookTime;
     public Transform checkHookablePoint;
+
+    public Transform hookableImage;
+
+    [Header("- Hook Controller")]
+    public bool inputHookPerformed;
+    public float holdTarget;
+    [SerializeField] float holdTime;
 
     private void Awake()
     {
@@ -141,12 +146,17 @@ public class PlayerManager : MonoBehaviour
 
         if (!canHook)
         {
+            hookableImage.gameObject.SetActive(false);
             curDelayHookTime -= Time.deltaTime;
             if (curDelayHookTime < 0)
             {
                 curDelayHookTime = delayHookTime;
                 canHook = true;
             }
+        }
+        else
+        {
+            hookableImage.gameObject.SetActive(true);
         }
 
         Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
@@ -216,6 +226,19 @@ public class PlayerManager : MonoBehaviour
             }
 
         }
+
+        if (curHook != null)
+        {
+            if (currentState == hook || currentState == endHook)
+            {
+                if (curHook.position.x < transform.position.x)
+                {
+                    curHook = null;
+                    SwitchState(running);
+                }
+            }
+        }
+
         #endregion
 
         #region Move
@@ -266,6 +289,15 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
+        if (inputHookPerformed)
+        {
+            holdTime += Time.deltaTime;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        currentState.FixedUpdateState(transform.gameObject);
     }
 
     public void JumpPerformed()
@@ -437,32 +469,30 @@ public class PlayerManager : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, hookLength);
     }
 
-    public void FirstHookPerformed()
+    void FirstHookPerformed()
     {
-        if (enemyInFornt.Count > 0 && canHook && !isDead)
+        if (enemyInFornt.Count > 0)
         {
-            canHook = false;
             SpawnHook(enemyInFornt[0].transform);
         }
+        canHook = false;
     }
 
-    public void SecondHookPerformed()
+    void SecondHookPerformed()
     {
-        if (enemyInFornt.Count > 0 && canHook && !isDead)
+        if (enemyInFornt.Count > 1)
         {
-            if (enemyInFornt.Count > 1)
+            if (enemyInFornt[1] != null)
             {
-                if (enemyInFornt[1] != null)
-                {
-                    SpawnHook(enemyInFornt[1].transform);
-                }
+                SpawnHook(enemyInFornt[1].transform);
             }
-            else
-            {
-                SpawnHook(enemyInFornt[0].transform);
-            }
-            canHook = false;
         }
+        else if (enemyInFornt.Count == 1)
+        {
+            SpawnHook(enemyInFornt[0].transform);
+        }
+        canHook = false;
+
     }
 
     void SpawnHook(Transform enemy)
@@ -475,6 +505,32 @@ public class PlayerManager : MonoBehaviour
 
         curHook = hookObj.transform;
         SwitchState(hook);
+    }
+
+    public void HoldHook()
+    {
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
+        {
+            inputHookPerformed = true;
+        }
+    }
+
+    public void CancleHoldHook()
+    {
+        inputHookPerformed = false;
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
+        {
+            if (holdTime >= holdTarget)
+            {
+                SecondHookPerformed();
+                holdTime = 0;
+            }
+            else
+            {
+                FirstHookPerformed();
+                holdTime = 0;
+            }
+        }
     }
 
 }

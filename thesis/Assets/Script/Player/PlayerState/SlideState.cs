@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlideState : BaseState
 {
-    float currentSlideTime;
+    //float currentSlideTime;
     public override void EnterState(GameObject go)
     {
         Animator anim = PlayerManager.Instance.anim;
@@ -17,18 +17,23 @@ public class SlideState : BaseState
         Vector2 offset = PlayerManager.Instance.slideColPos;
         PlayerManager.Instance.SetupPlayerCol(size, offset, CapsuleDirection2D.Horizontal);
 
-        currentSlideTime = PlayerManager.Instance.slideTime;
+        //currentSlideTime = PlayerManager.Instance.slideTime;
         Rigidbody2D rb = PlayerManager.Instance.rb;
         rb.gravityScale = 3;
     }
 
+    public override void FixedUpdateState(GameObject go)
+    {
+        
+    }
+
     public override void UpdateState(GameObject go)
     {
-        currentSlideTime -= Time.deltaTime;
-        if (currentSlideTime < 0)
-        {
-            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
-        }
+        //currentSlideTime -= Time.deltaTime;
+        //if (currentSlideTime < 0)
+        //{
+        //    PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
+        //}
     }
 
 }

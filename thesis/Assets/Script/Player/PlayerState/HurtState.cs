@@ -13,6 +13,11 @@ public class HurtState : BaseState
         rb.gravityScale = 3;
     }
 
+    public override void FixedUpdateState(GameObject go)
+    {
+        
+    }
+
     public override void UpdateState(GameObject go)
     {
         Animator anim = PlayerManager.Instance.anim;
