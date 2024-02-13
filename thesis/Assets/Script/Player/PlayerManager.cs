@@ -195,14 +195,14 @@ public class PlayerManager : MonoBehaviour
 
             }
 
-            if (enemyInFornt.Count > 1)
-            {
-                if (enemyInFornt[1] != null)
-                {
-                    EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-                    controller.targetVisual.gameObject.SetActive(true);
-                }
-            }
+            //if (enemyInFornt.Count > 1)
+            //{
+            //    if (enemyInFornt[1] != null)
+            //    {
+            //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+            //        controller.targetVisual.gameObject.SetActive(true);
+            //    }
+            //}
         }
         else
         {
@@ -216,14 +216,14 @@ public class PlayerManager : MonoBehaviour
 
             }
 
-            if (enemyInFornt.Count > 1)
-            {
-                if (enemyInFornt[1] != null)
-                {
-                    EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-                    controller.targetVisual.gameObject.SetActive(false);
-                }
-            }
+            //if (enemyInFornt.Count > 1)
+            //{
+            //    if (enemyInFornt[1] != null)
+            //    {
+            //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+            //        controller.targetVisual.gameObject.SetActive(false);
+            //    }
+            //}
 
         }
 
@@ -469,31 +469,31 @@ public class PlayerManager : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, hookLength);
     }
 
-    void FirstHookPerformed()
+    public void FirstHookPerformed()
     {
-        if (enemyInFornt.Count > 0)
+        if (enemyInFornt.Count > 0 && canHook && !isDead)
         {
+            canHook = false;
             SpawnHook(enemyInFornt[0].transform);
         }
-        canHook = false;
     }
 
-    void SecondHookPerformed()
-    {
-        if (enemyInFornt.Count > 1)
-        {
-            if (enemyInFornt[1] != null)
-            {
-                SpawnHook(enemyInFornt[1].transform);
-            }
-        }
-        else if (enemyInFornt.Count == 1)
-        {
-            SpawnHook(enemyInFornt[0].transform);
-        }
-        canHook = false;
+    //void SecondHookPerformed()
+    //{
+    //    if (enemyInFornt.Count > 1)
+    //    {
+    //        if (enemyInFornt[1] != null)
+    //        {
+    //            SpawnHook(enemyInFornt[1].transform);
+    //        }
+    //    }
+    //    else if (enemyInFornt.Count == 1)
+    //    {
+    //        SpawnHook(enemyInFornt[0].transform);
+    //    }
+    //    canHook = false;
 
-    }
+    //}
 
     void SpawnHook(Transform enemy)
     {
@@ -507,30 +507,30 @@ public class PlayerManager : MonoBehaviour
         SwitchState(hook);
     }
 
-    public void HoldHook()
-    {
-        if (enemyInFornt.Count > 0 && canHook && !isDead)
-        {
-            inputHookPerformed = true;
-        }
-    }
+    //public void HoldHook()
+    //{
+    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
+    //    {
+    //        inputHookPerformed = true;
+    //    }
+    //}
 
-    public void CancleHoldHook()
-    {
-        inputHookPerformed = false;
-        if (enemyInFornt.Count > 0 && canHook && !isDead)
-        {
-            if (holdTime >= holdTarget)
-            {
-                SecondHookPerformed();
-                holdTime = 0;
-            }
-            else
-            {
-                FirstHookPerformed();
-                holdTime = 0;
-            }
-        }
-    }
+    //public void CancleHoldHook()
+    //{
+    //    inputHookPerformed = false;
+    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
+    //    {
+    //        if (holdTime >= holdTarget)
+    //        {
+    //            SecondHookPerformed();
+    //            holdTime = 0;
+    //        }
+    //        else
+    //        {
+    //            FirstHookPerformed();
+    //            holdTime = 0;
+    //        }
+    //    }
+    //}
 
 }

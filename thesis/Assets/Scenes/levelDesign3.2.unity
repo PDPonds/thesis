@@ -12633,9 +12633,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CenterPoint: {fileID: 10521473}
-  maxNormalSpeed: 7
-  minNormalSpeed: 4
-  momentumMul: 1
+  maxNormalSpeed: 5
+  minNormalSpeed: 5
+  momentumMul: 0
   momentumTime: 20
   currentMomentumTime: 0
   isMomentum: 0
@@ -12659,7 +12659,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 1587496449742422035, guid: f1338df997d739c4b87d3289c7ac85aa, type: 3}
   - {fileID: 6458583724398724889, guid: bc588d637256c2e44a11e22449d115a5, type: 3}
-  xOffset: 0.25
+  xOffset: 0.5
   lastEndPos: {x: 10, y: -3, z: 0}
 --- !u!114 &1638945990
 MonoBehaviour:

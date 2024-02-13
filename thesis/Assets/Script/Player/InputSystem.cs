@@ -133,7 +133,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""10243c5f-2da0-4d46-bb67-65cb2f2cdc64"",
                     ""path"": ""<Keyboard>/x"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SecondHook"",
