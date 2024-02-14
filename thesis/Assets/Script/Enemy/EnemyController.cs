@@ -132,7 +132,7 @@ public class EnemyController : MonoBehaviour, IDamageable
                         GameObject hitPar = GameManager.Instance.hitParticle;
                         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
-                        StartCoroutine(playerManager.TakeDamage());
+                        StartCoroutine(playerManager.TakeDamage(enemySO.damage));
                         canAttack = false;
                     }
                     else
@@ -199,7 +199,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
         Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
         bulletRb.AddForce(Vector2.left * bulletSpeed, ForceMode2D.Impulse);
-
+        EnemyBullet enemyBullet = bulletObj.GetComponent<EnemyBullet>();
+        enemyBullet.damage = enemySO.damage;
     }
 
 }

@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 
+    [Header("===== HP =====")]
+    [SerializeField] Image hpFill;
+
     [Header("===== Score =====")]
     public TextMeshProUGUI scoreText;
 
@@ -47,6 +50,9 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.Instance.isMomentum) momentumEffect.gameObject.SetActive(true);
         else momentumEffect.gameObject.SetActive(false);
+
+        float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
+        hpFill.fillAmount = hpPercent;
 
     }
 

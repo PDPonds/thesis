@@ -34,8 +34,9 @@ public class PlayerManager : MonoBehaviour
     [Header("===== Game Play =====")]
     [Header("- Hp")]
     public Transform mesh;
-    public int maxHp;
-    [HideInInspector] public int currentHp;
+    public float maxHp;
+    [HideInInspector] public float currentHp;
+    public float hpMul;
     [HideInInspector] public bool isDead;
 
     [Space(10f)]
@@ -117,6 +118,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        currentHp -= Time.deltaTime * hpMul;
 
         currentState.UpdateState(transform.gameObject);
 
@@ -365,7 +367,6 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-
     public void SlidePerformed()
     {
         if (currentState != slide && currentState != endHook &&
@@ -421,10 +422,10 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public IEnumerator TakeDamage()
+    public IEnumerator TakeDamage(float damage)
     {
         onTakeDamage?.Invoke();
-        currentHp--;
+        currentHp -= damage;
 
         GameManager.Instance.currentMomentumTime = 0;
         GameManager.Instance.isMomentum = false;
@@ -453,11 +454,12 @@ public class PlayerManager : MonoBehaviour
         onDead?.Invoke();
     }
 
-    public bool Heal()
+    public bool Heal(float amount)
     {
         if (currentHp < maxHp)
         {
-            currentHp++;
+            currentHp += amount;
+            if (currentHp > maxHp) { currentHp = maxHp; }
             onHeal?.Invoke();
             return true;
         }

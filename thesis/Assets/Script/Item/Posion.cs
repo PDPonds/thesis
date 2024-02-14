@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Posion : MonoBehaviour
 {
+    [SerializeField] float healAmount;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             if (other.TryGetComponent<PlayerManager>(out PlayerManager manager))
             {
-                if(PlayerManager.Instance.Heal())
+                if(PlayerManager.Instance.Heal(healAmount))
                 {
                     GameObject hitPar = GameManager.Instance.healParticle;
                     GameManager.Instance.SpawnParticle(hitPar, other.transform.position);

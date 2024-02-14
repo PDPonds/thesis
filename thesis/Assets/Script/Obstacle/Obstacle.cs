@@ -5,6 +5,7 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     public float delay;
+    public float damage;
 
     float delayTime;
     bool canHit;
@@ -39,7 +40,7 @@ public class Obstacle : MonoBehaviour
                     GameObject hitPar = GameManager.Instance.hitParticle;
                     GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
 
-                    StartCoroutine(manager.TakeDamage());
+                    StartCoroutine(manager.TakeDamage(damage));
                     canHit = false;
                 }
             }

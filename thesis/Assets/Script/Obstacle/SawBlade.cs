@@ -5,6 +5,7 @@ using UnityEngine;
 public class SawBlade : MonoBehaviour
 {
     public float delay;
+    public float damage;
 
     float delayTime;
     bool canHit;
@@ -38,7 +39,7 @@ public class SawBlade : MonoBehaviour
                     GameObject hitPar = GameManager.Instance.hitParticle;
                     GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
 
-                    StartCoroutine(manager.TakeDamage());
+                    StartCoroutine(manager.TakeDamage(damage));
                     canHit = false;
                 }
             }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     public bool isCounter;
+    public float damage;
 
     private void Awake()
     {
@@ -52,7 +53,7 @@ public class EnemyBullet : MonoBehaviour
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
-        StartCoroutine(playerManager.TakeDamage());
+        StartCoroutine(playerManager.TakeDamage(damage));
         yield return new WaitForSecondsRealtime(0.2f);
         Destroy(gameObject);
     }
