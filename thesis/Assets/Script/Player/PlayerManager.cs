@@ -351,7 +351,6 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
-        anim.Play("SecondJump");
 
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
@@ -365,6 +364,7 @@ public class PlayerManager : MonoBehaviour
         onJump?.Invoke();
 
     }
+
 
     public void SlidePerformed()
     {
