@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -89,11 +90,8 @@ public class PlayerManager : MonoBehaviour
     public Transform checkHookablePoint;
 
     public Transform hookableImage;
-
-    [Header("- Hook Controller")]
-    public bool inputHookPerformed;
-    public float holdTarget;
-    [SerializeField] float holdTime;
+    public Transform hookBorder;
+    public Image hookFill;
 
     private void Awake()
     {
@@ -113,7 +111,6 @@ public class PlayerManager : MonoBehaviour
         SwitchState(running);
 
         canHook = true;
-        curDelayHookTime = delayHookTime;
     }
 
     private void Update()
@@ -149,16 +146,22 @@ public class PlayerManager : MonoBehaviour
         if (!canHook)
         {
             hookableImage.gameObject.SetActive(false);
-            curDelayHookTime -= Time.deltaTime;
-            if (curDelayHookTime < 0)
+            hookBorder.gameObject.SetActive(true);
+            curDelayHookTime += Time.deltaTime;
+            if (curDelayHookTime >= delayHookTime)
             {
-                curDelayHookTime = delayHookTime;
                 canHook = true;
             }
+
+            float percent = curDelayHookTime / delayHookTime;
+            hookFill.fillAmount = percent;
+
         }
         else
         {
             hookableImage.gameObject.SetActive(true);
+            hookBorder.gameObject.SetActive(false);
+            curDelayHookTime = 0;
         }
 
         Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
@@ -289,11 +292,6 @@ public class PlayerManager : MonoBehaviour
             {
                 SceneManager.LoadScene("levelDesign3.2");
             }
-        }
-
-        if (inputHookPerformed)
-        {
-            holdTime += Time.deltaTime;
         }
     }
 
