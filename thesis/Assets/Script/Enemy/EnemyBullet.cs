@@ -23,7 +23,10 @@ public class EnemyBullet : MonoBehaviour
         {
             if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
-                StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                if (!playerManager.noDamage)
+                {
+                    StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                }
             }
         }
 
@@ -35,16 +38,16 @@ public class EnemyBullet : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(isCounter)
-        {
-            if (collision.CompareTag("Enemy"))
-            {
-                if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
-                {
-                    StartCoroutine(EnemyTakeDamage(collision, idamageable));
-                }
-            }
-        }
+        //if(isCounter)
+        //{
+        //    if (collision.CompareTag("Enemy"))
+        //    {
+        //        if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
+        //        {
+        //            StartCoroutine(EnemyTakeDamage(collision, idamageable));
+        //        }
+        //    }
+        //}
 
     }
 

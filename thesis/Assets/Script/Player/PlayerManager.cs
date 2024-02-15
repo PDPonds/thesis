@@ -39,7 +39,9 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public float currentHp;
     public float hpMul;
     [HideInInspector] public bool isDead;
-
+    public float noDamageTime;
+    [HideInInspector] public bool noDamage;
+    float curNoDamageTime;
     [Space(10f)]
 
     [Header("========== Controller ==========")]
@@ -293,6 +295,17 @@ public class PlayerManager : MonoBehaviour
                 SceneManager.LoadScene("levelDesign3.2");
             }
         }
+
+        if (noDamage)
+        {
+            curNoDamageTime -= Time.deltaTime;
+            if (curNoDamageTime < 0)
+            {
+                curNoDamageTime = noDamageTime;
+                noDamage = false;
+            }
+        }
+
     }
 
     private void FixedUpdate()
@@ -441,7 +454,10 @@ public class PlayerManager : MonoBehaviour
         {
             Die();
         }
-
+        else
+        {
+            noDamage = true;
+        }
     }
 
     public void Die()

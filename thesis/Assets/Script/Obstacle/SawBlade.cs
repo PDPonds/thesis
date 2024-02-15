@@ -34,13 +34,16 @@ public class SawBlade : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                if (other.TryGetComponent<PlayerManager>(out PlayerManager manager))
+                if (other.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
                 {
-                    GameObject hitPar = GameManager.Instance.hitParticle;
-                    GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
+                    if (!playerManager.noDamage)
+                    {
+                        GameObject hitPar = GameManager.Instance.hitParticle;
+                        GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
 
-                    StartCoroutine(manager.TakeDamage(damage));
-                    canHit = false;
+                        StartCoroutine(playerManager.TakeDamage(damage));
+                        canHit = false;
+                    }
                 }
             }
         }

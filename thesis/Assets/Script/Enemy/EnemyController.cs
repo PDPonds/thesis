@@ -127,13 +127,16 @@ public class EnemyController : MonoBehaviour, IDamageable
                 {
                     if (canAttack)
                     {
-                        onAttack?.Invoke();
+                        if (!playerManager.noDamage)
+                        {
+                            onAttack?.Invoke();
 
-                        GameObject hitPar = GameManager.Instance.hitParticle;
-                        GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+                            GameObject hitPar = GameManager.Instance.hitParticle;
+                            GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
-                        StartCoroutine(playerManager.TakeDamage(enemySO.damage));
-                        canAttack = false;
+                            StartCoroutine(playerManager.TakeDamage(enemySO.damage));
+                            canAttack = false;
+                        }
                     }
                     else
                     {
