@@ -122,7 +122,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        currentHp -= Time.deltaTime * hpMul;
+
 
         currentState.UpdateState(transform.gameObject);
 
@@ -300,6 +300,15 @@ public class PlayerManager : MonoBehaviour
                 SceneManager.LoadScene("levelDesign3.2");
             }
         }
+        else
+        {
+            currentHp -= Time.deltaTime * hpMul;
+            if (currentHp <= 0)
+            {
+                Die();
+            }
+        }
+
 
         if (noDamage)
         {
