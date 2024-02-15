@@ -36,12 +36,17 @@ public class PlayerManager : MonoBehaviour
     [Header("- Hp")]
     public Transform mesh;
     public float maxHp;
-    [HideInInspector] public float currentHp;
     public float hpMul;
+    [HideInInspector] public float currentHp;
     [HideInInspector] public bool isDead;
-    public float noDamageTime;
     [HideInInspector] public bool noDamage;
+    public float noDamageTime;
+    public float blinkTime;
+    [SerializeField] Color normalColor;
+    [SerializeField] Color blinkColor;
+    float curBlinkTime;
     float curNoDamageTime;
+    bool isBlink;
     [Space(10f)]
 
     [Header("========== Controller ==========")]
@@ -111,7 +116,7 @@ public class PlayerManager : MonoBehaviour
         currentHp = maxHp;
 
         SwitchState(running);
-
+        curNoDamageTime = noDamageTime;
         canHook = true;
     }
 
@@ -298,20 +303,45 @@ public class PlayerManager : MonoBehaviour
 
         if (noDamage)
         {
+            SpriteRenderer meshImage = mesh.GetComponent<SpriteRenderer>();
+            curBlinkTime += Time.deltaTime;
+            if (curBlinkTime >= blinkTime)
+            {
+                if (isBlink)
+                {
+                    meshImage.color = normalColor;
+                    isBlink = false;
+                }
+                else
+                {
+                    meshImage.color = blinkColor;
+                    isBlink = true;
+                }
+                curBlinkTime = 0;
+            }
+
             curNoDamageTime -= Time.deltaTime;
             if (curNoDamageTime < 0)
             {
                 curNoDamageTime = noDamageTime;
                 noDamage = false;
             }
-        }
 
+        }
+        else
+        {
+            SpriteRenderer meshImage = mesh.GetComponent<SpriteRenderer>();
+            meshImage.color = normalColor;
+            isBlink = false;
+        }
     }
 
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
     }
+
+
 
     public void JumpPerformed()
     {
@@ -437,7 +467,7 @@ public class PlayerManager : MonoBehaviour
     {
         onTakeDamage?.Invoke();
         currentHp -= damage;
-
+        noDamage = true;
         GameManager.Instance.currentMomentumTime = 0;
         GameManager.Instance.isMomentum = false;
 
@@ -449,15 +479,11 @@ public class PlayerManager : MonoBehaviour
 
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
 
-        yield return null;
         if (currentHp <= 0)
         {
             Die();
         }
-        else
-        {
-            noDamage = true;
-        }
+        yield return null;
     }
 
     public void Die()

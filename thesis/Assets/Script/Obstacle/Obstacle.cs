@@ -45,7 +45,6 @@ public class Obstacle : MonoBehaviour
                         StartCoroutine(playerManager.TakeDamage(damage));
                         canHit = false;
                     }
-                        
                 }
             }
         }

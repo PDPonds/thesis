@@ -55,9 +55,7 @@ public class EnemyBullet : MonoBehaviour
     {
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-
-        StartCoroutine(playerManager.TakeDamage(damage));
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return StartCoroutine(playerManager.TakeDamage(damage));
         Destroy(gameObject);
     }
 
@@ -65,9 +63,8 @@ public class EnemyBullet : MonoBehaviour
     {
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-
-        StartCoroutine(damageable.TakeDamage());
-        yield return new WaitForSecondsRealtime(0.2f);
+        
+        yield return StartCoroutine(damageable.TakeDamage());
         Destroy(gameObject);
     }
 }
