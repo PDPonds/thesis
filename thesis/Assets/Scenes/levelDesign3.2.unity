@@ -16512,7 +16512,7 @@ MonoBehaviour:
   momentumTime: 20
   currentMomentumTime: 0
   isMomentum: 0
-  currentSpeed: 3
+  currentSpeed: 5
   DeadPoint: {fileID: 1257209058}
   frameStopDuration: 0.025
   shakeDuration: 0.05
@@ -17160,6 +17160,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: hpMul
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2207430127079035427, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Name
       value: Player

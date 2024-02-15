@@ -64,41 +64,41 @@ public class GameManager : MonoBehaviour
         float totalScore = disScore + hitScore;
         if (totalScore > currentScore) currentScore = (int)totalScore;
 
-        if (!isMomentum)
-        {
-            if (currentScore / 1000 > minNormalSpeed)
-            {
-                float speed = currentScore / 1000;
-                currentSpeed = speed;
-            }
-            else if (currentScore / 1000 < minNormalSpeed)
-            {
-                currentSpeed = minNormalSpeed;
-            }
-            else if (currentScore / 1000 > maxNormalSpeed)
-            {
-                currentSpeed = maxNormalSpeed;
-            }
-        }
-        else
-        {
-            if (currentScore / 1000 > minNormalSpeed)
-            {
-                float speed = currentScore / 1000;
-                float targetSpeed = speed + momentumMul;
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-            }
-            else if (currentScore / 1000 < minNormalSpeed)
-            {
-                float targetSpeed = minNormalSpeed + momentumMul;
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-            }
-            else if (currentScore / 1000 > maxNormalSpeed)
-            {
-                float targetSpeed = maxNormalSpeed + momentumMul;
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-            }
-        }
+        //if (!isMomentum)
+        //{
+        //    if (currentScore / 1000 > minNormalSpeed)
+        //    {
+        //        float speed = currentScore / 1000;
+        //        currentSpeed = speed;
+        //    }
+        //    else if (currentScore / 1000 < minNormalSpeed)
+        //    {
+        //        currentSpeed = minNormalSpeed;
+        //    }
+        //    else if (currentScore / 1000 > maxNormalSpeed)
+        //    {
+        //        currentSpeed = maxNormalSpeed;
+        //    }
+        //}
+        //else
+        //{
+        //    if (currentScore / 1000 > minNormalSpeed)
+        //    {
+        //        float speed = currentScore / 1000;
+        //        float targetSpeed = speed + momentumMul;
+        //        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
+        //    }
+        //    else if (currentScore / 1000 < minNormalSpeed)
+        //    {
+        //        float targetSpeed = minNormalSpeed + momentumMul;
+        //        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
+        //    }
+        //    else if (currentScore / 1000 > maxNormalSpeed)
+        //    {
+        //        float targetSpeed = maxNormalSpeed + momentumMul;
+        //        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
+        //    }
+        //}
 
 
         if (currentMomentumTime >= momentumTime)
