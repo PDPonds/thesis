@@ -123,7 +123,6 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
 
-
         currentState.UpdateState(transform.gameObject);
 
         #region Attack
@@ -258,21 +257,20 @@ public class PlayerManager : MonoBehaviour
             currentState != endHook)
         {
             float speed = GameManager.Instance.currentSpeed;
-            transform.Translate(Vector2.right * Time.deltaTime * speed);
+            //transform.Translate(Vector2.right * Time.deltaTime * speed);
 
-            //float speed = GameManager.Instance.currentSpeed;
-            //Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
-            //Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
-            //if (transform.position.x - targetPos.x < -0.01f)
-            //{
-            //    transform.position = Vector3.MoveTowards(transform.position,
-            //    targetPos, speed * 2 * Time.deltaTime);
-            //}
-            //else
-            //{
-            //    transform.position = Vector3.MoveTowards(transform.position,
-            //    targetPos, speed * Time.deltaTime);
-            //}
+            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
+            Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+            if (transform.position.x < targetPos.x)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                targetPos, speed * 1.5f * Time.deltaTime);
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                targetPos, speed * Time.deltaTime);
+            }
         }
         #endregion
 
@@ -349,8 +347,6 @@ public class PlayerManager : MonoBehaviour
     {
         currentState.FixedUpdateState(transform.gameObject);
     }
-
-
 
     public void JumpPerformed()
     {

@@ -133,7 +133,6 @@ public class EnemyController : MonoBehaviour, IDamageable
 
                             GameObject hitPar = GameManager.Instance.hitParticle;
                             GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-                            playerManager.noDamage = true;
 
                             StartCoroutine(playerManager.TakeDamage(enemySO.damage));
                             canAttack = false;

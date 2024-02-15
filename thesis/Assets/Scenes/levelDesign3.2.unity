@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8bb4254fe4f0e4ab6d04c9c0a64a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CenterMoveHookSpeed: 0.025
 --- !u!1 &82970738
 GameObject:
   m_ObjectHideFlags: 0
@@ -16552,7 +16551,7 @@ MonoBehaviour:
   minY: -1
   offset: {x: 4.5, y: 2, z: -10}
   smoothTime: 0.1
-  target: {fileID: 1951651705}
+  target: {fileID: 10521473}
 --- !u!1 &1786991929
 GameObject:
   m_ObjectHideFlags: 0
@@ -16989,57 +16988,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: blinkTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: blinkAlpha
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: blinkColor.a
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: blinkColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: blinkColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: blinkColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: noDamageTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: normalColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: normalColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: normalColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: normalColor.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2207430127079035427, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3328477117553194316, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
-      propertyPath: m_Color.a
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6247732838429829481, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Camera
