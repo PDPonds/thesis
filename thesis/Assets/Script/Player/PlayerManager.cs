@@ -11,6 +11,12 @@ public class PlayerManager : MonoBehaviour
 
     public static PlayerManager Instance;
 
+    public static int upgradeMaxHpLevel = 0;
+    public static int upgradeStealHpLevel = 0;
+    public static int reviveItemCount = 0;
+    public static int coin = 4000;
+    public int inGameCoin;
+
     public event Action onJump;
     public event Action onSlide;
     public event Action onAttack;
@@ -118,6 +124,7 @@ public class PlayerManager : MonoBehaviour
         SwitchState(running);
         curNoDamageTime = noDamageTime;
         canHook = true;
+
     }
 
     private void Update()
@@ -293,13 +300,11 @@ public class PlayerManager : MonoBehaviour
         {
             rb.isKinematic = true;
             rb.simulated = false;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene("levelDesign3.2");
-            }
         }
         else
         {
+            rb.isKinematic = false;
+            rb.simulated = true;
             currentHp -= Time.deltaTime * hpMul;
             if (currentHp <= 0)
             {
@@ -341,11 +346,17 @@ public class PlayerManager : MonoBehaviour
             meshImage.color = normalColor;
             isBlink = false;
         }
+    
     }
 
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
+    }
+
+    public void AddCoin(int amount)
+    {
+        inGameCoin += amount;
     }
 
     public void JumpPerformed()
@@ -493,10 +504,14 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        isDead = true;
-        attackCol.enabled = false;
-        anim.SetBool("isDead", true);
-        onDead?.Invoke();
+        if(!isDead)
+        {
+            isDead = true;
+            attackCol.enabled = false;
+            anim.SetBool("isDead", true);
+            onDead?.Invoke();
+
+        }
     }
 
     public bool Heal(float amount)

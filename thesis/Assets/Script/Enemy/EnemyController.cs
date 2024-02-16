@@ -180,6 +180,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         anim.Play("Dead");
         GameManager.Instance.hitScore += score;
+        PlayerManager.Instance.AddCoin(enemySO.dropCoin);
         Destroy(gameObject);
     }
 
