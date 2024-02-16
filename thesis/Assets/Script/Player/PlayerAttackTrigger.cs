@@ -20,6 +20,9 @@ public class PlayerAttackTrigger : MonoBehaviour
                     PlayerManager.Instance.curHook = null;
                 }
 
+                float healAmount = PlayerManager.Instance.maxHp * PlayerManager.Instance.stealHPLevels[PlayerManager.upgradeStealHpLevel];
+                PlayerManager.Instance.Heal(healAmount);
+
                 //GameObject hitPar = GameManager.Instance.hitParticle;
                 //GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
@@ -31,6 +34,8 @@ public class PlayerAttackTrigger : MonoBehaviour
                 }
 
                 PlayerManager.Instance.attackCol.enabled = false;
+
+
             }
         }
     }

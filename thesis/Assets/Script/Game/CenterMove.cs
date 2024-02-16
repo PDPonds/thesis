@@ -15,7 +15,9 @@ public class CenterMove : MonoBehaviour
             transform.position = new Vector3(transform.position.x,
                 PlayerManager.Instance.transform.position.y, transform.position.z);
         }
-        else if (PlayerManager.Instance.currentState == PlayerManager.Instance.hook)
+        
+        if (PlayerManager.Instance.currentState == PlayerManager.Instance.hook ||
+            PlayerManager.Instance.currentState == PlayerManager.Instance.revive)
         {
             transform.position = PlayerManager.Instance.transform.position;
         }

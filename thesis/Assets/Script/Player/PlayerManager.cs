@@ -13,8 +13,8 @@ public class PlayerManager : MonoBehaviour
 
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
-    public static int reviveItemCount = 0;
-    public static int coin = 4000;
+    public static int reviveItemCount = 1;
+    public static int coin = 0;
     public int inGameCoin;
 
     public event Action onJump;
@@ -31,6 +31,7 @@ public class PlayerManager : MonoBehaviour
     public HookState hook = new HookState();
     public EndHookState endHook = new EndHookState();
     public HurtState hurt = new HurtState();
+    public ReviveState revive = new ReviveState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
     [HideInInspector] public PlayerAnimation playerAnimation;
@@ -41,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     [Header("===== Game Play =====")]
     [Header("- Hp")]
     public Transform mesh;
+    public float startMaxHP;
     public float maxHp;
     public float hpMul;
     [HideInInspector] public float currentHp;
@@ -106,6 +108,12 @@ public class PlayerManager : MonoBehaviour
     public Transform hookBorder;
     public Image hookFill;
 
+    [Header("- Revive")]
+    public float reviveTime;
+    [Header("- Upgrade")]
+    public List<float> hpPerLevels = new List<float>();
+    public List<float> stealHPLevels = new List<float>();
+
     private void Awake()
     {
         Instance = this;
@@ -119,6 +127,7 @@ public class PlayerManager : MonoBehaviour
         currentAttackDelay = attackDelay;
         attackCol.enabled = false;
 
+        maxHp = startMaxHP + hpPerLevels[upgradeMaxHpLevel];
         currentHp = maxHp;
 
         SwitchState(running);
@@ -261,7 +270,7 @@ public class PlayerManager : MonoBehaviour
 
         #region Move
         if (currentState != hurt && !isDead && currentState != hook &&
-            currentState != endHook)
+            currentState != endHook && currentState != revive)
         {
             float speed = GameManager.Instance.currentSpeed;
             //transform.Translate(Vector2.right * Time.deltaTime * speed);
@@ -346,7 +355,7 @@ public class PlayerManager : MonoBehaviour
             meshImage.color = normalColor;
             isBlink = false;
         }
-    
+
     }
 
     private void FixedUpdate()
@@ -504,7 +513,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        if(!isDead)
+        if (!isDead)
         {
             isDead = true;
             attackCol.enabled = false;

@@ -88,11 +88,7 @@ public class UIManager : MonoBehaviour
 
     void ReviveBut()
     {
-        PlayerManager.Instance.currentHp = PlayerManager.Instance.maxHp;
-        PlayerManager.Instance.isDead = false;
-        PlayerManager.Instance.anim.SetBool("isDead", false);
-        PlayerManager.Instance.noDamage = true;
-        PlayerManager.reviveItemCount--;
+        PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
         deadScene.gameObject.SetActive(false);
         scoreText.gameObject.SetActive(true);
         coinInGameText.gameObject.SetActive(true);
