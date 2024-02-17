@@ -12,8 +12,8 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     public static int upgradeMaxHpLevel = 0;
-    public static int upgradeStealHpLevel = 0;
-    public static int reviveItemCount = 4;
+    public static int upgradeStealHpLevel = 1;
+    public static int reviveItemCount = 0;
     public static int coin = 0;
     public int inGameCoin;
 

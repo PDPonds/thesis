@@ -20,7 +20,7 @@ public class PlayerAttackTrigger : MonoBehaviour
                     PlayerManager.Instance.curHook = null;
                 }
 
-                float healAmount = PlayerManager.Instance.maxHp * PlayerManager.Instance.stealHPLevels[PlayerManager.upgradeStealHpLevel];
+                float healAmount = PlayerManager.Instance.maxHp * PlayerManager.Instance.stealHPLevels[PlayerManager.upgradeStealHpLevel] / 100f;
                 PlayerManager.Instance.Heal(healAmount);
 
                 //GameObject hitPar = GameManager.Instance.hitParticle;
