@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
-    public static int reviveItemCount = 1;
+    public static int reviveItemCount = 4;
     public static int coin = 0;
     public int inGameCoin;
 
@@ -55,6 +55,9 @@ public class PlayerManager : MonoBehaviour
     float curBlinkTime;
     float curNoDamageTime;
     bool isBlink;
+    [HideInInspector] public bool isDropDead;
+    [HideInInspector] public Transform lastCheckPoint;
+    [HideInInspector] public int curReviveCount;
     [Space(10f)]
 
     [Header("========== Controller ==========")]

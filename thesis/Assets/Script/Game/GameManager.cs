@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public float currentSpeed;
     public Transform DeadPoint;
 
+    public int maxRevivePerGame;
+
     [Header("- Frame Stop")]
     public float frameStopDuration;
     bool waiting;
