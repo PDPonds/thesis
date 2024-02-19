@@ -17,15 +17,15 @@ public class Hook : MonoBehaviour
 
     private void Update()
     {
-        if (target != null)
-        {
-            transform.position =
-                Vector3.MoveTowards(transform.position,
-                target.position, PlayerManager.Instance.hookSpeed);
-        }
+        //if (target != null)
+        //{
+        //    transform.position =
+        //        Vector3.MoveTowards(transform.position,
+        //        target.position, PlayerManager.Instance.hookSpeed);
+        //}
 
-        line.SetPosition(0, transform.position);
-        line.SetPosition(1, PlayerManager.Instance.transform.position);
+        //line.SetPosition(0, transform.position);
+        //line.SetPosition(1, PlayerManager.Instance.transform.position);
 
     }
 

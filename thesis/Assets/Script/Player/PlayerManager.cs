@@ -88,28 +88,28 @@ public class PlayerManager : MonoBehaviour
     bool canAttack;
     [Space(5f)]
 
-    [Header("- Hook")]
-    public GameObject hookPrefab;
-    public Transform hookSpawnPos;
-    public float hookSpeed;
-    public float onHookTime;
-    public float moveToHookSpeed;
-    [HideInInspector] public bool canHook;
-    public float delayHookTime;
-    [HideInInspector] public float curDelayHookTime;
+    //[Header("- Hook")]
+    //public GameObject hookPrefab;
+    //public Transform hookSpawnPos;
+    //public float hookSpeed;
+    //public float onHookTime;
+    //public float moveToHookSpeed;
+    //[HideInInspector] public bool canHook;
+    //public float delayHookTime;
+    //[HideInInspector] public float curDelayHookTime;
 
-    [HideInInspector] public List<Collider2D> enemyInFornt = new List<Collider2D>();
+    //[HideInInspector] public List<Collider2D> enemyInFornt = new List<Collider2D>();
 
-    public float hookLength;
-    public LayerMask hookMask;
+    //public float hookLength;
+    //public LayerMask hookMask;
 
-    [HideInInspector] public Transform curHook;
-    public float waitHookTime;
-    public Transform checkHookablePoint;
+    //[HideInInspector] public Transform curHook;
+    //public float waitHookTime;
+    //public Transform checkHookablePoint;
 
-    public Transform hookableImage;
-    public Transform hookBorder;
-    public Image hookFill;
+    //public Transform hookableImage;
+    //public Transform hookBorder;
+    //public Image hookFill;
 
     [Header("- Revive")]
     public float reviveTime;
@@ -135,7 +135,7 @@ public class PlayerManager : MonoBehaviour
 
         SwitchState(running);
         curNoDamageTime = noDamageTime;
-        canHook = true;
+        //canHook = true;
 
     }
 
@@ -168,106 +168,106 @@ public class PlayerManager : MonoBehaviour
 
         #region Hook
 
-        if (!canHook)
-        {
-            hookableImage.gameObject.SetActive(false);
-            hookBorder.gameObject.SetActive(true);
-            curDelayHookTime += Time.deltaTime;
-            if (curDelayHookTime >= delayHookTime)
-            {
-                canHook = true;
-            }
+        //if (!canHook)
+        //{
+        //    hookableImage.gameObject.SetActive(false);
+        //    hookBorder.gameObject.SetActive(true);
+        //    curDelayHookTime += Time.deltaTime;
+        //    if (curDelayHookTime >= delayHookTime)
+        //    {
+        //        canHook = true;
+        //    }
 
-            float percent = curDelayHookTime / delayHookTime;
-            hookFill.fillAmount = percent;
+        //    float percent = curDelayHookTime / delayHookTime;
+        //    hookFill.fillAmount = percent;
 
-        }
-        else
-        {
-            hookableImage.gameObject.SetActive(true);
-            hookBorder.gameObject.SetActive(false);
-            curDelayHookTime = 0;
-        }
+        //}
+        //else
+        //{
+        //    hookableImage.gameObject.SetActive(true);
+        //    hookBorder.gameObject.SetActive(false);
+        //    curDelayHookTime = 0;
+        //}
 
-        Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
-        if (enemys.Length > 0)
-        {
-            enemyInFornt.Clear();
-            foreach (Collider2D col in enemys)
-            {
-                EnemyController controller = col.GetComponent<EnemyController>();
-                if (controller.hookable)
-                {
-                    enemyInFornt.Add(col);
-                }
-            }
-        }
-        else
-        {
-            if (enemyInFornt.Count > 0) enemyInFornt.Clear();
-        }
+        //Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
+        //if (enemys.Length > 0)
+        //{
+        //    enemyInFornt.Clear();
+        //    foreach (Collider2D col in enemys)
+        //    {
+        //        EnemyController controller = col.GetComponent<EnemyController>();
+        //        if (controller.hookable)
+        //        {
+        //            enemyInFornt.Add(col);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    if (enemyInFornt.Count > 0) enemyInFornt.Clear();
+        //}
 
-        if (enemyInFornt.Count > 0)
-        {
-            enemyInFornt = enemyInFornt.OrderBy
-                (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
-        }
+        //if (enemyInFornt.Count > 0)
+        //{
+        //    enemyInFornt = enemyInFornt.OrderBy
+        //        (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
+        //}
 
-        if (canHook)
-        {
-            if (enemyInFornt.Count > 0)
-            {
-                if (enemyInFornt[0] != null)
-                {
-                    EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
-                    controller.targetVisual.gameObject.SetActive(true);
-                }
+        //if (canHook)
+        //{
+        //    if (enemyInFornt.Count > 0)
+        //    {
+        //        if (enemyInFornt[0] != null)
+        //        {
+        //            EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
+        //            controller.targetVisual.gameObject.SetActive(true);
+        //        }
 
-            }
+        //    }
 
-            //if (enemyInFornt.Count > 1)
-            //{
-            //    if (enemyInFornt[1] != null)
-            //    {
-            //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-            //        controller.targetVisual.gameObject.SetActive(true);
-            //    }
-            //}
-        }
-        else
-        {
-            if (enemyInFornt.Count > 0)
-            {
-                if (enemyInFornt[0] != null)
-                {
-                    EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
-                    controller.targetVisual.gameObject.SetActive(false);
-                }
+        //    //if (enemyInFornt.Count > 1)
+        //    //{
+        //    //    if (enemyInFornt[1] != null)
+        //    //    {
+        //    //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+        //    //        controller.targetVisual.gameObject.SetActive(true);
+        //    //    }
+        //    //}
+        //}
+        //else
+        //{
+        //    if (enemyInFornt.Count > 0)
+        //    {
+        //        if (enemyInFornt[0] != null)
+        //        {
+        //            EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
+        //            controller.targetVisual.gameObject.SetActive(false);
+        //        }
 
-            }
+        //    }
 
-            //if (enemyInFornt.Count > 1)
-            //{
-            //    if (enemyInFornt[1] != null)
-            //    {
-            //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-            //        controller.targetVisual.gameObject.SetActive(false);
-            //    }
-            //}
+        //    //if (enemyInFornt.Count > 1)
+        //    //{
+        //    //    if (enemyInFornt[1] != null)
+        //    //    {
+        //    //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+        //    //        controller.targetVisual.gameObject.SetActive(false);
+        //    //    }
+        //    //}
 
-        }
+        //}
 
-        if (curHook != null)
-        {
-            if (currentState == hook || currentState == endHook)
-            {
-                if (curHook.position.x < transform.position.x)
-                {
-                    curHook = null;
-                    SwitchState(running);
-                }
-            }
-        }
+        //if (curHook != null)
+        //{
+        //    if (currentState == hook || currentState == endHook)
+        //    {
+        //        if (curHook.position.x < transform.position.x)
+        //        {
+        //            curHook = null;
+        //            SwitchState(running);
+        //        }
+        //    }
+        //}
 
         #endregion
 
@@ -538,19 +538,19 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, hookLength);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(transform.position, hookLength);
+    //}
 
-    public void FirstHookPerformed()
-    {
-        if (enemyInFornt.Count > 0 && canHook && !isDead)
-        {
-            canHook = false;
-            SpawnHook(enemyInFornt[0].transform);
-        }
-    }
+    //public void FirstHookPerformed()
+    //{
+    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
+    //    {
+    //        canHook = false;
+    //        SpawnHook(enemyInFornt[0].transform);
+    //    }
+    //}
 
     //void SecondHookPerformed()
     //{
@@ -569,17 +569,17 @@ public class PlayerManager : MonoBehaviour
 
     //}
 
-    void SpawnHook(Transform enemy)
-    {
-        GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
-        Hook hookScr = hookObj.GetComponent<Hook>();
-        hookScr.target = enemy;
+    //void SpawnHook(Transform enemy)
+    //{
+    //    GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
+    //    Hook hookScr = hookObj.GetComponent<Hook>();
+    //    hookScr.target = enemy;
 
-        anim.Play("HookUsing");
+    //    anim.Play("HookUsing");
 
-        curHook = hookObj.transform;
-        SwitchState(hook);
-    }
+    //    curHook = hookObj.transform;
+    //    SwitchState(hook);
+    //}
 
     //public void HoldHook()
     //{
