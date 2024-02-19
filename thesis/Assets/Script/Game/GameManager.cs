@@ -11,13 +11,15 @@ public class GameManager : MonoBehaviour
     public float maxNormalSpeed;
     public float minNormalSpeed;
 
-    public float momentumMul;
+    public float momentumMul;   
     public float momentumTime;
     [HideInInspector] public float currentMomentumTime;
     [HideInInspector] public bool isMomentum;
 
     public float currentSpeed;
     public Transform DeadPoint;
+
+    public int maxRevivePerGame;
 
     [Header("- Frame Stop")]
     public float frameStopDuration;
@@ -190,11 +192,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector3 pos = transform.position + new Vector3(30, 0, 0);
-        Gizmos.DrawSphere(pos, 0.1f);
+    //private void OnDrawGizmos()
+    //{
+    //    Vector3 pos = transform.position + new Vector3(30, 0, 0);
+    //    Gizmos.DrawSphere(pos, 0.1f);
 
-    }
+    //}
 
 }

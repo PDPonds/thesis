@@ -16,17 +16,12 @@ public class InputSystemMnanger : MonoBehaviour
             inputSystem.PlayerInput.Slide.performed += i => PlayerManager.Instance.SlidePerformed();
             inputSystem.PlayerInput.Slide.canceled += i => PlayerManager.Instance.SliderCancle();
             inputSystem.PlayerInput.Attack.performed += i => PlayerManager.Instance.AttackPerformed();
-            inputSystem.PlayerInput.FirstHook.performed += i => PlayerManager.Instance.FirstHookPerformed();
+            //inputSystem.PlayerInput.FirstHook.performed += i => PlayerManager.Instance.FirstHookPerformed();
             //inputSystem.PlayerInput.FirstHook.canceled += i => PlayerManager.Instance.CancleHoldHook();
 
         }
 
         inputSystem.Enable();
-    }
-
-    private void i(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        throw new System.NotImplementedException();
     }
 
     private void OnDisable()

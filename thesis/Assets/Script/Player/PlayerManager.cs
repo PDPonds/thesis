@@ -11,6 +11,12 @@ public class PlayerManager : MonoBehaviour
 
     public static PlayerManager Instance;
 
+    public static int upgradeMaxHpLevel = 0;
+    public static int upgradeStealHpLevel = 0;
+    public static int reviveItemCount = 0;
+    public static int coin = 0;
+    public int inGameCoin;
+
     public event Action onJump;
     public event Action onSlide;
     public event Action onAttack;
@@ -25,6 +31,7 @@ public class PlayerManager : MonoBehaviour
     public HookState hook = new HookState();
     public EndHookState endHook = new EndHookState();
     public HurtState hurt = new HurtState();
+    public ReviveState revive = new ReviveState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
     [HideInInspector] public PlayerAnimation playerAnimation;
@@ -35,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     [Header("===== Game Play =====")]
     [Header("- Hp")]
     public Transform mesh;
+    public float startMaxHP;
     public float maxHp;
     public float hpMul;
     [HideInInspector] public float currentHp;
@@ -47,6 +55,9 @@ public class PlayerManager : MonoBehaviour
     float curBlinkTime;
     float curNoDamageTime;
     bool isBlink;
+    [HideInInspector] public bool isDropDead;
+    [HideInInspector] public Transform lastCheckPoint;
+    [HideInInspector] public int curReviveCount;
     [Space(10f)]
 
     [Header("========== Controller ==========")]
@@ -77,28 +88,34 @@ public class PlayerManager : MonoBehaviour
     bool canAttack;
     [Space(5f)]
 
-    [Header("- Hook")]
-    public GameObject hookPrefab;
-    public Transform hookSpawnPos;
-    public float hookSpeed;
-    public float onHookTime;
-    public float moveToHookSpeed;
-    [HideInInspector] public bool canHook;
-    public float delayHookTime;
-    [HideInInspector] public float curDelayHookTime;
+    //[Header("- Hook")]
+    //public GameObject hookPrefab;
+    //public Transform hookSpawnPos;
+    //public float hookSpeed;
+    //public float onHookTime;
+    //public float moveToHookSpeed;
+    //[HideInInspector] public bool canHook;
+    //public float delayHookTime;
+    //[HideInInspector] public float curDelayHookTime;
 
-    [HideInInspector] public List<Collider2D> enemyInFornt = new List<Collider2D>();
+    //[HideInInspector] public List<Collider2D> enemyInFornt = new List<Collider2D>();
 
-    public float hookLength;
-    public LayerMask hookMask;
+    //public float hookLength;
+    //public LayerMask hookMask;
 
-    [HideInInspector] public Transform curHook;
-    public float waitHookTime;
-    public Transform checkHookablePoint;
+    //[HideInInspector] public Transform curHook;
+    //public float waitHookTime;
+    //public Transform checkHookablePoint;
 
-    public Transform hookableImage;
-    public Transform hookBorder;
-    public Image hookFill;
+    //public Transform hookableImage;
+    //public Transform hookBorder;
+    //public Image hookFill;
+
+    [Header("- Revive")]
+    public float reviveTime;
+    [Header("- Upgrade")]
+    public List<float> hpPerLevels = new List<float>();
+    public List<float> stealHPLevels = new List<float>();
 
     private void Awake()
     {
@@ -113,11 +130,13 @@ public class PlayerManager : MonoBehaviour
         currentAttackDelay = attackDelay;
         attackCol.enabled = false;
 
+        maxHp = startMaxHP + hpPerLevels[upgradeMaxHpLevel];
         currentHp = maxHp;
 
         SwitchState(running);
         curNoDamageTime = noDamageTime;
-        canHook = true;
+        //canHook = true;
+
     }
 
     private void Update()
@@ -149,112 +168,112 @@ public class PlayerManager : MonoBehaviour
 
         #region Hook
 
-        if (!canHook)
-        {
-            hookableImage.gameObject.SetActive(false);
-            hookBorder.gameObject.SetActive(true);
-            curDelayHookTime += Time.deltaTime;
-            if (curDelayHookTime >= delayHookTime)
-            {
-                canHook = true;
-            }
+        //if (!canHook)
+        //{
+        //    hookableImage.gameObject.SetActive(false);
+        //    hookBorder.gameObject.SetActive(true);
+        //    curDelayHookTime += Time.deltaTime;
+        //    if (curDelayHookTime >= delayHookTime)
+        //    {
+        //        canHook = true;
+        //    }
 
-            float percent = curDelayHookTime / delayHookTime;
-            hookFill.fillAmount = percent;
+        //    float percent = curDelayHookTime / delayHookTime;
+        //    hookFill.fillAmount = percent;
 
-        }
-        else
-        {
-            hookableImage.gameObject.SetActive(true);
-            hookBorder.gameObject.SetActive(false);
-            curDelayHookTime = 0;
-        }
+        //}
+        //else
+        //{
+        //    hookableImage.gameObject.SetActive(true);
+        //    hookBorder.gameObject.SetActive(false);
+        //    curDelayHookTime = 0;
+        //}
 
-        Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
-        if (enemys.Length > 0)
-        {
-            enemyInFornt.Clear();
-            foreach (Collider2D col in enemys)
-            {
-                EnemyController controller = col.GetComponent<EnemyController>();
-                if (controller.hookable)
-                {
-                    enemyInFornt.Add(col);
-                }
-            }
-        }
-        else
-        {
-            if (enemyInFornt.Count > 0) enemyInFornt.Clear();
-        }
+        //Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
+        //if (enemys.Length > 0)
+        //{
+        //    enemyInFornt.Clear();
+        //    foreach (Collider2D col in enemys)
+        //    {
+        //        EnemyController controller = col.GetComponent<EnemyController>();
+        //        if (controller.hookable)
+        //        {
+        //            enemyInFornt.Add(col);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    if (enemyInFornt.Count > 0) enemyInFornt.Clear();
+        //}
 
-        if (enemyInFornt.Count > 0)
-        {
-            enemyInFornt = enemyInFornt.OrderBy
-                (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
-        }
+        //if (enemyInFornt.Count > 0)
+        //{
+        //    enemyInFornt = enemyInFornt.OrderBy
+        //        (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
+        //}
 
-        if (canHook)
-        {
-            if (enemyInFornt.Count > 0)
-            {
-                if (enemyInFornt[0] != null)
-                {
-                    EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
-                    controller.targetVisual.gameObject.SetActive(true);
-                }
+        //if (canHook)
+        //{
+        //    if (enemyInFornt.Count > 0)
+        //    {
+        //        if (enemyInFornt[0] != null)
+        //        {
+        //            EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
+        //            controller.targetVisual.gameObject.SetActive(true);
+        //        }
 
-            }
+        //    }
 
-            //if (enemyInFornt.Count > 1)
-            //{
-            //    if (enemyInFornt[1] != null)
-            //    {
-            //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-            //        controller.targetVisual.gameObject.SetActive(true);
-            //    }
-            //}
-        }
-        else
-        {
-            if (enemyInFornt.Count > 0)
-            {
-                if (enemyInFornt[0] != null)
-                {
-                    EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
-                    controller.targetVisual.gameObject.SetActive(false);
-                }
+        //    //if (enemyInFornt.Count > 1)
+        //    //{
+        //    //    if (enemyInFornt[1] != null)
+        //    //    {
+        //    //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+        //    //        controller.targetVisual.gameObject.SetActive(true);
+        //    //    }
+        //    //}
+        //}
+        //else
+        //{
+        //    if (enemyInFornt.Count > 0)
+        //    {
+        //        if (enemyInFornt[0] != null)
+        //        {
+        //            EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
+        //            controller.targetVisual.gameObject.SetActive(false);
+        //        }
 
-            }
+        //    }
 
-            //if (enemyInFornt.Count > 1)
-            //{
-            //    if (enemyInFornt[1] != null)
-            //    {
-            //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-            //        controller.targetVisual.gameObject.SetActive(false);
-            //    }
-            //}
+        //    //if (enemyInFornt.Count > 1)
+        //    //{
+        //    //    if (enemyInFornt[1] != null)
+        //    //    {
+        //    //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
+        //    //        controller.targetVisual.gameObject.SetActive(false);
+        //    //    }
+        //    //}
 
-        }
+        //}
 
-        if (curHook != null)
-        {
-            if (currentState == hook || currentState == endHook)
-            {
-                if (curHook.position.x < transform.position.x)
-                {
-                    curHook = null;
-                    SwitchState(running);
-                }
-            }
-        }
+        //if (curHook != null)
+        //{
+        //    if (currentState == hook || currentState == endHook)
+        //    {
+        //        if (curHook.position.x < transform.position.x)
+        //        {
+        //            curHook = null;
+        //            SwitchState(running);
+        //        }
+        //    }
+        //}
 
         #endregion
 
         #region Move
         if (currentState != hurt && !isDead && currentState != hook &&
-            currentState != endHook)
+            currentState != endHook && currentState != revive)
         {
             float speed = GameManager.Instance.currentSpeed;
             //transform.Translate(Vector2.right * Time.deltaTime * speed);
@@ -293,13 +312,11 @@ public class PlayerManager : MonoBehaviour
         {
             rb.isKinematic = true;
             rb.simulated = false;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene("levelDesign3.2");
-            }
         }
         else
         {
+            rb.isKinematic = false;
+            rb.simulated = true;
             currentHp -= Time.deltaTime * hpMul;
             if (currentHp <= 0)
             {
@@ -341,11 +358,17 @@ public class PlayerManager : MonoBehaviour
             meshImage.color = normalColor;
             isBlink = false;
         }
+
     }
 
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
+    }
+
+    public void AddCoin(int amount)
+    {
+        inGameCoin += amount;
     }
 
     public void JumpPerformed()
@@ -493,10 +516,14 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        isDead = true;
-        attackCol.enabled = false;
-        anim.SetBool("isDead", true);
-        onDead?.Invoke();
+        if (!isDead)
+        {
+            isDead = true;
+            attackCol.enabled = false;
+            anim.SetBool("isDead", true);
+            onDead?.Invoke();
+
+        }
     }
 
     public bool Heal(float amount)
@@ -511,19 +538,19 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, hookLength);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(transform.position, hookLength);
+    //}
 
-    public void FirstHookPerformed()
-    {
-        if (enemyInFornt.Count > 0 && canHook && !isDead)
-        {
-            canHook = false;
-            SpawnHook(enemyInFornt[0].transform);
-        }
-    }
+    //public void FirstHookPerformed()
+    //{
+    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
+    //    {
+    //        canHook = false;
+    //        SpawnHook(enemyInFornt[0].transform);
+    //    }
+    //}
 
     //void SecondHookPerformed()
     //{
@@ -542,17 +569,17 @@ public class PlayerManager : MonoBehaviour
 
     //}
 
-    void SpawnHook(Transform enemy)
-    {
-        GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
-        Hook hookScr = hookObj.GetComponent<Hook>();
-        hookScr.target = enemy;
+    //void SpawnHook(Transform enemy)
+    //{
+    //    GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
+    //    Hook hookScr = hookObj.GetComponent<Hook>();
+    //    hookScr.target = enemy;
 
-        anim.Play("HookUsing");
+    //    anim.Play("HookUsing");
 
-        curHook = hookObj.transform;
-        SwitchState(hook);
-    }
+    //    curHook = hookObj.transform;
+    //    SwitchState(hook);
+    //}
 
     //public void HoldHook()
     //{

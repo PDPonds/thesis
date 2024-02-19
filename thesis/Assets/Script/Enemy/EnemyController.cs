@@ -28,11 +28,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("===== IS Range Enemy =====")]
     public Transform bulletSpawnPoint;
 
-    [Header("===== Hook =====")]
-    public bool hookable;
-    public Transform targetVisual;
-    float dis;
-    public LayerMask hookMask;
+    //[Header("===== Hook =====")]
+    //public bool hookable;
+    //public Transform targetVisual;
+    //float dis;
+    //public LayerMask hookMask;
 
     private void OnEnable()
     {
@@ -94,25 +94,25 @@ public class EnemyController : MonoBehaviour, IDamageable
             }
         }
 
-        dis = transform.position.x - PlayerManager.Instance.transform.position.x;
-        Vector3 dir = PlayerManager.Instance.checkHookablePoint.position - transform.position;
+        //dis = transform.position.x - PlayerManager.Instance.transform.position.x;
+        //Vector3 dir = PlayerManager.Instance.checkHookablePoint.position - transform.position;
 
-        if (dis > 0)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,
-                PlayerManager.Instance.hookLength, hookMask);
+        //if (dis > 0)
+        //{
+        //    RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,
+        //        PlayerManager.Instance.hookLength, hookMask);
 
-            if (hit.collider != null)
-            {
-                if (hit.collider.CompareTag("Player")) hookable = true;
-                else hookable = false;
-            }
-            else hookable = false;
+        //    if (hit.collider != null)
+        //    {
+        //        if (hit.collider.CompareTag("Player")) hookable = true;
+        //        else hookable = false;
+        //    }
+        //    else hookable = false;
 
-        }
-        else hookable = false;
+        //}
+        //else hookable = false;
 
-        if (!hookable) targetVisual.gameObject.SetActive(false);
+        //if (!hookable) targetVisual.gameObject.SetActive(false);
 
     }
 
@@ -180,6 +180,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         anim.Play("Dead");
         GameManager.Instance.hitScore += score;
+        PlayerManager.Instance.AddCoin(enemySO.dropCoin);
         Destroy(gameObject);
     }
 

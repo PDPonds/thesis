@@ -11,14 +11,17 @@ public class PlayerAttackTrigger : MonoBehaviour
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
 
-                if (PlayerManager.Instance.curHook != null)
-                {
-                    PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
+                //if (PlayerManager.Instance.curHook != null)
+                //{
+                //    PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
 
-                    Hook hook = PlayerManager.Instance.curHook.GetComponent<Hook>();
-                    hook.DestroyHook();
-                    PlayerManager.Instance.curHook = null;
-                }
+                //    Hook hook = PlayerManager.Instance.curHook.GetComponent<Hook>();
+                //    hook.DestroyHook();
+                //    PlayerManager.Instance.curHook = null;
+                //}
+
+                float healAmount = PlayerManager.Instance.maxHp * PlayerManager.Instance.stealHPLevels[PlayerManager.upgradeStealHpLevel] / 100f;
+                PlayerManager.Instance.Heal(healAmount);
 
                 //GameObject hitPar = GameManager.Instance.hitParticle;
                 //GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
@@ -31,6 +34,8 @@ public class PlayerAttackTrigger : MonoBehaviour
                 }
 
                 PlayerManager.Instance.attackCol.enabled = false;
+
+
             }
         }
     }
