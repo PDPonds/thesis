@@ -12,7 +12,7 @@ public class Coin : MonoBehaviour
             if (other.TryGetComponent<PlayerManager>(out PlayerManager manager))
             {
                 PlayerManager.Instance.AddCoin(cointAmount);
-                GameObject hitPar = GameManager.Instance.healParticle;
+                GameObject hitPar = GameManager.Instance.getCoinParticle;
                 GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
                 Destroy(gameObject);
 

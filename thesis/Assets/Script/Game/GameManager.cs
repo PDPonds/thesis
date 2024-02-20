@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public float shakeMagnitude;
 
     [Header("- Game Particle")]
+    public GameObject getCoinParticle;
     public GameObject hitParticle;
     public GameObject healParticle;
     public GameObject jumpParticle;
