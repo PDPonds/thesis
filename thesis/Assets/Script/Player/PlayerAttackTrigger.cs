@@ -38,6 +38,28 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             }
         }
+
+        if (collision.CompareTag("Capsule"))
+        {
+            Capsule capsule = collision.GetComponent<Capsule>();
+            GameManager.Instance.SpawnCoin(collision.transform.position, capsule.dropCoinAmount);
+
+            float time = GameManager.Instance.shakeDuration;
+            float mag = GameManager.Instance.shakeMagnitude;
+            StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+
+            GameObject hitPar = GameManager.Instance.hitParticle;
+            GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+            if (!PlayerManager.Instance.onGrounded)
+            {
+                PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
+            }
+
+            Destroy(collision.transform.parent.gameObject);
+            PlayerManager.Instance.attackCol.enabled = false;
+        }
+
     }
 
 }
