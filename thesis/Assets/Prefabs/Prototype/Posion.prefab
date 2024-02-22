@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2638246958011162887}
   - component: {fileID: 3257087501657905343}
   - component: {fileID: 3570528414769648899}
-  - component: {fileID: 5202678941865948087}
   - component: {fileID: 1982238189902413279}
+  - component: {fileID: 5947078483270625325}
   m_Layer: 0
   m_Name: potion
   m_TagString: Untagged
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 98451d2a04ae2b54a9ec0ff4bc429fa3, type: 3}
+  m_Sprite: {fileID: -958091665, guid: 1bd45db96cfa9a647aaa17225c88414d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,8 +108,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!58 &5202678941865948087
-CircleCollider2D:
+--- !u!114 &1982238189902413279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781583581763135995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a85d470d50d2c94c99aceb90ead7227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 30
+--- !u!61 &5947078483270625325
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -140,22 +153,19 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.05, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.52, y: 0.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.3
---- !u!114 &1982238189902413279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2781583581763135995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a85d470d50d2c94c99aceb90ead7227, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healAmount: 30
+  m_Size: {x: 0.58, y: 0.72}
+  m_EdgeRadius: 0
 --- !u!1 &4347496908772801822
 GameObject:
   m_ObjectHideFlags: 0
