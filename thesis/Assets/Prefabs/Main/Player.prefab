@@ -96,7 +96,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.3, y: 0}
+  m_Offset: {x: 0.6, y: 0.3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -107,7 +107,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6, y: 2}
+  m_Size: {x: 1.7, y: 2.6}
   m_EdgeRadius: 0
 --- !u!114 &3482080863739358953
 MonoBehaviour:
@@ -236,14 +236,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17502a1e590b9a488c2b44e165926c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inGameCoin: 0
   inputSystemMnanger: {fileID: 0}
   playerAnimation: {fileID: 0}
   anim: {fileID: 0}
   rb: {fileID: 0}
   col: {fileID: 0}
   mesh: {fileID: 724735856563078052}
-  maxHp: 100
-  hpMul: 1
+  startMaxHP: 100
+  maxHp: 0
+  hpMul: 1.5
   currentHp: 0
   isDead: 0
   noDamage: 0
@@ -251,6 +253,9 @@ MonoBehaviour:
   blinkTime: 0.1
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   blinkColor: {r: 0, g: 0, b: 0, a: 0.8}
+  isDropDead: 0
+  lastCheckPoint: {fileID: 0}
+  curReviveCount: 0
   jumpForce: 12
   onGrounded: 0
   jumpCount: 0
@@ -262,25 +267,31 @@ MonoBehaviour:
   slideColPos: {x: 0, y: -0.55}
   attackCol: {fileID: 3791484510040786354}
   attackDelay: 0.2
-  hookPrefab: {fileID: 1564897295488959821, guid: 88d1686a3e88c2e44a130b13d3742731, type: 3}
-  hookSpawnPos: {fileID: 4940869987722049678}
-  hookSpeed: 1
-  onHookTime: 0.35
-  moveToHookSpeed: 100
-  canHook: 0
-  delayHookTime: 4
-  curDelayHookTime: 2
-  enemyInFornt: []
-  hookLength: 10
-  hookMask:
-    serializedVersion: 2
-    m_Bits: 128
-  curHook: {fileID: 0}
-  waitHookTime: 0.2
-  checkHookablePoint: {fileID: 7648137647232354859}
-  hookableImage: {fileID: 2802637026382734423}
-  hookBorder: {fileID: 7960530560155327049}
-  hookFill: {fileID: 7290807553545075299}
+  reviveTime: 1
+  hpPerLevels:
+  - 0
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  - 60
+  - 70
+  - 80
+  - 90
+  - 100
+  stealHPLevels:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
 --- !u!114 &787648884026885443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,7 +331,7 @@ Transform:
   m_GameObject: {fileID: 2400908860023273815}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.20000005, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.20000005, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -388,7 +399,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -761736591, guid: de81b535242e7d84f979366860cc34a1, type: 3}
+  m_Sprite: {fileID: -1442736929, guid: 3eaab9c26300575438c12b59dd3205c0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -599,7 +610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1912316409956567886
 RectTransform:
   m_ObjectHideFlags: 0
