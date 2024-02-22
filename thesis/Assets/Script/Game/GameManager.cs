@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public float maxNormalSpeed;
     public float minNormalSpeed;
 
-    public float momentumMul;   
+    public float momentumMul;
     public float momentumTime;
     [HideInInspector] public float currentMomentumTime;
     [HideInInspector] public bool isMomentum;
@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     public float xOffset;
 
     [SerializeField] Vector3 lastEndPos;
+    [Header("===== Coin =====")]
+    public GameObject coin1Prefab;
 
     private void Awake()
     {
@@ -199,5 +201,22 @@ public class GameManager : MonoBehaviour
     //    Gizmos.DrawSphere(pos, 0.1f);
 
     //}
+
+    public void SpawnCoin(Vector2 capPos, int amount)
+    {
+        if (amount > 0)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                float x = Random.Range(-2, 2);
+                float y = Random.Range(-2, 2);
+                Vector2 offset = new Vector2(x, y);
+                Vector2 pos = capPos + offset;
+                GameObject coinObj = Instantiate(coin1Prefab, pos, Quaternion.identity);
+                Coin coin = coinObj.transform.GetChild(0).GetComponent<Coin>();
+                coin.isDropFormCapsule = true;
+            }
+        }
+    }
 
 }

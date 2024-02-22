@@ -472,15 +472,15 @@ public class PlayerManager : MonoBehaviour
     {
         if (canAttack && !isDead)
         {
-            if (currentState == slide)
-            {
-                anim.Play("SlideAttack");
-            }
-            else
-            {
+            //if (currentState == slide)
+            //{
+            //    anim.Play("SlideAttack");
+            //}
+            //else
+            //{
                 if (attackCount % 2 != 0) anim.Play("Attack1");
                 else anim.Play("Attack2");
-            }
+            //}
             //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
 
