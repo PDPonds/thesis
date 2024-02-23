@@ -28,6 +28,10 @@ public class UIManager : MonoBehaviour
     [Header("===== Momentum =====")]
     public GameObject momentumEffect;
 
+    [Header("===== Gadget =====")]
+    public GameObject gadgetSlotParent;
+    public Image gadgetIcon;
+    public TextMeshProUGUI gadgetAmount;
 
     private void OnDisable()
     {
@@ -83,6 +87,17 @@ public class UIManager : MonoBehaviour
                 reviveButton.gameObject.SetActive(false);
                 returnTolobbyButton.gameObject.SetActive(true);
             }
+        }
+
+        if (PlayerManager.Instance.gadgetSlot.gadget != null)
+        {
+            gadgetSlotParent.SetActive(true);
+            gadgetIcon.sprite = PlayerManager.Instance.gadgetSlot.gadget.gadgetSprint;
+            gadgetAmount.text = PlayerManager.Instance.gadgetSlot.amount.ToString();
+        }
+        else
+        {
+            gadgetSlotParent.SetActive(false);
         }
 
     }

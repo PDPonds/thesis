@@ -16,8 +16,10 @@ public class InputSystemMnanger : MonoBehaviour
             inputSystem.PlayerInput.Slide.performed += i => PlayerManager.Instance.SlidePerformed();
             inputSystem.PlayerInput.Slide.canceled += i => PlayerManager.Instance.SliderCancle();
             inputSystem.PlayerInput.Attack.performed += i => PlayerManager.Instance.AttackPerformed();
+            inputSystem.PlayerInput.SpecialGadget.performed += i => PlayerManager.Instance.UseSpecialGadget();
             //inputSystem.PlayerInput.FirstHook.performed += i => PlayerManager.Instance.FirstHookPerformed();
             //inputSystem.PlayerInput.FirstHook.canceled += i => PlayerManager.Instance.CancleHoldHook();
+
 
         }
 

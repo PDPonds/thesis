@@ -71,6 +71,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpecialGadget"",
+                    ""type"": ""Button"",
+                    ""id"": ""a74b8f3e-5924-4e41-a630-7d9c85ae8657"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -139,6 +148,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""SecondHook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1f04b01-679a-40ea-8d22-767ab6ef5c4f"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpecialGadget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -152,6 +172,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_PlayerInput_Attack = m_PlayerInput.FindAction("Attack", throwIfNotFound: true);
         m_PlayerInput_FirstHook = m_PlayerInput.FindAction("FirstHook", throwIfNotFound: true);
         m_PlayerInput_SecondHook = m_PlayerInput.FindAction("SecondHook", throwIfNotFound: true);
+        m_PlayerInput_SpecialGadget = m_PlayerInput.FindAction("SpecialGadget", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -218,6 +239,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Attack;
     private readonly InputAction m_PlayerInput_FirstHook;
     private readonly InputAction m_PlayerInput_SecondHook;
+    private readonly InputAction m_PlayerInput_SpecialGadget;
     public struct PlayerInputActions
     {
         private @InputSystem m_Wrapper;
@@ -227,6 +249,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_PlayerInput_Attack;
         public InputAction @FirstHook => m_Wrapper.m_PlayerInput_FirstHook;
         public InputAction @SecondHook => m_Wrapper.m_PlayerInput_SecondHook;
+        public InputAction @SpecialGadget => m_Wrapper.m_PlayerInput_SpecialGadget;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -251,6 +274,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @SecondHook.started += instance.OnSecondHook;
             @SecondHook.performed += instance.OnSecondHook;
             @SecondHook.canceled += instance.OnSecondHook;
+            @SpecialGadget.started += instance.OnSpecialGadget;
+            @SpecialGadget.performed += instance.OnSpecialGadget;
+            @SpecialGadget.canceled += instance.OnSpecialGadget;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -270,6 +296,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @SecondHook.started -= instance.OnSecondHook;
             @SecondHook.performed -= instance.OnSecondHook;
             @SecondHook.canceled -= instance.OnSecondHook;
+            @SpecialGadget.started -= instance.OnSpecialGadget;
+            @SpecialGadget.performed -= instance.OnSpecialGadget;
+            @SpecialGadget.canceled -= instance.OnSpecialGadget;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -294,5 +323,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnFirstHook(InputAction.CallbackContext context);
         void OnSecondHook(InputAction.CallbackContext context);
+        void OnSpecialGadget(InputAction.CallbackContext context);
     }
 }

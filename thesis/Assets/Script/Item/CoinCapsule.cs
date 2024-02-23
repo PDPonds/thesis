@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Capsule : MonoBehaviour
+public class CoinCapsule : MonoBehaviour
 {
     public int dropCoinAmount;
     [SerializeField] GameObject attackInfo;

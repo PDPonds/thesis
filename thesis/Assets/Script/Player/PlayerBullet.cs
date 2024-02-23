@@ -15,6 +15,7 @@ public class PlayerBullet : MonoBehaviour
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
                 StartCoroutine(EnemyTakeDamage(collision, idamageable));
+                
             }
         }
 
@@ -22,17 +23,17 @@ public class PlayerBullet : MonoBehaviour
         {
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, transform.position);
-
             Destroy(gameObject);
         }
+        
     }
+
     IEnumerator EnemyTakeDamage(Collider2D collision, IDamageable damageable)
     {
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
-        StartCoroutine(damageable.TakeDamage());
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return StartCoroutine(damageable.TakeDamage());
         Destroy(gameObject);
     }
 }

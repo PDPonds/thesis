@@ -88,6 +88,7 @@ public class PlayerManager : MonoBehaviour
     bool canAttack;
     [Space(5f)]
 
+    #region Hook
     //[Header("- Hook")]
     //public GameObject hookPrefab;
     //public Transform hookSpawnPos;
@@ -110,12 +111,20 @@ public class PlayerManager : MonoBehaviour
     //public Transform hookableImage;
     //public Transform hookBorder;
     //public Image hookFill;
+    #endregion
 
+
+    [Header("========== Shop ==========")]
     [Header("- Revive")]
     public float reviveTime;
     [Header("- Upgrade")]
     public List<float> hpPerLevels = new List<float>();
     public List<float> stealHPLevels = new List<float>();
+
+    [Header("========== Special Gadget ==========")]
+    public GadgetSlot gadgetSlot;
+    [Header("- Projectile")]
+    public Transform shurikenSpawnPoint;
 
     private void Awake()
     {
@@ -478,8 +487,8 @@ public class PlayerManager : MonoBehaviour
             //}
             //else
             //{
-                if (attackCount % 2 != 0) anim.Play("Attack1");
-                else anim.Play("Attack2");
+            if (attackCount % 2 != 0) anim.Play("Attack1");
+            else anim.Play("Attack2");
             //}
             //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
@@ -538,6 +547,7 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
+    #region Hook
     //private void OnDrawGizmos()
     //{
     //    Gizmos.DrawWireSphere(transform.position, hookLength);
@@ -606,5 +616,71 @@ public class PlayerManager : MonoBehaviour
     //        }
     //    }
     //}
+    #endregion
 
+    public void AddGadget(SpecialGadget gadget, int amount)
+    {
+        if (gadgetSlot.gadget == null)
+        {
+            gadgetSlot.gadget = gadget;
+            gadgetSlot.amount = amount;
+        }
+        else
+        {
+            if (gadgetSlot.gadget == gadget)
+            {
+                gadgetSlot.amount += amount;
+                if (gadgetSlot.amount > gadgetSlot.gadget.maxStack)
+                {
+                    gadgetSlot.amount = gadgetSlot.gadget.maxStack;
+                }
+            }
+            else
+            {
+                ClearGadget();
+                gadgetSlot.gadget = gadget;
+                gadgetSlot.amount = amount;
+            }
+        }
+    }
+
+    public void RemoveGadget(int amount)
+    {
+        gadgetSlot.amount -= amount;
+        if (gadgetSlot.amount <= 0)
+        {
+            ClearGadget();
+        }
+    }
+
+    public void ClearGadget()
+    {
+        gadgetSlot.gadget = null;
+        gadgetSlot.amount = 0;
+    }
+
+    public void UseSpecialGadget()
+    {
+        if (gadgetSlot.gadget != null)
+        {
+            if (gadgetSlot.gadget is ProjectileGadget projectileGadget)
+            {
+                GameObject projectileObj = Instantiate(projectileGadget.projectilePrefab,
+                    shurikenSpawnPoint.position, Quaternion.identity);
+
+                Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
+                rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
+
+                RemoveGadget(1);
+            }
+        }
+    }
+
+}
+
+[Serializable]
+public class GadgetSlot
+{
+    public SpecialGadget gadget;
+    public int amount;
 }

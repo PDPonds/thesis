@@ -41,8 +41,18 @@ public class PlayerAttackTrigger : MonoBehaviour
 
         if (collision.CompareTag("Capsule"))
         {
-            Capsule capsule = collision.GetComponent<Capsule>();
-            GameManager.Instance.SpawnCoin(collision.transform.position, capsule.dropCoinAmount);
+            if (collision.TryGetComponent<CoinCapsule>(out CoinCapsule cc))
+            {
+                CoinCapsule capsule = collision.GetComponent<CoinCapsule>();
+                GameManager.Instance.SpawnCoin(collision.transform.position, capsule.dropCoinAmount);
+            }
+
+            if (collision.TryGetComponent<ShurikenCapsule>(out ShurikenCapsule shurikenCapsule))
+            {
+                SpecialGadget gadget = shurikenCapsule.gadget;
+                int amount = shurikenCapsule.amount;
+                PlayerManager.Instance.AddGadget(gadget, amount);
+            }
 
             float time = GameManager.Instance.shakeDuration;
             float mag = GameManager.Instance.shakeMagnitude;
