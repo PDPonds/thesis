@@ -19,7 +19,7 @@ public class InputSystemMnanger : MonoBehaviour
             inputSystem.PlayerInput.SpecialGadget.performed += i => PlayerManager.Instance.UseSpecialGadget();
             //inputSystem.PlayerInput.FirstHook.performed += i => PlayerManager.Instance.FirstHookPerformed();
             //inputSystem.PlayerInput.FirstHook.canceled += i => PlayerManager.Instance.CancleHoldHook();
-
+            inputSystem.PlayerInput.Pause.performed += i => PauseManager.Instance.TogglePause();
 
         }
 
