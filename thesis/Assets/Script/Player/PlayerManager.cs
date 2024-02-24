@@ -66,6 +66,7 @@ public class PlayerManager : MonoBehaviour
     public bool onGrounded;
     [HideInInspector] public int jumpCount;
     public bool isUp;
+    //bool jumpAfterAttack;
 
     [Space(5f)]
 
@@ -368,6 +369,21 @@ public class PlayerManager : MonoBehaviour
             isBlink = false;
         }
 
+        //if (jumpAfterAttack)
+        //{
+        //    if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        //    {
+        //        Vector3 spawnJumpParPos = transform.position + new Vector3(0, 0.5f, 0);
+        //        GameManager.Instance.SpawnParticle(GameManager.Instance.jumpParticle, spawnJumpParPos);
+
+        //        rb.velocity = Vector2.up * jumpForce * 0.75f;
+
+        //        onJump?.Invoke();
+        //        jumpAfterAttack = false;
+
+        //    }
+        //}
+
     }
 
     private void FixedUpdate()
@@ -431,6 +447,8 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
+
+        //jumpAfterAttack = true;
 
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
