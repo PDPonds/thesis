@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
+    public static UIManager Instance;
     [Header("===== HP =====")]
     [SerializeField] Image hpFill;
 
@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     public Transform deadScene;
     public TextMeshProUGUI scoreOnDeadScene;
     public TextMeshProUGUI coinText;
-    public Button reviveButton;
+    public GameObject reviveButton;
     public Image reviveFill;
     public float reviveTime;
     float curReviveTime;
@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         deadScene.gameObject.SetActive(false);
 
     }
@@ -50,7 +51,6 @@ public class UIManager : MonoBehaviour
         PlayerManager.Instance.onDead += EnableDeadScene;
 
         returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
-        reviveButton.onClick.AddListener(() => ReviveBut());
     }
 
     private void Update()
@@ -102,13 +102,16 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void ReviveBut()
+    public void ReviveBut()
     {
-        PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
-        curReviveTime = 0;
-        deadScene.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(true);
-        coinInGameText.gameObject.SetActive(true);
+        if (reviveButton.gameObject.activeSelf)
+        {
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
+            curReviveTime = 0;
+            deadScene.gameObject.SetActive(false);
+            scoreText.gameObject.SetActive(true);
+            coinInGameText.gameObject.SetActive(true);
+        }
     }
 
     void EnableDeadScene()
