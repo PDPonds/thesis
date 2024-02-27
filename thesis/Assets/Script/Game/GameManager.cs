@@ -188,8 +188,8 @@ public class GameManager : MonoBehaviour
         Building currentBuilding = buildObj.GetComponent<Building>();
 
         Vector3 offset = buildObj.transform.position - currentBuilding.startPos.position;
-        Vector3 speedOffset = new Vector3(currentSpeed * xOffset, 0, 0);
-        buildObj.transform.position = lastEndPos + offset + speedOffset;
+        //Vector3 speedOffset = new Vector3(currentSpeed * xOffset, 0, 0);
+        buildObj.transform.position = lastEndPos + offset /*+ speedOffset*/;
 
         lastEndPos = currentBuilding.endPos.position;
 

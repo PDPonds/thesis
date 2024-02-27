@@ -354,7 +354,7 @@ public class PlayerManager : MonoBehaviour
                 curBlinkTime = 0;
             }
 
-            if(currentState != revive)
+            if (currentState != revive)
             {
                 curNoDamageTime -= Time.deltaTime;
                 if (curNoDamageTime < 0)
@@ -363,7 +363,7 @@ public class PlayerManager : MonoBehaviour
                     noDamage = false;
                 }
             }
-            
+
 
         }
         else
@@ -388,7 +388,7 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpPerformed()
     {
-        if(!isDead)
+        if (!isDead)
         {
             if (onGrounded)
             {
@@ -406,7 +406,7 @@ public class PlayerManager : MonoBehaviour
         {
             UIManager.Instance.ReviveBut();
         }
-        
+
 
     }
 
@@ -540,13 +540,12 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        if (!isDead)
+        if (!isDead && !noDamage)
         {
             isDead = true;
             attackCol.enabled = false;
             anim.SetBool("isDead", true);
             onDead?.Invoke();
-
         }
     }
 
