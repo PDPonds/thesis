@@ -26,6 +26,8 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float delayProjectile;
     float curProjectileDelay;
     [SerializeField] GameObject[] projectilePrefabs;
+    [SerializeField] float projectileSpeed;
+    [SerializeField] float projectileDamage;
 
     [Header("===== Weakness Behavior =====")]
     [SerializeField] float weaknessSpeed;
@@ -67,6 +69,12 @@ public class BossController : MonoBehaviour, IDamageable
                 break;
         }
 
+        curProjectileDelay -= Time.deltaTime;
+        if (curProjectileDelay < 0)
+        {
+            SpawnProjectile();
+            curProjectileDelay = delayProjectile;
+        }
     }
 
     public void SwitchBehavior(BossBehavior behavior)
@@ -111,6 +119,16 @@ public class BossController : MonoBehaviour, IDamageable
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         Destroy(gameObject);
+    }
+
+    public void SpawnProjectile()
+    {
+        int index = Random.Range(0, projectilePrefabs.Length);
+        Vector3 pos = spawnProjectilePos.position;
+        GameObject projectileObj = Instantiate(projectilePrefabs[index], pos, Quaternion.identity);
+        BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
+        bossProjectile.speed = projectileSpeed;
+        bossProjectile.damage = projectileDamage;
     }
 
 }

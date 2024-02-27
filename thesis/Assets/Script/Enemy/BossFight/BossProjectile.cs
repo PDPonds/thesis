@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class BossProjectile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float speed;
+    public float damage;
+
+    private void Start()
     {
-        
+        EnemyBullet[] allBullets = transform.GetComponentsInChildren<EnemyBullet>();
+        foreach (EnemyBullet bullet in allBullets)
+        {
+            bullet.damage = damage;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        transform.Translate(Vector2.left * Time.deltaTime * speed);
     }
+
+
 }

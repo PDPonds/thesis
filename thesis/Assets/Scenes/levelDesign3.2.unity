@@ -5425,37 +5425,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238962672}
   m_CullTransparentMesh: 1
---- !u!1 &239427317
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 239427318}
-  m_Layer: 0
-  m_Name: SpawnProjectilePos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &239427318
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 239427317}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1689909897}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &315159307
 GameObject:
   m_ObjectHideFlags: 0
@@ -7174,12 +7143,49 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 2034635592952834204, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034635592952834204, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034635592952834204, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034635592952834204, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: delayProjectile
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: spawnProjectilePos
       value: 
-      objectReference: {fileID: 239427318}
+      objectReference: {fileID: 1651631808}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: ef8f1fed1d3aba44ca1d44f7d935ee79, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: b3c7dc8c3a044a64c898eaa338f7061b, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: da5739fca9809a24cb5a6491a064d341, type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6459053133162535191, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
@@ -14503,6 +14509,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e452efe0fbd504ab81f1728ff044db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1651631807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1651631808}
+  m_Layer: 0
+  m_Name: BossSpawnProjectilePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1651631808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651631807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1689909897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1672807555
 GameObject:
   m_ObjectHideFlags: 0
@@ -14612,7 +14649,7 @@ Transform:
   - {fileID: 519420032}
   - {fileID: 1826883809}
   - {fileID: 1257209058}
-  - {fileID: 239427318}
+  - {fileID: 1651631808}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1689909898
@@ -15459,63 +15496,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fccde36c0a27164284adcb2b0d4fea2, type: 3}
---- !u!1001 &4327290945744001763
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3105614159352012509, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6209023416293685447, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-      propertyPath: m_Name
-      value: BossProjectile
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
 --- !u!1001 &9207906378115417366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15615,4 +15595,3 @@ SceneRoots:
   - {fileID: 85905810571723364}
   - {fileID: 1702519104}
   - {fileID: 859303401}
-  - {fileID: 4327290945744001763}
