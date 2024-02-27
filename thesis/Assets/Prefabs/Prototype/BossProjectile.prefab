@@ -30,10 +30,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2693759398164288103}
   - {fileID: 8312126282949253204}
   - {fileID: 4614714062826952932}
   - {fileID: 4820011876205872806}
+  - {fileID: 8897487833920200173}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2935643106150099017
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4183c0f810919ac48a47eed37f3ad37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1044125282640665553
+--- !u!1001 &5793150313910408283
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
     - target: {fileID: 2443047015202457107, guid: 78f65488e5169154a986a7fbbf0f5efd, type: 3}
       propertyPath: m_Name
-      value: Fireball
+      value: Fireball (4)
       objectReference: {fileID: 0}
     - target: {fileID: 3107305137094183350, guid: 78f65488e5169154a986a7fbbf0f5efd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -110,10 +110,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78f65488e5169154a986a7fbbf0f5efd, type: 3}
---- !u!4 &2693759398164288103 stripped
+--- !u!4 &8897487833920200173 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3107305137094183350, guid: 78f65488e5169154a986a7fbbf0f5efd, type: 3}
-  m_PrefabInstance: {fileID: 1044125282640665553}
+  m_PrefabInstance: {fileID: 5793150313910408283}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6360709261955043810
 PrefabInstance:
