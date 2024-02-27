@@ -6,7 +6,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Boss"))
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    None, Projectile, SpawnUnit, Crash
+    Normal, Weakness
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -14,162 +14,100 @@ public class BossController : MonoBehaviour, IDamageable
 
     Animator anim;
 
-    public float delayForNextBehavior;
-    float curDelayNextBehavior;
+    public BossBehavior curBehavior = BossBehavior.Normal;
 
-    public BossBehavior curBehavior = BossBehavior.None;
+    [Header("===== Normal Behavior =====")]
+    [SerializeField] float normalSpeed;
+    [SerializeField] WeakSpot weakSpot;
+    [SerializeField] Vector3 normalOffset;
+    Vector3 velocity;
+    [Header("- Projectile")]
+    [SerializeField] Transform spawnProjectilePos;
+    [SerializeField] float delayProjectile;
+    float curProjectileDelay;
+    [SerializeField] GameObject[] projectilePrefabs;
 
-    [Header("===== None Behavior =====")]
-    [SerializeField] Vector3 nonePos;
-    [Header("===== SpawnUnit Behavior =====")]
-    [SerializeField] GameObject unitPrefab;
-    [Header("===== Projectile Behavior =====")]
-    [SerializeField] GameObject projectilePrefab;
-    [Header("===== Crash Behavior =====")]
-    [SerializeField] GameObject warning;
-    [SerializeField] float chargeTime;
-    float curChargeTime;
-    float curCrashTime;
-    float curAfterCrashTime;
-    bool isCrash;
-    bool crashAlready;
-    [SerializeField] float crashSpeed;
-    [SerializeField] float crashDamage;
-    [SerializeField] float crashTime;
-    [SerializeField] float afterCrashTime;
-    [SerializeField] Vector3 beforeCrash;
-    [SerializeField] Vector3 targetCrash;
-    [SerializeField] Vector3 afterCrash;
+    [Header("===== Weakness Behavior =====")]
+    [SerializeField] float weaknessSpeed;
+    [SerializeField] Vector3 weaknessOffset;
+    [SerializeField] float weaknessTime;
+    float curWeaknessTime;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
         hp = bossSO.maxHp;
+        curProjectileDelay = delayProjectile;
     }
 
     private void Update()
     {
         switch (curBehavior)
         {
-            case BossBehavior.None:
+            case BossBehavior.Normal:
 
-                warning.SetActive(false);
-                Vector3 curPos = Camera.main.transform.position + nonePos;
-                transform.position = Vector2.Lerp(transform.position, curPos, Time.deltaTime);
-                curDelayNextBehavior -= Time.deltaTime;
-                if (curDelayNextBehavior < 0)
-                {
-                    SwitchBehavior(BossBehavior.Crash);
-                }
+                Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
+                normalOffset.z = 0;
+                transform.position =
+                    Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalSpeed); ;
 
                 break;
-            case BossBehavior.SpawnUnit:
-                break;
-            case BossBehavior.Projectile:
-                break;
-            case BossBehavior.Crash:
+            case BossBehavior.Weakness:
 
-                if (!crashAlready)
+                Vector3 weaknessPos = Camera.main.transform.position + weaknessOffset;
+                weaknessPos.z = 0;
+                weaknessPos.y = weaknessOffset.y;
+                transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
+                curWeaknessTime -= Time.deltaTime;
+                if (curWeaknessTime < 0)
                 {
-                    if (!isCrash)
-                    {
-                        warning.SetActive(true);
-                        Vector3 beforePos = Camera.main.transform.position + beforeCrash;
-                        transform.position = Vector2.Lerp(transform.position, beforePos, Time.deltaTime * crashSpeed);
-                        curChargeTime -= Time.deltaTime;
-                        if (curChargeTime < 0)
-                        {
-                            warning.SetActive(false);
-                            curCrashTime = crashTime;
-                            isCrash = true;
-                        }
-                    }
-                    else
-                    {
-                        Vector3 crashPos = Camera.main.transform.position + targetCrash;
-                        transform.position = Vector2.Lerp(transform.position, crashPos, Time.deltaTime * crashSpeed);
-                        curCrashTime -= Time.deltaTime;
-                        if (curCrashTime < 0)
-                        {
-                            curAfterCrashTime = afterCrashTime;
-                            crashAlready = true;
-                        }
-                    }
-                }
-                else
-                {
-                    Vector3 afterPos = Camera.main.transform.position + afterCrash;
-                    transform.position = Vector2.Lerp(transform.position, afterPos, Time.deltaTime);
-                    curAfterCrashTime -= Time.deltaTime;
-                    if (curAfterCrashTime < 0)
-                    {
-                        SwitchBehavior(BossBehavior.None);
-                    }
+                    SwitchBehavior(BossBehavior.Normal);
                 }
 
                 break;
         }
+
     }
 
-    void SwitchBehavior(BossBehavior behavior)
+    public void SwitchBehavior(BossBehavior behavior)
     {
         curBehavior = behavior;
         switch (curBehavior)
         {
-            case BossBehavior.None:
-                curDelayNextBehavior = delayForNextBehavior;
+            case BossBehavior.Normal:
+                weakSpot.ResetWeakSpotHP();
                 break;
-            case BossBehavior.SpawnUnit:
+            case BossBehavior.Weakness:
+                curWeaknessTime = weaknessTime;
                 break;
-            case BossBehavior.Projectile:
-                break;
-            case BossBehavior.Crash:
-
-                isCrash = false;
-                crashAlready = false;
-                curChargeTime = chargeTime;
-
-                break;
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Player")
-        {
-            if (collision.transform.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
-            {
-                if (!playerManager.noDamage)
-                {
-                    GameObject hitPar = GameManager.Instance.hitParticle;
-                    GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-
-                    StartCoroutine(playerManager.TakeDamage(crashDamage));
-                }
-            }
         }
     }
 
     public IEnumerator TakeDamage()
     {
-        hp--;
-        anim.Play("Hurt");
-        float time = GameManager.Instance.shakeDuration;
-        float mag = GameManager.Instance.shakeMagnitude;
-        StartCoroutine(GameManager.Instance.SceneShake(time, mag));
-        GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
-
-        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-        yield return null;
-
-        if (hp <= 0)
+        if (curBehavior == BossBehavior.Weakness)
         {
-            Die();
+            hp--;
+            anim.Play("Hurt");
+            float time = GameManager.Instance.shakeDuration;
+            float mag = GameManager.Instance.shakeMagnitude;
+            StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
+
+            GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+            yield return null;
+
+            if (hp <= 0)
+            {
+                Die();
+            }
         }
+
     }
 
     public void Die()
     {
+        GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         Destroy(gameObject);

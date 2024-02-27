@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    Normal, BossFight
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [Header("===== Game =====")]
+    public GameState state = GameState.Normal;
     public Transform CenterPoint;
     public float maxNormalSpeed;
     public float minNormalSpeed;
@@ -194,13 +200,6 @@ public class GameManager : MonoBehaviour
         lastEndPos = currentBuilding.endPos.position;
 
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Vector3 pos = transform.position + new Vector3(30, 0, 0);
-    //    Gizmos.DrawSphere(pos, 0.1f);
-
-    //}
 
     public void SpawnCoin(Vector2 capPos, int amount)
     {
