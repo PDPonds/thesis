@@ -7161,7 +7161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: delayProjectile
-      value: 1.5
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectileSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: spawnProjectilePos
@@ -7169,12 +7173,12 @@ PrefabInstance:
       objectReference: {fileID: 1651631808}
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: projectilePrefabs.Array.size
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: projectilePrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 6209023416293685447, guid: ef8f1fed1d3aba44ca1d44f7d935ee79, type: 3}
+      objectReference: {fileID: 6209023416293685447, guid: be65fc77af7be8e4d9494ccc9e37553a, type: 3}
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: projectilePrefabs.Array.data[1]
       value: 
@@ -7182,7 +7186,31 @@ PrefabInstance:
     - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
       propertyPath: projectilePrefabs.Array.data[2]
       value: 
+      objectReference: {fileID: 6209023416293685447, guid: 2d720988a8f4d3e4998ea09df5b87e9c, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: 956e16eccc143dd47a2e0516f5bd6bee, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: 5d29302f526b5394aa7ca30f55a84eba, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[5]
+      value: 
       objectReference: {fileID: 6209023416293685447, guid: da5739fca9809a24cb5a6491a064d341, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[6]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: ae52a571fefb3eb41b9bb254a778239b, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: f992f24296e71174ab777e6eb434ecdd, type: 3}
+    - target: {fileID: 3409312926237311094, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
+      propertyPath: projectilePrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 6209023416293685447, guid: 3233b43fe12fab84d88c7ede9c272924, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6459053133162535191, guid: db857a4d256bd50429169b766e9e5f3b, type: 3}
@@ -14534,7 +14562,7 @@ Transform:
   m_GameObject: {fileID: 1651631807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: -2, z: 0}
+  m_LocalPosition: {x: 11, y: -2.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14688,7 +14716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4414451123513016149, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.08
+      value: 12.61
       objectReference: {fileID: 0}
     - target: {fileID: 4414451123513016149, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
       propertyPath: m_LocalPosition.y
