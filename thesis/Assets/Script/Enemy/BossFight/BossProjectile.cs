@@ -14,6 +14,7 @@ public class BossProjectile : MonoBehaviour
         {
             bullet.damage = damage;
         }
+        Destroy(gameObject,5f);
     }
 
     private void Update()
