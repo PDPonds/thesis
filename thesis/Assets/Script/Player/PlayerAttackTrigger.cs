@@ -6,7 +6,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Boss"))
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
@@ -30,7 +30,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 
                 if (!PlayerManager.Instance.onGrounded)
                 {
-                    PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
+                    PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce /** 0.75f*/);
                 }
 
                 PlayerManager.Instance.attackCol.enabled = false;
@@ -63,7 +63,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             if (!PlayerManager.Instance.onGrounded)
             {
-                PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce * 0.75f);
+                PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce /** 0.75f*/);
             }
 
             Destroy(collision.transform.parent.gameObject);

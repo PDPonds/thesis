@@ -10,7 +10,8 @@ public class DeadPoint : MonoBehaviour
         {
             if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
-                playerManager.Die();
+                if (playerManager.currentState != playerManager.revive)
+                    playerManager.Die();
             }
         }
     }

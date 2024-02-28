@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
-    public static int reviveItemCount = 0;
+    public static int reviveItemCount = 1;
     public static int coin = 0;
     public int inGameCoin;
 
@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Color normalColor;
     [SerializeField] Color blinkColor;
     float curBlinkTime;
-    float curNoDamageTime;
+    [SerializeField] float curNoDamageTime;
     bool isBlink;
     [HideInInspector] public bool isDropDead;
     [HideInInspector] public Transform lastCheckPoint;
@@ -66,6 +66,7 @@ public class PlayerManager : MonoBehaviour
     public bool onGrounded;
     [HideInInspector] public int jumpCount;
     public bool isUp;
+    //bool jumpAfterAttack;
 
     [Space(5f)]
 
@@ -353,12 +354,16 @@ public class PlayerManager : MonoBehaviour
                 curBlinkTime = 0;
             }
 
-            curNoDamageTime -= Time.deltaTime;
-            if (curNoDamageTime < 0)
+            if (currentState != revive)
             {
-                curNoDamageTime = noDamageTime;
-                noDamage = false;
+                curNoDamageTime -= Time.deltaTime;
+                if (curNoDamageTime < 0)
+                {
+                    curNoDamageTime = noDamageTime;
+                    noDamage = false;
+                }
             }
+
 
         }
         else
@@ -367,6 +372,7 @@ public class PlayerManager : MonoBehaviour
             meshImage.color = normalColor;
             isBlink = false;
         }
+
 
     }
 
@@ -382,18 +388,25 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpPerformed()
     {
-
-        if (onGrounded && !isDead)
+        if (!isDead)
         {
-            Jump(jumpForce);
-        }
-        else if (!onGrounded && !isDead)
-        {
-            if (jumpCount > 0)
+            if (onGrounded)
             {
-                Jump(jumpForce * 0.75f);
+                Jump(jumpForce);
+            }
+            else if (!onGrounded)
+            {
+                if (jumpCount > 0)
+                {
+                    Jump(jumpForce/* * 0.75f*/);
+                }
             }
         }
+        else
+        {
+            UIManager.Instance.ReviveBut();
+        }
+
 
     }
 
@@ -431,6 +444,8 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
+
+        //jumpAfterAttack = true;
 
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
@@ -525,13 +540,12 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        if (!isDead)
+        if (!isDead && !noDamage)
         {
             isDead = true;
             attackCol.enabled = false;
             anim.SetBool("isDead", true);
             onDead?.Invoke();
-
         }
     }
 

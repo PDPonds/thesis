@@ -80,6 +80,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""128afd5e-ef09-4c38-bcb3-ce65f0d72bfe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -159,6 +168,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""SpecialGadget"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af20509d-fad8-4a94-ae83-f4cc0a3fac7e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -173,6 +193,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_PlayerInput_FirstHook = m_PlayerInput.FindAction("FirstHook", throwIfNotFound: true);
         m_PlayerInput_SecondHook = m_PlayerInput.FindAction("SecondHook", throwIfNotFound: true);
         m_PlayerInput_SpecialGadget = m_PlayerInput.FindAction("SpecialGadget", throwIfNotFound: true);
+        m_PlayerInput_Pause = m_PlayerInput.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,6 +261,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_FirstHook;
     private readonly InputAction m_PlayerInput_SecondHook;
     private readonly InputAction m_PlayerInput_SpecialGadget;
+    private readonly InputAction m_PlayerInput_Pause;
     public struct PlayerInputActions
     {
         private @InputSystem m_Wrapper;
@@ -250,6 +272,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @FirstHook => m_Wrapper.m_PlayerInput_FirstHook;
         public InputAction @SecondHook => m_Wrapper.m_PlayerInput_SecondHook;
         public InputAction @SpecialGadget => m_Wrapper.m_PlayerInput_SpecialGadget;
+        public InputAction @Pause => m_Wrapper.m_PlayerInput_Pause;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -277,6 +300,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @SpecialGadget.started += instance.OnSpecialGadget;
             @SpecialGadget.performed += instance.OnSpecialGadget;
             @SpecialGadget.canceled += instance.OnSpecialGadget;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -299,6 +325,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @SpecialGadget.started -= instance.OnSpecialGadget;
             @SpecialGadget.performed -= instance.OnSpecialGadget;
             @SpecialGadget.canceled -= instance.OnSpecialGadget;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -324,5 +353,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnFirstHook(InputAction.CallbackContext context);
         void OnSecondHook(InputAction.CallbackContext context);
         void OnSpecialGadget(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

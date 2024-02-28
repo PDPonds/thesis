@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public bool isCounter;
     public float damage;
-
-    private void Awake()
-    {
-        isCounter = false;
-    }
 
     private void Update()
     {
@@ -37,17 +31,6 @@ public class EnemyBullet : MonoBehaviour
 
             Destroy(gameObject);
         }
-
-        //if(isCounter)
-        //{
-        //    if (collision.CompareTag("Enemy"))
-        //    {
-        //        if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
-        //        {
-        //            StartCoroutine(EnemyTakeDamage(collision, idamageable));
-        //        }
-        //    }
-        //}
 
     }
 
