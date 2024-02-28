@@ -155,4 +155,13 @@ public class BossController : MonoBehaviour, IDamageable
         bossProjectile.damage = projectileDamage;
     }
 
+    public void SpawnProjectile()
+    {
+        int index = Random.Range(0, projectilePrefabs.Length);
+        Vector3 pos = spawnProjectilePos.position;
+        GameObject projectileObj = Instantiate(projectilePrefabs[index], pos, Quaternion.identity);
+        BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
+
+    }
+
 }
