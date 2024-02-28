@@ -54,12 +54,17 @@ public class GameManager : MonoBehaviour
     public Transform Player;
 
     [Header("- Spawn Floor")]
+    [Header("Normal State")]
     public GameObject[] floorPrefabs;
     public Transform DestroyGroundAndEnemy;
-    public GameObject[] enemyPrefabs;
     public float xOffset;
-
     [SerializeField] Vector3 lastEndPos;
+    [Header("Boss State")]
+    public GameObject boss;
+    public Transform bossSpawnPos;
+    public GameObject[] bossFloorPrefabs;
+    [HideInInspector] public bool isBossClear;
+    [HideInInspector] public GameObject curBoss;
     [Header("===== Coin =====")]
     public GameObject coin1Prefab;
 
@@ -186,11 +191,19 @@ public class GameManager : MonoBehaviour
 
     public void GenerateFloor()
     {
-        int floorIndex = Random.Range(0, floorPrefabs.Length);
+        GameObject floor = new GameObject();
+        if (state == GameState.Normal)
+        {
+            int floorIndex = Random.Range(0, floorPrefabs.Length);
+            floor = floorPrefabs[floorIndex];
+        }
+        else if (state == GameState.BossFight)
+        {
+            int floorIndex = Random.Range(0, bossFloorPrefabs.Length);
+            floor = bossFloorPrefabs[floorIndex];
+        }
 
-        GameObject buildPrefab = floorPrefabs[floorIndex];
-
-        GameObject buildObj = Instantiate(buildPrefab);
+        GameObject buildObj = Instantiate(floor);
         Building currentBuilding = buildObj.GetComponent<Building>();
 
         Vector3 offset = buildObj.transform.position - currentBuilding.startPos.position;
@@ -216,6 +229,29 @@ public class GameManager : MonoBehaviour
                 coin.isDropFormCapsule = true;
             }
         }
+    }
+
+    public void SwitchState(GameState state)
+    {
+        this.state = state;
+        switch (state)
+        {
+            case GameState.Normal:
+                break;
+            case GameState.BossFight:
+                break;
+        }
+    }
+
+    public void SpawnBoss()
+    {
+        if (curBoss == null && !isBossClear)
+        {
+            Vector3 pos = bossSpawnPos.position;
+            GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
+            curBoss = bossObj;
+        }
+
     }
 
 }
