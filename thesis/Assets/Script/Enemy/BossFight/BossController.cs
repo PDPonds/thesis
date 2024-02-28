@@ -30,6 +30,8 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float projectileSpeed;
     [SerializeField] float projectileDamage;
     [Header("- Lasser")]
+    [SerializeField] float countPerMax;
+    [SerializeField] float delayPerCount;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float bulletDamage;
@@ -71,13 +73,14 @@ public class BossController : MonoBehaviour, IDamageable
                         if (ran == 0)
                         {
                             SpawnMissile();
+                            curProjectileDelay = delayProjectile;
                         }
                         else
                         {
-                            SpawnLasser();
+                            StartCoroutine(FireLasser());
+                            curProjectileDelay = delayProjectile;
                         }
 
-                        curProjectileDelay = delayProjectile;
                     }
 
                     break;
@@ -167,6 +170,19 @@ public class BossController : MonoBehaviour, IDamageable
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
         bossProjectile.speed = projectileSpeed;
         bossProjectile.damage = projectileDamage;
+    }
+
+    IEnumerator FireLasser()
+    {
+        int fireCount = 0;
+        while (fireCount < countPerMax)
+        {
+            Debug.Log("Spawn");
+            SpawnLasser();
+            fireCount++;
+            yield return new WaitForSeconds(delayPerCount);
+        }
+
     }
 
     public void SpawnLasser()
