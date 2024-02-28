@@ -22,13 +22,18 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] WeakSpot weakSpot;
     [SerializeField] Vector3 normalOffset;
     Vector3 velocity;
-    [Header("- Projectile")]
+    [Header("- Missile")]
     [SerializeField] Transform spawnProjectilePos;
     [SerializeField] float delayProjectile;
     float curProjectileDelay;
     [SerializeField] GameObject[] projectilePrefabs;
     [SerializeField] float projectileSpeed;
     [SerializeField] float projectileDamage;
+    [Header("- Lasser")]
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform bulletSpawnPoint;
+    [SerializeField] float bulletDamage;
+    [SerializeField] float normalBulletSpeed;
 
     [Header("===== Weakness Behavior =====")]
     [SerializeField] float weaknessSpeed;
@@ -62,7 +67,16 @@ public class BossController : MonoBehaviour, IDamageable
                     curProjectileDelay -= Time.deltaTime;
                     if (curProjectileDelay < 0)
                     {
-                        SpawnProjectile();
+                        int ran = Random.Range(0, 2);
+                        if (ran == 0)
+                        {
+                            SpawnMissile();
+                        }
+                        else
+                        {
+                            SpawnLasser();
+                        }
+
                         curProjectileDelay = delayProjectile;
                     }
 
@@ -145,7 +159,7 @@ public class BossController : MonoBehaviour, IDamageable
         Destroy(gameObject, 5f);
     }
 
-    public void SpawnProjectile()
+    public void SpawnMissile()
     {
         int index = Random.Range(0, projectilePrefabs.Length);
         Vector3 pos = spawnProjectilePos.position;
@@ -153,6 +167,15 @@ public class BossController : MonoBehaviour, IDamageable
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
         bossProjectile.speed = projectileSpeed;
         bossProjectile.damage = projectileDamage;
+    }
+
+    public void SpawnLasser()
+    {
+        Vector3 pos = bulletSpawnPoint.position;
+        GameObject bulletObj = Instantiate(bullet, pos, Quaternion.identity);
+        EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
+        ebullet.damage = bulletDamage;
+        ebullet.speed = normalBulletSpeed;
     }
 
 }

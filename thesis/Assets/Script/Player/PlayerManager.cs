@@ -83,6 +83,7 @@ public class PlayerManager : MonoBehaviour
     public Collider2D attackCol;
     public float attackDelay;
     //public GameObject attackParticle;
+    public float counterBulletSpeed;
 
     int attackCount;
     float currentAttackDelay;

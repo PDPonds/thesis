@@ -14340,7 +14340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14368e27099e2224582e70df5a9c4efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  state: 1
   CenterPoint: {fileID: 10521473}
   maxNormalSpeed: 5
   minNormalSpeed: 5
@@ -15413,6 +15413,10 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
+      propertyPath: counterBulletSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2207430127079035427, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Name
       value: Player
@@ -15420,7 +15424,7 @@ PrefabInstance:
     - target: {fileID: 3328477117553194316, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -789072520, guid: 3eaab9c26300575438c12b59dd3205c0, type: 3}
+      objectReference: {fileID: 1845961158, guid: 12269cccf41cbc848b482a8608fba169, type: 3}
     - target: {fileID: 3470343153677579546, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: m_Size.x
       value: 0.75

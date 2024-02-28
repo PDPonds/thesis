@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &715659047916571057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6265856612306996507}
+  m_Layer: 7
+  m_Name: LaserSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6265856612306996507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715659047916571057}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4285712, y: -1.7857144, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 306848385715742532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429063548285352282
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,6 +66,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5971154186814817037}
+  - {fileID: 6265856612306996507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1521400668548888180
@@ -202,16 +234,15 @@ MonoBehaviour:
   spawnProjectilePos: {fileID: 0}
   delayProjectile: 1.75
   projectilePrefabs:
-  - {fileID: 6209023416293685447, guid: be65fc77af7be8e4d9494ccc9e37553a, type: 3}
-  - {fileID: 6209023416293685447, guid: b3c7dc8c3a044a64c898eaa338f7061b, type: 3}
-  - {fileID: 6209023416293685447, guid: 2d720988a8f4d3e4998ea09df5b87e9c, type: 3}
-  - {fileID: 6209023416293685447, guid: 956e16eccc143dd47a2e0516f5bd6bee, type: 3}
-  - {fileID: 6209023416293685447, guid: 5d29302f526b5394aa7ca30f55a84eba, type: 3}
   - {fileID: 6209023416293685447, guid: da5739fca9809a24cb5a6491a064d341, type: 3}
   - {fileID: 6209023416293685447, guid: ae52a571fefb3eb41b9bb254a778239b, type: 3}
   - {fileID: 6209023416293685447, guid: f992f24296e71174ab777e6eb434ecdd, type: 3}
   projectileSpeed: 3
   projectileDamage: 10
+  bullet: {fileID: 2443047015202457107, guid: b8c8c849dc0f5454cb7615ea169c12dc, type: 3}
+  bulletSpawnPoint: {fileID: 6265856612306996507}
+  bulletDamage: 5
+  normalBulletSpeed: 3
   weaknessSpeed: 5
   weaknessOffset: {x: 0.5, y: -1, z: 0}
   weaknessTime: 5

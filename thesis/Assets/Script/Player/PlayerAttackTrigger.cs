@@ -39,6 +39,24 @@ public class PlayerAttackTrigger : MonoBehaviour
             }
         }
 
+        if (collision.CompareTag("EnemyBullet"))
+        {
+            if (collision.transform.TryGetComponent<EnemyBullet>(out EnemyBullet eBullet))
+            {
+                if (eBullet.canCounter)
+                {
+                    eBullet.isCounter = true;
+                    SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
+                    sprite.flipX = true;
+
+                    CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
+                    Vector2 curOffset = capCol.offset;
+                    curOffset.x = capCol.offset.x * -1f;
+                    capCol.offset = curOffset;
+                }
+            }
+        }
+
         if (collision.CompareTag("Capsule"))
         {
             if (collision.TryGetComponent<CoinCapsule>(out CoinCapsule cc))
