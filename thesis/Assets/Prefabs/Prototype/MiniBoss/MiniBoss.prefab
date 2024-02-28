@@ -35,7 +35,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5971154186814817037}
-  - {fileID: 2034635592952834204}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1521400668548888180
@@ -200,11 +199,12 @@ MonoBehaviour:
   normalSpeed: 0.7
   weakSpot: {fileID: 830009114408858767}
   normalOffset: {x: 12, y: 1.5, z: 0}
-  spawnProjectilePos: {fileID: 2034635592952834204}
-  delayProjectile: 3
+  spawnProjectilePos: {fileID: 0}
+  delayProjectile: 1.5
   projectilePrefabs:
-  - {fileID: 6209023416293685447, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
   - {fileID: 6209023416293685447, guid: ef8f1fed1d3aba44ca1d44f7d935ee79, type: 3}
+  - {fileID: 6209023416293685447, guid: b3c7dc8c3a044a64c898eaa338f7061b, type: 3}
+  - {fileID: 6209023416293685447, guid: da5739fca9809a24cb5a6491a064d341, type: 3}
   projectileSpeed: 5
   projectileDamage: 10
   weaknessSpeed: 5
@@ -373,34 +373,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossController: {fileID: 3409312926237311094}
   weakSpotHP: 0
---- !u!1 &6459053133162535191
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2034635592952834204}
-  m_Layer: 0
-  m_Name: SpawnProjectilePos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2034635592952834204
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6459053133162535191}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: -2.142857, z: 0}
-  m_LocalScale: {x: 1.4285715, y: 1.4285715, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 306848385715742532}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
