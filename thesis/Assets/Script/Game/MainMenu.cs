@@ -9,43 +9,51 @@ public class MainMenu : MonoBehaviour
 {
     [Header("========== Start")]
     [SerializeField] Button startButton;
+    [SerializeField] Button shopButton;
     [SerializeField] Button exitButton;
     [SerializeField] GameObject upgradeUI;
     [SerializeField] Button closeButton;
-    [SerializeField] Button runButton;
+    [SerializeField] CanvasGroup fadeCanvas;
 
-    [Header("========== UpgardUI")]
+    [Header("========== ShopUI")]
+    [Header("- GameObject")]
+    [SerializeField] GameObject shopBorder;
+    [SerializeField] GameObject[] maxHpLevelObj;
+    [SerializeField] GameObject[] stealHpLevelObj;
     [Header("- Text")]
     [SerializeField] TextMeshProUGUI coinText;
     [SerializeField] TextMeshProUGUI upgardeMaxHpCostText;
     [SerializeField] TextMeshProUGUI upgardeStealHpCostText;
     [SerializeField] TextMeshProUGUI reviveCostText;
     [SerializeField] TextMeshProUGUI reviveCount;
-
     [Header("- Button")]
     [SerializeField] Button upgradeMaxHpBut;
     [SerializeField] Button upgradeStealHpBut;
     [SerializeField] Button buyReviveBut;
-    [Header("- GameObject")]
-    [SerializeField] GameObject[] maxHpLevelObj;
-    [SerializeField] GameObject[] stealHpLevelObj;
-
     [SerializeField] List<int> upgardeMaxHpCostPerLevel = new List<int>();
     [SerializeField] List<int> upgardeStealHpCostPerLevel = new List<int>();
     [SerializeField] int reviveCost;
 
+    [Header("========== ExitUI")]
+    [SerializeField] GameObject confirmPanel;
+    [SerializeField] GameObject confirmBorder;
+    [SerializeField] Button confirmBut;
+    [SerializeField] Button cancleBut;
+
     private void OnEnable()
     {
-        startButton.onClick.AddListener(() => ClickStart());
-        exitButton.onClick.AddListener(() => ExitGame());
+        shopButton.onClick.AddListener(() => ShowShop());
+        exitButton.onClick.AddListener(() => ShowConfirmToExitBut());
+        confirmBut.onClick.AddListener(() => ExitGame());
+        cancleBut.onClick.AddListener(() => CancleExitBut());
 
-        closeButton.onClick.AddListener(() => ToggleUI(upgradeUI, false));
+        closeButton.onClick.AddListener(() => CloseShop());
 
         upgradeMaxHpBut.onClick.AddListener(() => UpgradeMaxHpBut());
         upgradeStealHpBut.onClick.AddListener(() => UpgradeStealHPBut());
         buyReviveBut.onClick.AddListener(() => BuyReviveItem());
 
-        runButton.onClick.AddListener(() => StartGame());
+        startButton.onClick.AddListener(() => StartGame());
     }
 
     private void Update()
@@ -72,6 +80,7 @@ public class MainMenu : MonoBehaviour
 
     }
 
+    #region Function
     void UpgradeMaxHpBut()
     {
         if (PlayerManager.coin >= upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel] &&
@@ -158,10 +167,18 @@ public class MainMenu : MonoBehaviour
         UpdateCoin();
     }
 
-    void ClickStart()
+    void ShowShop()
     {
         ToggleUI(upgradeUI, true);
         UpdateUpgradeInfo();
+        LeanTween.moveLocal(shopBorder, new Vector3(0, 0, 0), .5f).setEase(LeanTweenType.easeInOutCubic);
+    }
+
+    void CloseShop()
+    {
+        LeanTween.moveLocal(shopBorder, new Vector3(0, -1000, 0), 0.5f)
+            .setEase(LeanTweenType.easeInOutCubic)
+            .setOnComplete(() => ToggleUI(upgradeUI, false));
     }
 
     void UpdateCoin()
@@ -176,12 +193,30 @@ public class MainMenu : MonoBehaviour
 
     void StartGame()
     {
-        SceneManager.LoadScene(1);
+        LeanTween.alphaCanvas(fadeCanvas, 1, 0.25f)
+            .setOnComplete(() => SceneManager.LoadScene(1));
+      
+    }
+
+    void ShowConfirmToExitBut()
+    {
+        ToggleUI(confirmPanel, true);
+        LeanTween.moveLocal(confirmBorder, new Vector3(0, 0, 0), .5f);
+    }
+
+    void CancleExitBut()
+    {
+        LeanTween.moveLocal(confirmBorder, new Vector3(0, -700, 0), 0.5f)
+            .setEase(LeanTweenType.easeInOutCubic)
+            .setOnComplete(() => ToggleUI(confirmPanel, false));
     }
 
     void ExitGame()
     {
         Application.Quit();
     }
+
+    #endregion
+
 
 }

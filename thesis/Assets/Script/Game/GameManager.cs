@@ -17,11 +17,6 @@ public class GameManager : MonoBehaviour
     public float maxNormalSpeed;
     public float minNormalSpeed;
 
-    public float momentumMul;
-    public float momentumTime;
-    [HideInInspector] public float currentMomentumTime;
-    [HideInInspector] public bool isMomentum;
-
     public float currentSpeed;
     public Transform DeadPoint;
 
@@ -116,16 +111,6 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-
-        if (currentMomentumTime >= momentumTime)
-        {
-            isMomentum = true;
-        }
-        else
-        {
-            isMomentum = false;
-            currentMomentumTime += Time.deltaTime;
-        }
 
         float playerAndSpawnPoint = Vector3.Distance(PlayerManager.Instance.transform.position,
             lastEndPos);

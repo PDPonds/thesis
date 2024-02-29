@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     [Header("===== HP =====")]
     [SerializeField] Image hpFill;
+    [Header("===== Fade =====")]
+    [SerializeField] CanvasGroup fadeCanvas;
 
     [Header("===== Score Coin =====")]
     public TextMeshProUGUI scoreText;
@@ -24,9 +26,6 @@ public class UIManager : MonoBehaviour
     public float reviveTime;
     float curReviveTime;
     public Button returnTolobbyButton;
-
-    [Header("===== Momentum =====")]
-    public GameObject momentumEffect;
 
     [Header("===== Gadget =====")]
     public GameObject gadgetSlotParent;
@@ -46,8 +45,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        LeanTween.alphaCanvas(fadeCanvas, 0, .25f);
         deadScene.gameObject.SetActive(false);
-
     }
 
     private void Start()
@@ -64,9 +63,6 @@ public class UIManager : MonoBehaviour
         scoreText.text = GameManager.Instance.currentScore.ToString();
         scoreOnDeadScene.text = GameManager.Instance.currentScore.ToString();
         coinInGameText.text = PlayerManager.Instance.inGameCoin.ToString();
-
-        if (GameManager.Instance.isMomentum) momentumEffect.gameObject.SetActive(true);
-        else momentumEffect.gameObject.SetActive(false);
 
         float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
         hpFill.fillAmount = hpPercent;

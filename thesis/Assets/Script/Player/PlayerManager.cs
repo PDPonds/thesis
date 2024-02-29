@@ -521,8 +521,6 @@ public class PlayerManager : MonoBehaviour
         onTakeDamage?.Invoke();
         currentHp -= damage;
         noDamage = true;
-        GameManager.Instance.currentMomentumTime = 0;
-        GameManager.Instance.isMomentum = false;
 
         SwitchState(hurt);
 
