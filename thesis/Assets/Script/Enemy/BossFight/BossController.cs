@@ -78,7 +78,6 @@ public class BossController : MonoBehaviour, IDamageable
                         else
                         {
                             StartCoroutine(FireLasser());
-                            curProjectileDelay = delayProjectile;
                         }
 
                     }
@@ -177,11 +176,11 @@ public class BossController : MonoBehaviour, IDamageable
         int fireCount = 0;
         while (fireCount < countPerMax)
         {
-            Debug.Log("Spawn");
             SpawnLasser();
             fireCount++;
             yield return new WaitForSeconds(delayPerCount);
         }
+        curProjectileDelay = delayProjectile;
 
     }
 
