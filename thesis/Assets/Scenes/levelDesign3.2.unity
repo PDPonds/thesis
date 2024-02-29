@@ -8689,7 +8689,7 @@ Transform:
   - {fileID: 633569612}
   - {fileID: 665904695}
   - {fileID: 940843304}
-  m_Father: {fileID: 1689909897}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1187364604
 GameObject:
@@ -15518,7 +15518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14368e27099e2224582e70df5a9c4efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  state: 1
   CenterPoint: {fileID: 10521473}
   maxNormalSpeed: 5
   minNormalSpeed: 5
@@ -15817,7 +15817,6 @@ Transform:
   - {fileID: 1826883809}
   - {fileID: 1257209058}
   - {fileID: 1651631808}
-  - {fileID: 1179307851}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1689909898
@@ -16911,6 +16910,7 @@ SceneRoots:
   - {fileID: 10521473}
   - {fileID: 1060446084}
   - {fileID: 2103167493744937731}
+  - {fileID: 1179307851}
   - {fileID: 116976724}
   - {fileID: 847989576}
   - {fileID: 675657785}

@@ -6,21 +6,23 @@ public class CenterMove : MonoBehaviour
 {
     private void Update()
     {
-        float speed = GameManager.Instance.currentSpeed;
-
-        if (PlayerManager.Instance.currentState != PlayerManager.Instance.hook)
+        if (!PlayerManager.Instance.isDead)
         {
-            transform.Translate(Vector2.right * Time.deltaTime * speed);
+            float speed = GameManager.Instance.currentSpeed;
 
-            transform.position = new Vector3(transform.position.x,
-                PlayerManager.Instance.transform.position.y, transform.position.z);
-        }
-        
-        if (PlayerManager.Instance.currentState == PlayerManager.Instance.hook ||
-            PlayerManager.Instance.currentState == PlayerManager.Instance.revive)
-        {
-            transform.position = PlayerManager.Instance.transform.position;
-        }
+            if (PlayerManager.Instance.currentState != PlayerManager.Instance.hook)
+            {
+                transform.Translate(Vector2.right * Time.deltaTime * speed);
+
+                transform.position = new Vector3(transform.position.x,
+                    PlayerManager.Instance.transform.position.y, transform.position.z);
+            }
+
+            if (PlayerManager.Instance.currentState == PlayerManager.Instance.hook ||
+                PlayerManager.Instance.currentState == PlayerManager.Instance.revive)
+            {
+                transform.position = PlayerManager.Instance.transform.position;
+            }
         //else
         //{
         //    //float speed = GameManager.Instance.currentSpeed;
@@ -29,5 +31,6 @@ public class CenterMove : MonoBehaviour
         //    transform.position = new Vector3(transform.position.x,
         //        PlayerManager.Instance.transform.position.y, transform.position.z);
         //}
+        }
     }
 }

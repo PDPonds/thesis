@@ -19,10 +19,13 @@ public class WeakSpot : MonoBehaviour
 
     public void RemoveWeakSpotHP()
     {
-        weakSpotHP--;
-        if (weakSpotHP <= 0)
+        if (bossController.curBehavior == BossBehavior.Normal)
         {
-            bossController.SwitchBehavior(BossBehavior.Weakness);
+            weakSpotHP--;
+            if (weakSpotHP <= 0)
+            {
+                bossController.SwitchBehavior(BossBehavior.Weakness);
+            }
         }
     }
 
