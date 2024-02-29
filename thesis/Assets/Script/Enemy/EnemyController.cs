@@ -28,6 +28,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("===== IS Range Enemy =====")]
     public Transform bulletSpawnPoint;
 
+    [Header("===== Death =====")]
+    public GameObject deatFrame;
     //[Header("===== Hook =====")]
     //public bool hookable;
     //public Transform targetVisual;
@@ -52,6 +54,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
+
         canAttack = true;
         float attackDelay = enemySO.attackSpeed;
         currentAttackDelay = attackDelay;
@@ -60,11 +63,11 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
             {
+                Instantiate(deatFrame, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
@@ -181,7 +184,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         anim.Play("Dead");
         GameManager.Instance.hitScore += enemySO.dropScore;
         PlayerManager.Instance.AddCoin(enemySO.dropCoin);
-        Destroy(gameObject, 5f);
+
     }
 
     void PlayHurtAnim()

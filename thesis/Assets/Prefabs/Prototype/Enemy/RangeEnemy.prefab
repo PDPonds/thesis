@@ -173,7 +173,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.64, y: -0.3}
+  m_Offset: {x: -0.64, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -211,7 +211,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &5543194900001331441
 MonoBehaviour:
@@ -234,3 +234,4 @@ MonoBehaviour:
   takedamageKnockback: 8.5
   score: 50
   bulletSpawnPoint: {fileID: 3783528577372769472}
+  deatFrame: {fileID: 5285566847479807230, guid: 5d96d5c15c5e00b47a207958bbe6493d, type: 3}

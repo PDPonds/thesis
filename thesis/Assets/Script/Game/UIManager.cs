@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
     public GameObject coinParent;
     public GameObject reviveParent;
     public GameObject lobbyButtonParent;
+    public GameObject reviveInfoText;
 
     [Header("===== Gadget =====")]
     public GameObject gadgetSlotParent;
@@ -137,7 +139,7 @@ public class UIManager : MonoBehaviour
 
         LeanTween.scale(scoreOnDeadScene.gameObject, new Vector3(1, 1, 1), 0.3f);
         LeanTween.scale(coinParent, new Vector3(1, 1, 1), 0.3f);
-
+        LeanTween.scale(reviveInfoText, new Vector3(1, 1, 1), 1.25f).setLoopClamp();
         scoreText.gameObject.SetActive(false);
         coinInGameText.gameObject.SetActive(false);
     }
