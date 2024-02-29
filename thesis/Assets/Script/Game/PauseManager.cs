@@ -15,18 +15,35 @@ public class PauseManager : MonoBehaviour
 
     public void TogglePause()
     {
-        isPause = !isPause;
-        if (isPause)
+        if (!UIManager.Instance.deadScene.gameObject.activeSelf &&
+            !PlayerManager.Instance.isDead)
         {
-            Time.timeScale = 0f;
-            UIManager.Instance.pausePanel.SetActive(true);
+            isPause = !isPause;
+            if (isPause)
+            {
 
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            UIManager.Instance.pausePanel.SetActive(false);
+                UIManager.Instance.pausePanel.SetActive(true);
+                GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
+                GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
+                LeanTween.scale(resumeBut, new Vector3(1, 1, 1), 0.3f)
+                    .setEase(LeanTweenType.easeInOutCubic);
 
+
+                LeanTween.scale(quitBut, new Vector3(1, 1, 1), 0.3f)
+                   .setEase(LeanTweenType.easeInOutCubic)
+                   .setOnComplete(() => Time.timeScale = 0f);
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
+                GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
+                LeanTween.scale(resumeBut, new Vector3(0, 0, 0), 0.3f)
+           .setEase(LeanTweenType.easeInOutCubic);
+                LeanTween.scale(quitBut, new Vector3(0, 0, 0), 0.3f)
+                   .setEase(LeanTweenType.easeInOutCubic)
+                   .setOnComplete(() => UIManager.Instance.pausePanel.SetActive(false));
+            }
         }
     }
 

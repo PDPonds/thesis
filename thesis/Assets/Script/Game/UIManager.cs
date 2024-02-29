@@ -26,6 +26,10 @@ public class UIManager : MonoBehaviour
     public float reviveTime;
     float curReviveTime;
     public Button returnTolobbyButton;
+    [Header("- Animation")]
+    public GameObject coinParent;
+    public GameObject reviveParent;
+    public GameObject lobbyButtonParent;
 
     [Header("===== Gadget =====")]
     public GameObject gadgetSlotParent;
@@ -45,7 +49,9 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        LeanTween.alphaCanvas(fadeCanvas, 0, .25f);
+        LeanTween.alphaCanvas(fadeCanvas, 0, .25f)
+            .setEase(LeanTweenType.easeInOutCubic);
+
         deadScene.gameObject.SetActive(false);
     }
 
@@ -73,21 +79,33 @@ public class UIManager : MonoBehaviour
             if (PlayerManager.reviveItemCount > 0 &&
                 PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame)
             {
-                reviveButton.gameObject.SetActive(true);
-                returnTolobbyButton.gameObject.SetActive(false);
-                curReviveTime += Time.deltaTime;
+                //reviveButton.gameObject.SetActive(true);
+                //returnTolobbyButton.gameObject.SetActive(false);
+
                 if (curReviveTime >= reviveTime)
                 {
-                    reviveButton.gameObject.SetActive(false);
-                    returnTolobbyButton.gameObject.SetActive(true);
+                    LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f);
+                    LeanTween.scale(lobbyButtonParent, new Vector3(1, 1, 1), 0.3f);
+
+                    //reviveButton.gameObject.SetActive(false);
+                    //returnTolobbyButton.gameObject.SetActive(true);
                 }
+                else
+                {
+                    LeanTween.scale(reviveParent, new Vector3(1, 1, 1), 0.3f);
+                    curReviveTime += Time.deltaTime;
+                }
+
                 float revivePercent = curReviveTime / reviveTime;
                 reviveFill.fillAmount = revivePercent;
             }
             else
             {
-                reviveButton.gameObject.SetActive(false);
-                returnTolobbyButton.gameObject.SetActive(true);
+                //reviveButton.gameObject.SetActive(false);
+                //returnTolobbyButton.gameObject.SetActive(true);
+                LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f);
+                LeanTween.scale(lobbyButtonParent, new Vector3(1, 1, 1), 0.3f);
+
             }
         }
 
@@ -106,19 +124,20 @@ public class UIManager : MonoBehaviour
 
     public void ReviveBut()
     {
-        if (reviveButton.gameObject.activeSelf)
-        {
-            PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
-            curReviveTime = 0;
-            deadScene.gameObject.SetActive(false);
-            scoreText.gameObject.SetActive(true);
-            coinInGameText.gameObject.SetActive(true);
-        }
+        PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
+        curReviveTime = 0;
+        deadScene.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(true);
+        coinInGameText.gameObject.SetActive(true);
     }
 
     void EnableDeadScene()
     {
         deadScene.gameObject.SetActive(true);
+
+        LeanTween.scale(scoreOnDeadScene.gameObject, new Vector3(1, 1, 1), 0.3f);
+        LeanTween.scale(coinParent, new Vector3(1, 1, 1), 0.3f);
+
         scoreText.gameObject.SetActive(false);
         coinInGameText.gameObject.SetActive(false);
     }
@@ -126,7 +145,9 @@ public class UIManager : MonoBehaviour
     void ReturnToLobby()
     {
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
-        SceneManager.LoadScene(0);
+        LeanTween.alphaCanvas(fadeCanvas, 1, .3f)
+             .setEase(LeanTweenType.easeInOutCubic)
+             .setOnComplete(() => SceneManager.LoadScene(0));
     }
 
 }

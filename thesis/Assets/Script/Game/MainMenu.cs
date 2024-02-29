@@ -171,7 +171,8 @@ public class MainMenu : MonoBehaviour
     {
         ToggleUI(upgradeUI, true);
         UpdateUpgradeInfo();
-        LeanTween.moveLocal(shopBorder, new Vector3(0, 0, 0), .5f).setEase(LeanTweenType.easeInOutCubic);
+        LeanTween.moveLocal(shopBorder, new Vector3(0, 0, 0), .5f)
+            .setEase(LeanTweenType.easeInOutCubic);
     }
 
     void CloseShop()
@@ -194,14 +195,16 @@ public class MainMenu : MonoBehaviour
     void StartGame()
     {
         LeanTween.alphaCanvas(fadeCanvas, 1, 0.25f)
+            .setEase(LeanTweenType.easeInOutCubic)
             .setOnComplete(() => SceneManager.LoadScene(1));
-      
+
     }
 
     void ShowConfirmToExitBut()
     {
         ToggleUI(confirmPanel, true);
-        LeanTween.moveLocal(confirmBorder, new Vector3(0, 0, 0), .5f);
+        LeanTween.moveLocal(confirmBorder, new Vector3(0, 0, 0), .5f)
+            .setEase(LeanTweenType.easeInOutCubic);
     }
 
     void CancleExitBut()

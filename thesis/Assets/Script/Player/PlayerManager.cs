@@ -28,8 +28,6 @@ public class PlayerManager : MonoBehaviour
 
     public RunningState running = new RunningState();
     public SlideState slide = new SlideState();
-    public HookState hook = new HookState();
-    public EndHookState endHook = new EndHookState();
     public HurtState hurt = new HurtState();
     public ReviveState revive = new ReviveState();
 
@@ -283,8 +281,7 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
         #region Move
-        if (currentState != hurt && !isDead && currentState != hook &&
-            currentState != endHook && currentState != revive)
+        if (currentState != revive && !isDead)
         {
             float speed = GameManager.Instance.currentSpeed;
             //transform.Translate(Vector2.right * Time.deltaTime * speed);
@@ -463,8 +460,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SlidePerformed()
     {
-        if (currentState != slide && currentState != endHook &&
-            currentState != hook)
+        if (currentState != slide && currentState != revive)
         {
             attackCol.enabled = false;
             onSlide?.Invoke();

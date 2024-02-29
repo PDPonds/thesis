@@ -10,7 +10,7 @@ public class CenterMove : MonoBehaviour
         {
             float speed = GameManager.Instance.currentSpeed;
 
-            if (PlayerManager.Instance.currentState != PlayerManager.Instance.hook)
+            if (PlayerManager.Instance.currentState != PlayerManager.Instance.revive)
             {
                 transform.Translate(Vector2.right * Time.deltaTime * speed);
 
@@ -18,8 +18,7 @@ public class CenterMove : MonoBehaviour
                     PlayerManager.Instance.transform.position.y, transform.position.z);
             }
 
-            if (PlayerManager.Instance.currentState == PlayerManager.Instance.hook ||
-                PlayerManager.Instance.currentState == PlayerManager.Instance.revive)
+            if (PlayerManager.Instance.currentState == PlayerManager.Instance.revive)
             {
                 transform.position = PlayerManager.Instance.transform.position;
             }
