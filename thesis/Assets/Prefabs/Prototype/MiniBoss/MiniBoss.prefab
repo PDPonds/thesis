@@ -202,14 +202,13 @@ MonoBehaviour:
   normalOffset: {x: 12, y: 1.5, z: 0}
   spawnProjectilePos: {fileID: 2034635592952834204}
   delayProjectile: 3
-  projectilePrefabs:
-  - {fileID: 6209023416293685447, guid: 0eeec0e7580318e45a4604e58816cea0, type: 3}
-  - {fileID: 6209023416293685447, guid: ef8f1fed1d3aba44ca1d44f7d935ee79, type: 3}
+  projectilePrefabs: []
   projectileSpeed: 3
   projectileDamage: 10
   weaknessSpeed: 5
   weaknessOffset: {x: 0.5, y: -1, z: 0}
   weaknessTime: 5
+  deathOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &2285293436753405639
 GameObject:
   m_ObjectHideFlags: 0
