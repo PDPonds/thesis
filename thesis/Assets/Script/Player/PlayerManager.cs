@@ -405,7 +405,6 @@ public class PlayerManager : MonoBehaviour
             UIManager.Instance.ReviveBut();
         }
 
-
     }
 
     public void Jump(float force)

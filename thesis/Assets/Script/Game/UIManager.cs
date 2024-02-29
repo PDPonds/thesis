@@ -126,11 +126,16 @@ public class UIManager : MonoBehaviour
 
     public void ReviveBut()
     {
-        PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
-        curReviveTime = 0;
-        deadScene.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(true);
-        coinInGameText.gameObject.SetActive(true);
+        if (PlayerManager.reviveItemCount > 0 &&
+                PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame)
+        {
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
+            curReviveTime = 0;
+            deadScene.gameObject.SetActive(false);
+            scoreText.gameObject.SetActive(true);
+            coinInGameText.gameObject.SetActive(true);
+        }
+            
     }
 
     void EnableDeadScene()

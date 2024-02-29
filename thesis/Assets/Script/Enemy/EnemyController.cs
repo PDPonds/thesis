@@ -121,7 +121,6 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-
         if (collision.transform.tag == "Player")
         {
             if (collision.transform.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
