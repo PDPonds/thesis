@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
 {
     [Header("========== Start")]
     [SerializeField] Button startButton;
+    [SerializeField] Button exitButton;
     [SerializeField] GameObject upgradeUI;
     [SerializeField] Button closeButton;
     [SerializeField] Button runButton;
@@ -36,6 +37,7 @@ public class MainMenu : MonoBehaviour
     private void OnEnable()
     {
         startButton.onClick.AddListener(() => ClickStart());
+        exitButton.onClick.AddListener(() => ExitGame());
 
         closeButton.onClick.AddListener(() => ToggleUI(upgradeUI, false));
 
@@ -175,6 +177,11 @@ public class MainMenu : MonoBehaviour
     void StartGame()
     {
         SceneManager.LoadScene(1);
+    }
+
+    void ExitGame()
+    {
+        Application.Quit();
     }
 
 }

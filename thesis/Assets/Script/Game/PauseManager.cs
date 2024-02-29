@@ -16,8 +16,18 @@ public class PauseManager : MonoBehaviour
     public void TogglePause()
     {
         isPause = !isPause;
-        if (isPause) Time.timeScale = 0f;
-        else Time.timeScale = 1f;
+        if (isPause)
+        {
+            Time.timeScale = 0f;
+            UIManager.Instance.pausePanel.SetActive(true);
+
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            UIManager.Instance.pausePanel.SetActive(false);
+
+        }
     }
 
 }

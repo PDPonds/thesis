@@ -32,6 +32,10 @@ public class UIManager : MonoBehaviour
     public GameObject gadgetSlotParent;
     public Image gadgetIcon;
     public TextMeshProUGUI gadgetAmount;
+    [Header("===== Pause =====")]
+    public GameObject pausePanel;
+    public Button resumeBut;
+    public Button goBackToMenuBut;
 
     private void OnDisable()
     {
@@ -51,6 +55,8 @@ public class UIManager : MonoBehaviour
         PlayerManager.Instance.onDead += EnableDeadScene;
 
         returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
+        goBackToMenuBut.onClick.AddListener(() => ReturnToLobby());
+        resumeBut.onClick.AddListener(() => PauseManager.Instance.TogglePause());
     }
 
     private void Update()
