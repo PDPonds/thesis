@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2c77a5f73fa287e4b8789fae6fbf8df9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,9 +76,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc9c1cffd34c0734d85b7efd101b793f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.09, y: 0.48}
@@ -119,8 +119,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22, y: 0}
-  m_Size: {x: 0.68, y: 0.5}
+  m_Offset: {x: -0.03, y: 0}
+  m_Size: {x: 0.85, y: 0.3}
   m_Direction: 1
 --- !u!50 &2460617612978383515
 Rigidbody2D:
@@ -161,7 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f8680eb56d2ab43ab2aa1ee323183c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canCounter: 0
+  isCounter: 0
   damage: 10
+  speed: 0
 --- !u!1 &1072160640753129122
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +220,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2c77a5f73fa287e4b8789fae6fbf8df9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -238,9 +241,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc9c1cffd34c0734d85b7efd101b793f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.09, y: 0.48}
@@ -281,8 +284,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22, y: 0}
-  m_Size: {x: 0.68, y: 0.5}
+  m_Offset: {x: -0.03, y: 0}
+  m_Size: {x: 0.85, y: 0.3}
   m_Direction: 1
 --- !u!50 &7896856507850592458
 Rigidbody2D:
@@ -323,7 +326,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f8680eb56d2ab43ab2aa1ee323183c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canCounter: 0
+  isCounter: 0
   damage: 10
+  speed: 0
 --- !u!1 &3793681609418160076
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +385,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2c77a5f73fa287e4b8789fae6fbf8df9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -400,9 +406,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc9c1cffd34c0734d85b7efd101b793f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.09, y: 0.48}
@@ -443,8 +449,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22, y: 0}
-  m_Size: {x: 0.68, y: 0.5}
+  m_Offset: {x: -0.03, y: 0}
+  m_Size: {x: 0.85, y: 0.3}
   m_Direction: 1
 --- !u!50 &7699527158334563485
 Rigidbody2D:
@@ -485,7 +491,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f8680eb56d2ab43ab2aa1ee323183c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canCounter: 0
+  isCounter: 0
   damage: 10
+  speed: 0
 --- !u!1 &4977244281139254977
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +550,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2c77a5f73fa287e4b8789fae6fbf8df9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -562,9 +571,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc9c1cffd34c0734d85b7efd101b793f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.09, y: 0.48}
@@ -605,8 +614,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22, y: 0}
-  m_Size: {x: 0.68, y: 0.5}
+  m_Offset: {x: -0.03, y: 0}
+  m_Size: {x: 0.85, y: 0.3}
   m_Direction: 1
 --- !u!50 &7931703254252738469
 Rigidbody2D:
@@ -647,7 +656,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f8680eb56d2ab43ab2aa1ee323183c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canCounter: 0
+  isCounter: 0
   damage: 10
+  speed: 0
 --- !u!1 &5416646042603778099
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +715,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2c77a5f73fa287e4b8789fae6fbf8df9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -724,9 +736,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc9c1cffd34c0734d85b7efd101b793f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.09, y: 0.48}
@@ -767,8 +779,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22, y: 0}
-  m_Size: {x: 0.68, y: 0.5}
+  m_Offset: {x: -0.03, y: 0}
+  m_Size: {x: 0.85, y: 0.3}
   m_Direction: 1
 --- !u!50 &5823420255859738529
 Rigidbody2D:
@@ -809,7 +821,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f8680eb56d2ab43ab2aa1ee323183c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canCounter: 0
+  isCounter: 0
   damage: 10
+  speed: 0
 --- !u!1 &6209023416293685447
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +932,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2c77a5f73fa287e4b8789fae6fbf8df9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -938,9 +953,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 49fc17534fc46c34dbc129ae795bd3c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc9c1cffd34c0734d85b7efd101b793f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.09, y: 0.48}
@@ -981,8 +996,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22, y: 0}
-  m_Size: {x: 0.68, y: 0.5}
+  m_Offset: {x: -0.03, y: 0}
+  m_Size: {x: 0.85, y: 0.3}
   m_Direction: 1
 --- !u!50 &218756147050685574
 Rigidbody2D:
@@ -1023,4 +1038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f8680eb56d2ab43ab2aa1ee323183c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canCounter: 0
+  isCounter: 0
   damage: 10
+  speed: 0

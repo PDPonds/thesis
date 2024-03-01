@@ -6353,7 +6353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14368e27099e2224582e70df5a9c4efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  state: 1
   CenterPoint: {fileID: 10521473}
   maxNormalSpeed: 5
   minNormalSpeed: 5
@@ -6363,11 +6363,11 @@ MonoBehaviour:
   frameStopDuration: 0.025
   shakeDuration: 0.05
   shakeMagnitude: 0.1
-  getCoinParticle: {fileID: 6445666186361868711, guid: 9deea548c44c9ac4e94d6932a0d85eaf, type: 3}
+  getCoinParticle: {fileID: 1609618216806154711, guid: a3841b9ccbe2c4c419d2f8595b9e7954, type: 3}
   hitParticle: {fileID: 1967835574231978638, guid: 3e196c9e632c76841a71cb6e2dc6d010, type: 3}
   healParticle: {fileID: 1971643334344128500, guid: 404faefe3799f0247b8c2160ecba9390, type: 3}
   jumpParticle: {fileID: 1604227354005263177, guid: d6d04e4b024a73147a9b9f10d607f384, type: 3}
-  slashParticle: {fileID: 5318806482385187766, guid: d4de230d1e0d8e44c8279a388000b259, type: 3}
+  slashParticle: {fileID: 945642139743732482, guid: bcb92a985c6128e4c8d22144bca166d4, type: 3}
   scoreMul: 10
   currentScore: 0
   hitScore: 0
@@ -6683,14 +6683,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4414451123513016149, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4414451123513016149, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4414451123513016149, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.61
       objectReference: {fileID: 0}
@@ -6729,10 +6721,6 @@ PrefabInstance:
     - target: {fileID: 4414451123513016149, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4490811269112623088, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
-      propertyPath: amount
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6432385323236474788, guid: ac9045cc9a20fa64dac11bfeac3fb801, type: 3}
       propertyPath: m_Camera
