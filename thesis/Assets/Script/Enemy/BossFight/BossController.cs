@@ -27,6 +27,9 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] Transform pos1;
     [SerializeField] Transform pos2;
     Vector3 velocity;
+    [SerializeField] float delayWeakSpot;
+    float curDelayWeakSpot;
+
     [Header("- Missile")]
     [SerializeField] Transform spawnProjectilePos;
     [SerializeField] float delayProjectile;
@@ -65,6 +68,16 @@ public class BossController : MonoBehaviour, IDamageable
             switch (curBehavior)
             {
                 case BossBehavior.Normal:
+
+                    if (curDelayWeakSpot > 0)
+                    {
+                        curDelayWeakSpot -= Time.deltaTime;
+                        if (weakSpot != null) weakSpot.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        weakSpot.gameObject.SetActive(true);
+                    }
 
                     Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
                     normalOffset.z = 0;
@@ -129,6 +142,7 @@ public class BossController : MonoBehaviour, IDamageable
         switch (curBehavior)
         {
             case BossBehavior.Normal:
+                curDelayWeakSpot = delayWeakSpot;
                 weakSpot.ResetWeakSpotHP();
                 break;
             case BossBehavior.Weakness:

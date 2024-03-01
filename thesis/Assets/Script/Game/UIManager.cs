@@ -41,6 +41,9 @@ public class UIManager : MonoBehaviour
     public GameObject pausePanel;
     public Button resumeBut;
     public Button goBackToMenuBut;
+    [Header("===== Boss =====")]
+    public GameObject bossHPBar;
+    public Image bossHPFill;
 
     private void OnDisable()
     {
@@ -122,6 +125,26 @@ public class UIManager : MonoBehaviour
             gadgetSlotParent.SetActive(false);
         }
 
+        if (GameManager.Instance.state == GameState.Normal)
+        {
+            bossHPBar.gameObject.SetActive(false);
+        }
+        else if (GameManager.Instance.state == GameState.BossFight)
+        {
+            if (GameManager.Instance.curBoss != null)
+            {
+                bossHPBar.gameObject.SetActive(true);
+                BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                float max = boss.bossSO.maxHp;
+                float cur = boss.hp;
+                float per = cur / max;
+                bossHPFill.fillAmount = per;
+            }
+            else
+            {
+                bossHPBar.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ReviveBut()
@@ -135,7 +158,7 @@ public class UIManager : MonoBehaviour
             scoreText.gameObject.SetActive(true);
             coinInGameText.gameObject.SetActive(true);
         }
-            
+
     }
 
     void EnableDeadScene()
