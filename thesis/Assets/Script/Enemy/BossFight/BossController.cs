@@ -19,7 +19,9 @@ public class BossController : MonoBehaviour, IDamageable
 
     [Header("===== Normal Behavior =====")]
     [Header("- WeakSpot")]
-    [SerializeField] float normalSpeed;
+    [SerializeField] float normalXSpeed;
+    [SerializeField] float normalYSpeed;
+
     [SerializeField] WeakSpot weakSpot;
     [SerializeField] Vector3 normalOffset;
     [SerializeField] Transform pos1;
@@ -66,8 +68,11 @@ public class BossController : MonoBehaviour, IDamageable
 
                     Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
                     normalOffset.z = 0;
-                    transform.position =
-                        Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalSpeed); ;
+
+                    Vector3 smoothX = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalXSpeed);
+                    Vector3 smoothY = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalYSpeed);
+
+                    transform.position = new Vector3(smoothX.x, smoothY.y, smoothX.z);
 
                     curProjectileDelay -= Time.deltaTime;
                     if (curProjectileDelay < 0)
@@ -111,9 +116,9 @@ public class BossController : MonoBehaviour, IDamageable
             Rigidbody2D playerRB = transform.GetComponent<Rigidbody2D>();
             playerRB.bodyType = RigidbodyType2D.Kinematic;
             playerRB.simulated = false;
-            Rigidbody2D weakspotRB = transform.GetChild(0).GetComponent<Rigidbody2D>();
+            Rigidbody2D weakspotRB = weakSpot.GetComponent<Rigidbody2D>();
             weakspotRB.bodyType = RigidbodyType2D.Kinematic;
-            playerRB.simulated = false;
+            weakspotRB.simulated = false;
 
         }
     }
