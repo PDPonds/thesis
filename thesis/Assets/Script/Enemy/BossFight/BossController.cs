@@ -18,9 +18,12 @@ public class BossController : MonoBehaviour, IDamageable
     bool isDead;
 
     [Header("===== Normal Behavior =====")]
+    [Header("- WeakSpot")]
     [SerializeField] float normalSpeed;
     [SerializeField] WeakSpot weakSpot;
     [SerializeField] Vector3 normalOffset;
+    [SerializeField] Transform pos1;
+    [SerializeField] Transform pos2;
     Vector3 velocity;
     [Header("- Missile")]
     [SerializeField] Transform spawnProjectilePos;
@@ -191,6 +194,31 @@ public class BossController : MonoBehaviour, IDamageable
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
         ebullet.damage = bulletDamage;
         ebullet.speed = normalBulletSpeed;
+    }
+
+    public void SwitchWeakSpotPos()
+    {
+        if (weakSpot != null)
+        {
+            if (weakSpot.curPos == null)
+            {
+                weakSpot.curPos = pos1;
+                weakSpot.transform.position = pos1.transform.position;
+            }
+            else
+            {
+                if (weakSpot.curPos == pos1)
+                {
+                    weakSpot.curPos = pos2;
+                    weakSpot.transform.position = pos2.transform.position;
+                }
+                else if (weakSpot.curPos == pos2)
+                {
+                    weakSpot.curPos = pos1;
+                    weakSpot.transform.position = pos1.transform.position;
+                }
+            }
+        }
     }
 
 }

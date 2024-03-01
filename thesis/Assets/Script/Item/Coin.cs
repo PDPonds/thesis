@@ -34,7 +34,7 @@ public class Coin : MonoBehaviour
             {
                 PlayerManager.Instance.AddCoin(cointAmount);
                 GameObject hitPar = GameManager.Instance.getCoinParticle;
-                GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
+                GameManager.Instance.SpawnParticle(hitPar, transform.position);
                 Destroy(gameObject);
 
             }
