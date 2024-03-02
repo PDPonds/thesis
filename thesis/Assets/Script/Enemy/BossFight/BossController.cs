@@ -68,7 +68,6 @@ public class BossController : MonoBehaviour, IDamageable
             switch (curBehavior)
             {
                 case BossBehavior.Normal:
-
                     if (curDelayWeakSpot > 0)
                     {
                         curDelayWeakSpot -= Time.deltaTime;
@@ -99,13 +98,14 @@ public class BossController : MonoBehaviour, IDamageable
                         else
                         {
                             StartCoroutine(FireLasser());
+                            curProjectileDelay = delayProjectile;
                         }
 
                     }
 
                     break;
                 case BossBehavior.Weakness:
-
+                    weakSpot.gameObject.SetActive(false);
                     Vector3 weaknessPos = Camera.main.transform.position + weaknessOffset;
                     weaknessPos.z = 0;
                     weaknessPos.y = weaknessOffset.y;
@@ -132,7 +132,7 @@ public class BossController : MonoBehaviour, IDamageable
             Rigidbody2D weakspotRB = weakSpot.GetComponent<Rigidbody2D>();
             weakspotRB.bodyType = RigidbodyType2D.Kinematic;
             weakspotRB.simulated = false;
-
+            weakSpot.gameObject.SetActive(false);
         }
     }
 
@@ -201,9 +201,8 @@ public class BossController : MonoBehaviour, IDamageable
             SpawnLasser();
             fireCount++;
             yield return new WaitForSeconds(delayPerCount);
-        }
-        curProjectileDelay = delayProjectile;
 
+        }
     }
 
     public void SpawnLasser()
