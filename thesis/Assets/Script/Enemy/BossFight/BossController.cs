@@ -204,6 +204,8 @@ public class BossController : MonoBehaviour, IDamageable
     public void Die()
     {
         SoundManager.Instance.PlayOnShot("Explosive");
+        SoundManager.Instance.Pause("BossBGM");
+        SoundManager.Instance.Play("NormalBGM");
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);

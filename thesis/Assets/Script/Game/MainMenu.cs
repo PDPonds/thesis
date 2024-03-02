@@ -58,6 +58,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
     }
 

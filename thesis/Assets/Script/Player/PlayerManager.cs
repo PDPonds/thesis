@@ -305,9 +305,6 @@ public class PlayerManager : MonoBehaviour
         if (onGrounded)
         {
             anim.SetBool("onAir", false);
-            if (currentState == running)
-                SoundManager.Instance.Play("FootStep");
-            else SoundManager.Instance.Pause("FootStep");
         }
         else
         {
