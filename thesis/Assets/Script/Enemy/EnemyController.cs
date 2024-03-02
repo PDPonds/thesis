@@ -181,6 +181,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void Die()
     {
         if (anim != null) anim.Play("Dead");
+        SoundManager.Instance.PlayOnShot("BotDeath");
         GameManager.Instance.hitScore += enemySO.dropScore;
         PlayerManager.Instance.AddCoin(enemySO.dropCoin);
 
@@ -201,12 +202,12 @@ public class EnemyController : MonoBehaviour, IDamageable
         RangeEnemy rangeEnemy = (RangeEnemy)enemySO;
         GameObject bullet = rangeEnemy.bulletPrefab;
         float bulletSpeed = rangeEnemy.bulletSpeed;
-
         GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
         Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
         bulletRb.AddForce(Vector2.left * bulletSpeed, ForceMode2D.Impulse);
         EnemyBullet enemyBullet = bulletObj.GetComponent<EnemyBullet>();
         enemyBullet.damage = enemySO.damage;
+        SoundManager.Instance.PlayOnShot("LaserShot");
     }
 
 }

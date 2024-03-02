@@ -56,6 +56,11 @@ public class MainMenu : MonoBehaviour
         startButton.onClick.AddListener(() => StartGame());
     }
 
+    private void Start()
+    {
+        SoundManager.Instance.Play("NormalBGM");
+    }
+
     private void Update()
     {
         if (PlayerManager.coin >= upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel] &&
@@ -86,6 +91,7 @@ public class MainMenu : MonoBehaviour
         if (PlayerManager.coin >= upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel] &&
             PlayerManager.upgradeMaxHpLevel < upgardeMaxHpCostPerLevel.Count)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.coin -= upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel];
             PlayerManager.upgradeMaxHpLevel++;
             UpdateMaxHPInfo();
@@ -97,6 +103,7 @@ public class MainMenu : MonoBehaviour
         if (PlayerManager.coin >= upgardeStealHpCostPerLevel[PlayerManager.upgradeStealHpLevel] &&
             PlayerManager.upgradeStealHpLevel < upgardeStealHpCostPerLevel.Count)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.coin -= upgardeStealHpCostPerLevel[PlayerManager.upgradeStealHpLevel];
             PlayerManager.upgradeStealHpLevel++;
             UpdateStealHPInfo();
@@ -108,6 +115,7 @@ public class MainMenu : MonoBehaviour
     {
         if (PlayerManager.coin >= reviveCost)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.coin -= reviveCost;
             PlayerManager.reviveItemCount++;
             UpdateReviveItem();
@@ -136,7 +144,7 @@ public class MainMenu : MonoBehaviour
             image.color = Color.green;
         }
 
-        upgardeMaxHpCostText.text = upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel].ToString();
+        upgardeMaxHpCostText.text = $"{upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel].ToString()} <sprite=0>";
         UpdateCoin();
 
     }
@@ -155,20 +163,21 @@ public class MainMenu : MonoBehaviour
             image.color = Color.green;
         }
 
-        upgardeStealHpCostText.text = upgardeStealHpCostPerLevel[PlayerManager.upgradeStealHpLevel].ToString();
+        upgardeStealHpCostText.text = $"{upgardeStealHpCostPerLevel[PlayerManager.upgradeStealHpLevel].ToString()} <sprite=0>";
         UpdateCoin();
 
     }
 
     void UpdateReviveItem()
     {
-        reviveCostText.text = reviveCost.ToString();
+        reviveCostText.text = $"{reviveCost.ToString()} <sprite=0>";
         reviveCount.text = PlayerManager.reviveItemCount.ToString();
         UpdateCoin();
     }
 
     void ShowShop()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         ToggleUI(upgradeUI, true);
         UpdateUpgradeInfo();
         LeanTween.moveLocal(shopBorder, new Vector3(0, 0, 0), .5f)
@@ -177,6 +186,7 @@ public class MainMenu : MonoBehaviour
 
     void CloseShop()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         LeanTween.moveLocal(shopBorder, new Vector3(0, -1000, 0), 0.5f)
             .setEase(LeanTweenType.easeInOutCubic)
             .setOnComplete(() => ToggleUI(upgradeUI, false));
@@ -184,7 +194,7 @@ public class MainMenu : MonoBehaviour
 
     void UpdateCoin()
     {
-        coinText.text = PlayerManager.coin.ToString();
+        coinText.text = $"{PlayerManager.coin.ToString()}";
     }
 
     void ToggleUI(GameObject ui, bool show)
@@ -194,6 +204,7 @@ public class MainMenu : MonoBehaviour
 
     void StartGame()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         LeanTween.alphaCanvas(fadeCanvas, 1, 0.25f)
             .setEase(LeanTweenType.easeInOutCubic)
             .setOnComplete(() => SceneManager.LoadScene(1));
@@ -202,6 +213,7 @@ public class MainMenu : MonoBehaviour
 
     void ShowConfirmToExitBut()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         ToggleUI(confirmPanel, true);
         LeanTween.moveLocal(confirmBorder, new Vector3(0, 0, 0), .5f)
             .setEase(LeanTweenType.easeInOutCubic);
@@ -209,6 +221,7 @@ public class MainMenu : MonoBehaviour
 
     void CancleExitBut()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         LeanTween.moveLocal(confirmBorder, new Vector3(0, -700, 0), 0.5f)
             .setEase(LeanTweenType.easeInOutCubic)
             .setOnComplete(() => ToggleUI(confirmPanel, false));
@@ -216,6 +229,7 @@ public class MainMenu : MonoBehaviour
 
     void ExitGame()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         Application.Quit();
     }
 

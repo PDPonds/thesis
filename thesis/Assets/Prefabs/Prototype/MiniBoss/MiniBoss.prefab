@@ -253,6 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossSO: {fileID: 11400000, guid: d0dc750e38bfe8849aa5adfd5e882ee5, type: 2}
   curBehavior: 0
+  alertTime: 5
   normalXSpeed: 1.25
   normalYSpeed: 1.75
   weakSpot: {fileID: 830009114408858767}
@@ -276,7 +277,7 @@ MonoBehaviour:
   normalBulletSpeed: 3
   weaknessSpeed: 5
   weaknessOffset: {x: 0.5, y: -2, z: 0}
-  weaknessTime: 2
+  weaknessTime: 3
   deathOffset: {x: 0, y: -2.5, z: 0}
 --- !u!1 &2285293436753405639
 GameObject:

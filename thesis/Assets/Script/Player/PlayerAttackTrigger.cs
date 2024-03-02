@@ -53,6 +53,7 @@ public class PlayerAttackTrigger : MonoBehaviour
                     Vector2 curOffset = capCol.offset;
                     curOffset.x = capCol.offset.x * -1f;
                     capCol.offset = curOffset;
+                    SoundManager.Instance.PlayOnShot("LaserShot");
                 }
             }
         }
@@ -78,6 +79,8 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+            SoundManager.Instance.PlayOnShot("SlashItem");
 
             if (!PlayerManager.Instance.onGrounded)
             {

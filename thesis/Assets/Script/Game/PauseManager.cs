@@ -21,7 +21,7 @@ public class PauseManager : MonoBehaviour
             isPause = !isPause;
             if (isPause)
             {
-
+                SoundManager.Instance.PlayOnShot("Button");
                 UIManager.Instance.pausePanel.SetActive(true);
                 GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
                 GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
@@ -35,6 +35,7 @@ public class PauseManager : MonoBehaviour
             }
             else
             {
+                SoundManager.Instance.PlayOnShot("Button");
                 Time.timeScale = 1f;
                 GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
                 GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;

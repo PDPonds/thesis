@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+
+public enum AudioType
+{
+    Music, SFX
+}
 
 public class SoundManager : MonoBehaviour
 {
@@ -24,10 +28,12 @@ public class SoundManager : MonoBehaviour
         foreach (SoundClass s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
+            s.source.outputAudioMixerGroup = s.audioMixerGroup;
             s.source.clip = s.clip;
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+
         }
     }
 
@@ -35,14 +41,14 @@ public class SoundManager : MonoBehaviour
     {
         SoundClass s = Array.Find(sounds, sound => sound.name == name);
         if (s == null) return;
-        s.source.Play();
+        if (!s.source.isPlaying) s.source.Play();
     }
 
     public void Pause(string name)
     {
         SoundClass s = Array.Find(sounds, s => s.name == name);
         if (s == null) return;
-        s.source.Pause();
+        if (s.source.isPlaying) s.source.Play(); s.source.Pause();
     }
 
     public void PlayOnShot(string name)
@@ -59,6 +65,7 @@ public class SoundClass
 {
     public string name;
     public AudioClip clip;
+    public AudioMixerGroup audioMixerGroup;
     [Range(0, 1f)] public float volume;
     [Range(.1f, 3f)] public float pitch;
     public bool loop;

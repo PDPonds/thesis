@@ -302,7 +302,13 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
 
-        if (onGrounded) anim.SetBool("onAir", false);
+        if (onGrounded)
+        {
+            anim.SetBool("onAir", false);
+            if (currentState == running)
+                SoundManager.Instance.Play("FootStep");
+            else SoundManager.Instance.Pause("FootStep");
+        }
         else
         {
             anim.SetBool("onAir", true);
@@ -412,7 +418,7 @@ public class PlayerManager : MonoBehaviour
         jumpCount--;
 
         attackCol.enabled = false;
-
+        SoundManager.Instance.PlayOnShot("Jump");
         anim.SetBool("Slide", false);
         if (jumpCount == 1)
         {
@@ -439,6 +445,7 @@ public class PlayerManager : MonoBehaviour
     {
         attackCol.enabled = false;
 
+        SoundManager.Instance.PlayOnShot("Jump");
         anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
 
@@ -498,8 +505,17 @@ public class PlayerManager : MonoBehaviour
             //}
             //else
             //{
-            if (attackCount % 2 != 0) anim.Play("Attack1");
-            else anim.Play("Attack2");
+            if (attackCount % 2 != 0)
+            {
+                anim.Play("Attack1");
+                SoundManager.Instance.PlayOnShot("MCAtk1");
+            }
+            else
+            {
+                anim.Play("Attack2");
+                SoundManager.Instance.PlayOnShot("MCAtk2");
+
+            }
             //}
             //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
@@ -536,10 +552,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (!isDead && !noDamage)
         {
-            isDead = true;
             attackCol.enabled = false;
             anim.SetBool("isDead", true);
+            SoundManager.Instance.PlayOnShot("Explosive");
             onDead?.Invoke();
+            isDead = true;
         }
     }
 
@@ -680,6 +697,9 @@ public class PlayerManager : MonoBehaviour
                 rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
 
                 RemoveGadget(1);
+
+                SoundManager.Instance.PlayOnShot("ShurikenThrow");
+
             }
         }
     }

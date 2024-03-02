@@ -152,6 +152,7 @@ public class UIManager : MonoBehaviour
         if (PlayerManager.reviveItemCount > 0 &&
                 PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
             curReviveTime = 0;
             deadScene.gameObject.SetActive(false);
@@ -174,6 +175,7 @@ public class UIManager : MonoBehaviour
 
     void ReturnToLobby()
     {
+        SoundManager.Instance.PlayOnShot("Button");
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
         LeanTween.alphaCanvas(fadeCanvas, 1, .3f)
              .setEase(LeanTweenType.easeInOutCubic)

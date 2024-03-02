@@ -8,6 +8,7 @@ public class EnemyBullet : MonoBehaviour
     public bool isCounter;
     public float damage;
     public float speed;
+    public bool isMissile;
 
     private void Update()
     {
@@ -34,6 +35,8 @@ public class EnemyBullet : MonoBehaviour
                     if (!playerManager.noDamage)
                     {
                         StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                        if (isMissile) SoundManager.Instance.PlayOnShot("Explosive");
+                        else SoundManager.Instance.PlayOnShot("LaserHit");
                     }
                 }
             }
@@ -45,7 +48,7 @@ public class EnemyBullet : MonoBehaviour
                 if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
                 {
                     StartCoroutine(EnemyTakeDamage(collision, idamageable));
-
+                    SoundManager.Instance.PlayOnShot("LaserHit");
                 }
             }
 
@@ -56,10 +59,11 @@ public class EnemyBullet : MonoBehaviour
                     if (idamageable.curBehavior == BossBehavior.Weakness)
                     {
                         StartCoroutine(EnemyTakeDamage(collision, idamageable));
-
+                        SoundManager.Instance.PlayOnShot("LaserHit");
                     }
                     else
                     {
+                        SoundManager.Instance.PlayOnShot("LaserHit");
                         GameObject hitPar = GameManager.Instance.hitParticle;
                         GameManager.Instance.SpawnParticle(hitPar, transform.position);
                         Destroy(gameObject);
@@ -74,7 +78,7 @@ public class EnemyBullet : MonoBehaviour
                     GameObject hitPar = GameManager.Instance.hitParticle;
                     GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
                     GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
-
+                    SoundManager.Instance.PlayOnShot("LaserHit");
                     weakSpot.RemoveWeakSpotHP();
 
                     Destroy(gameObject);
@@ -86,7 +90,7 @@ public class EnemyBullet : MonoBehaviour
         {
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, transform.position);
-
+            SoundManager.Instance.PlayOnShot("LaserHit");
             Destroy(gameObject);
         }
 

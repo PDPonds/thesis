@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    Normal, Weakness
+    AfterSpawn, Normal, Weakness
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -14,9 +14,11 @@ public class BossController : MonoBehaviour, IDamageable
 
     Animator anim;
 
-    public BossBehavior curBehavior = BossBehavior.Normal;
+    public BossBehavior curBehavior;
     bool isDead;
-
+    [Header("===== After Spawn Behavior =====")]
+    [SerializeField] float alertTime;
+    float curAlertTime;
     [Header("===== Normal Behavior =====")]
     [Header("- WeakSpot")]
     [SerializeField] float normalXSpeed;
@@ -59,6 +61,7 @@ public class BossController : MonoBehaviour, IDamageable
         hp = bossSO.maxHp;
         spawnProjectilePos = GameManager.Instance.bossSpawnPos;
         curProjectileDelay = delayProjectile;
+        SwitchBehavior(BossBehavior.AfterSpawn);
     }
 
     private void Update()
@@ -67,6 +70,25 @@ public class BossController : MonoBehaviour, IDamageable
         {
             switch (curBehavior)
             {
+                case BossBehavior.AfterSpawn:
+
+                    if (curAlertTime > 0)
+                    {
+                        curAlertTime -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        SwitchBehavior(BossBehavior.Normal);
+                    }
+
+                    Vector3 afterPos = PlayerManager.Instance.transform.position + normalOffset;
+                    normalOffset.z = 0;
+
+                    transform.position = Vector3.SmoothDamp(transform.position, afterPos, ref velocity, normalXSpeed);
+
+                    weakSpot.gameObject.SetActive(false);
+
+                    break;
                 case BossBehavior.Normal:
                     if (curDelayWeakSpot > 0)
                     {
@@ -141,6 +163,12 @@ public class BossController : MonoBehaviour, IDamageable
         curBehavior = behavior;
         switch (curBehavior)
         {
+            case BossBehavior.AfterSpawn:
+                SoundManager.Instance.PlayOnShot("BossAlert");
+                SoundManager.Instance.Pause("NormalBGM");
+                SoundManager.Instance.Play("BossBGM");
+                curAlertTime = alertTime;
+                break;
             case BossBehavior.Normal:
                 curDelayWeakSpot = delayWeakSpot;
                 weakSpot.ResetWeakSpotHP();
@@ -175,6 +203,7 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        SoundManager.Instance.PlayOnShot("Explosive");
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
@@ -191,6 +220,7 @@ public class BossController : MonoBehaviour, IDamageable
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
         bossProjectile.speed = projectileSpeed;
         bossProjectile.damage = projectileDamage;
+        SoundManager.Instance.PlayOnShot("MissileShot");
     }
 
     IEnumerator FireLasser()
@@ -212,6 +242,7 @@ public class BossController : MonoBehaviour, IDamageable
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
         ebullet.damage = bulletDamage;
         ebullet.speed = normalBulletSpeed;
+        SoundManager.Instance.PlayOnShot("LaserShot");
     }
 
     public void SwitchWeakSpotPos()
