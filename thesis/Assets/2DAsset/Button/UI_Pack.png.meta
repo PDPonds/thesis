@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: b7c4b7beda3d2864890c473285da7523
+guid: e1f8b8b7677e778419facd0d5647876d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -49,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 11, y: 8, z: 11, w: 8}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -110,11 +110,53 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button Base_0
+      name: UI_Pack_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 8
+        x: 15
+        y: 15
+        width: 162
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56959cb8c3e5dc84eabbeed6fefad875
+      internalID: -507663996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Pack_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 107
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d127764af32328c4990698f94b206982
+      internalID: 2015627167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Pack_2
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 89
         width: 74
         height: 16
       alignment: 0
@@ -124,8 +166,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c1516f16db09454e8bb39f0d007b600
-      internalID: 990543926
+      spriteID: 75fd03beb7334414c9439900562a132a
+      internalID: -467595463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Pack_3
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 69
+        width: 44
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: accce0c56f43cc64c8e638405611ff2d
+      internalID: -526272531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Pack_4
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 50
+        width: 64
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bba9c34c43d05f446af7bddd01e6cfa4
+      internalID: 714709957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Pack_5
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 15
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a680a41d8c74fff42bdbe656bf80fbb2
+      internalID: -800813269
       vertices: []
       indices: 
       edges: []
@@ -134,14 +239,19 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Button Base_0: 990543926
+      UI_Pack_0: -507663996
+      UI_Pack_1: 2015627167
+      UI_Pack_2: -467595463
+      UI_Pack_3: -526272531
+      UI_Pack_4: 714709957
+      UI_Pack_5: -800813269
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
