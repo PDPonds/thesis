@@ -39,6 +39,25 @@ public class PlayerAttackTrigger : MonoBehaviour
             }
         }
 
+        if (collision.CompareTag("EnemyBullet"))
+        {
+            if (collision.transform.TryGetComponent<EnemyBullet>(out EnemyBullet eBullet))
+            {
+                if (eBullet.canCounter)
+                {
+                    eBullet.isCounter = true;
+                    SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
+                    sprite.flipX = true;
+
+                    CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
+                    Vector2 curOffset = capCol.offset;
+                    curOffset.x = capCol.offset.x * -1f;
+                    capCol.offset = curOffset;
+                    SoundManager.Instance.PlayOnShot("LaserShot");
+                }
+            }
+        }
+
         if (collision.CompareTag("Capsule"))
         {
             if (collision.TryGetComponent<CoinCapsule>(out CoinCapsule cc))
@@ -47,10 +66,10 @@ public class PlayerAttackTrigger : MonoBehaviour
                 GameManager.Instance.SpawnCoin(collision.transform.position, capsule.dropCoinAmount);
             }
 
-            if (collision.TryGetComponent<ShurikenCapsule>(out ShurikenCapsule shurikenCapsule))
+            if (collision.TryGetComponent<GadgetCapsule>(out GadgetCapsule gadgetCapsule))
             {
-                SpecialGadget gadget = shurikenCapsule.gadget;
-                int amount = shurikenCapsule.amount;
+                SpecialGadget gadget = gadgetCapsule.gadget;
+                int amount = gadgetCapsule.amount;
                 PlayerManager.Instance.AddGadget(gadget, amount);
             }
 
@@ -60,6 +79,8 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+            SoundManager.Instance.PlayOnShot("SlashItem");
 
             if (!PlayerManager.Instance.onGrounded)
             {

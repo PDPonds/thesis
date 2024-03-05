@@ -64,7 +64,7 @@ public class PlayerBullet : MonoBehaviour
     {
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
-        GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
+        //GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
         yield return StartCoroutine(damageable.TakeDamage());
         Destroy(gameObject);
     }

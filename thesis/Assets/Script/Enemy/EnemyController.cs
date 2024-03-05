@@ -28,6 +28,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     [Header("===== IS Range Enemy =====")]
     public Transform bulletSpawnPoint;
 
+    [Header("===== Death =====")]
+    public GameObject deatFrame;
     //[Header("===== Hook =====")]
     //public bool hookable;
     //public Transform targetVisual;
@@ -52,6 +54,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
+
         canAttack = true;
         float attackDelay = enemySO.attackSpeed;
         currentAttackDelay = attackDelay;
@@ -60,11 +63,11 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
             {
+                Instantiate(deatFrame, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
@@ -118,7 +121,6 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-
         if (collision.transform.tag == "Player")
         {
             if (collision.transform.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
@@ -178,15 +180,16 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        anim.Play("Dead");
+        if (anim != null) anim.Play("Dead");
+        SoundManager.Instance.PlayOnShot("BotDeath");
         GameManager.Instance.hitScore += enemySO.dropScore;
         PlayerManager.Instance.AddCoin(enemySO.dropCoin);
-        Destroy(gameObject);
+
     }
 
     void PlayHurtAnim()
     {
-        anim.Play("Hurt");
+        //anim.Play("Hurt");
     }
 
     void PlayAttackAnim()
@@ -199,12 +202,12 @@ public class EnemyController : MonoBehaviour, IDamageable
         RangeEnemy rangeEnemy = (RangeEnemy)enemySO;
         GameObject bullet = rangeEnemy.bulletPrefab;
         float bulletSpeed = rangeEnemy.bulletSpeed;
-
         GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
         Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
         bulletRb.AddForce(Vector2.left * bulletSpeed, ForceMode2D.Impulse);
         EnemyBullet enemyBullet = bulletObj.GetComponent<EnemyBullet>();
         enemyBullet.damage = enemySO.damage;
+        SoundManager.Instance.PlayOnShot("LaserShot");
     }
 
 }

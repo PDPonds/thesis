@@ -32,9 +32,10 @@ public class Coin : MonoBehaviour
         {
             if (other.TryGetComponent<PlayerManager>(out PlayerManager manager))
             {
+                SoundManager.Instance.PlayOnShot("CoinPickup");
                 PlayerManager.Instance.AddCoin(cointAmount);
                 GameObject hitPar = GameManager.Instance.getCoinParticle;
-                GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
+                GameManager.Instance.SpawnParticle(hitPar, transform.position);
                 Destroy(gameObject);
 
             }

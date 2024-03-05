@@ -17,11 +17,6 @@ public class GameManager : MonoBehaviour
     public float maxNormalSpeed;
     public float minNormalSpeed;
 
-    public float momentumMul;
-    public float momentumTime;
-    [HideInInspector] public float currentMomentumTime;
-    [HideInInspector] public bool isMomentum;
-
     public float currentSpeed;
     public Transform DeadPoint;
 
@@ -41,6 +36,7 @@ public class GameManager : MonoBehaviour
     public GameObject healParticle;
     public GameObject jumpParticle;
     public GameObject slashParticle;
+    public GameObject smokeParticle;
 
     [Header("- Score")]
     public float scoreMul;
@@ -79,53 +75,6 @@ public class GameManager : MonoBehaviour
         float disScore = dis * scoreMul;
         float totalScore = disScore + hitScore;
         if (totalScore > currentScore) currentScore = (int)totalScore;
-
-        //if (!isMomentum)
-        //{
-        //    if (currentScore / 1000 > minNormalSpeed)
-        //    {
-        //        float speed = currentScore / 1000;
-        //        currentSpeed = speed;
-        //    }
-        //    else if (currentScore / 1000 < minNormalSpeed)
-        //    {
-        //        currentSpeed = minNormalSpeed;
-        //    }
-        //    else if (currentScore / 1000 > maxNormalSpeed)
-        //    {
-        //        currentSpeed = maxNormalSpeed;
-        //    }
-        //}
-        //else
-        //{
-        //    if (currentScore / 1000 > minNormalSpeed)
-        //    {
-        //        float speed = currentScore / 1000;
-        //        float targetSpeed = speed + momentumMul;
-        //        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-        //    }
-        //    else if (currentScore / 1000 < minNormalSpeed)
-        //    {
-        //        float targetSpeed = minNormalSpeed + momentumMul;
-        //        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-        //    }
-        //    else if (currentScore / 1000 > maxNormalSpeed)
-        //    {
-        //        float targetSpeed = maxNormalSpeed + momentumMul;
-        //        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-        //    }
-        //}
-
-
-        if (currentMomentumTime >= momentumTime)
-        {
-            isMomentum = true;
-        }
-        else
-        {
-            isMomentum = false;
-            currentMomentumTime += Time.deltaTime;
-        }
 
         float playerAndSpawnPoint = Vector3.Distance(PlayerManager.Instance.transform.position,
             lastEndPos);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum GadgetType
 {
-    Projectile
+    Projectile, UseForPlayer
 }
 
 public class SpecialGadget : ScriptableObject
@@ -12,5 +12,7 @@ public class SpecialGadget : ScriptableObject
     public Sprite gadgetSprint;
     public int maxStack;
     public GadgetType gadgetType;
+
+    public virtual void UseGadget() { }
 
 }

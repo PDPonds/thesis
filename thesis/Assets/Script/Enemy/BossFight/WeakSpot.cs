@@ -6,6 +6,7 @@ public class WeakSpot : MonoBehaviour
 {
     public BossController bossController;
     public int weakSpotHP;
+    public Transform curPos;
 
     private void Start()
     {
@@ -15,14 +16,19 @@ public class WeakSpot : MonoBehaviour
     public void ResetWeakSpotHP()
     {
         weakSpotHP = bossController.bossSO.weakSpotHP;
+        bossController.SwitchWeakSpotPos();
     }
 
     public void RemoveWeakSpotHP()
     {
-        weakSpotHP--;
-        if (weakSpotHP <= 0)
+        if (bossController.curBehavior == BossBehavior.Normal)
         {
-            bossController.SwitchBehavior(BossBehavior.Weakness);
+            weakSpotHP--;
+            bossController.SwitchWeakSpotPos();
+            if (weakSpotHP <= 0)
+            {
+                bossController.SwitchBehavior(BossBehavior.Weakness);
+            }
         }
     }
 

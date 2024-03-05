@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    Normal, Weakness
+    AfterSpawn, Normal, Weakness
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -14,21 +14,38 @@ public class BossController : MonoBehaviour, IDamageable
 
     Animator anim;
 
-    public BossBehavior curBehavior = BossBehavior.Normal;
+    public BossBehavior curBehavior;
     bool isDead;
-
+    [Header("===== After Spawn Behavior =====")]
+    [SerializeField] float alertTime;
+    float curAlertTime;
     [Header("===== Normal Behavior =====")]
-    [SerializeField] float normalSpeed;
+    [Header("- WeakSpot")]
+    [SerializeField] float normalXSpeed;
+    [SerializeField] float normalYSpeed;
+
     [SerializeField] WeakSpot weakSpot;
     [SerializeField] Vector3 normalOffset;
+    [SerializeField] Transform pos1;
+    [SerializeField] Transform pos2;
     Vector3 velocity;
-    [Header("- Projectile")]
+    [SerializeField] float delayWeakSpot;
+    float curDelayWeakSpot;
+
+    [Header("- Missile")]
     [SerializeField] Transform spawnProjectilePos;
     [SerializeField] float delayProjectile;
     float curProjectileDelay;
     [SerializeField] GameObject[] projectilePrefabs;
     [SerializeField] float projectileSpeed;
     [SerializeField] float projectileDamage;
+    [Header("- Lasser")]
+    [SerializeField] float countPerMax;
+    [SerializeField] float delayPerCount;
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform bulletSpawnPoint;
+    [SerializeField] float bulletDamage;
+    [SerializeField] float normalBulletSpeed;
 
     [Header("===== Weakness Behavior =====")]
     [SerializeField] float weaknessSpeed;
@@ -44,6 +61,7 @@ public class BossController : MonoBehaviour, IDamageable
         hp = bossSO.maxHp;
         spawnProjectilePos = GameManager.Instance.bossSpawnPos;
         curProjectileDelay = delayProjectile;
+        SwitchBehavior(BossBehavior.AfterSpawn);
     }
 
     private void Update()
@@ -52,23 +70,64 @@ public class BossController : MonoBehaviour, IDamageable
         {
             switch (curBehavior)
             {
+                case BossBehavior.AfterSpawn:
+
+                    if (curAlertTime > 0)
+                    {
+                        curAlertTime -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        SwitchBehavior(BossBehavior.Normal);
+                    }
+
+                    Vector3 afterPos = PlayerManager.Instance.transform.position + normalOffset;
+                    normalOffset.z = 0;
+
+                    transform.position = Vector3.SmoothDamp(transform.position, afterPos, ref velocity, normalXSpeed);
+
+                    weakSpot.gameObject.SetActive(false);
+
+                    break;
                 case BossBehavior.Normal:
+                    if (curDelayWeakSpot > 0)
+                    {
+                        curDelayWeakSpot -= Time.deltaTime;
+                        if (weakSpot != null) weakSpot.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        weakSpot.gameObject.SetActive(true);
+                    }
 
                     Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
                     normalOffset.z = 0;
-                    transform.position =
-                        Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalSpeed); ;
+
+                    Vector3 smoothX = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalXSpeed);
+                    Vector3 smoothY = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalYSpeed);
+
+                    transform.position = new Vector3(smoothX.x, smoothY.y, smoothX.z);
 
                     curProjectileDelay -= Time.deltaTime;
                     if (curProjectileDelay < 0)
                     {
-                        SpawnProjectile();
-                        curProjectileDelay = delayProjectile;
+                        int ran = Random.Range(0, 2);
+                        if (ran == 0)
+                        {
+                            SpawnMissile();
+                            curProjectileDelay = delayProjectile;
+                        }
+                        else
+                        {
+                            StartCoroutine(FireLasser());
+                            curProjectileDelay = delayProjectile;
+                        }
+
                     }
 
                     break;
                 case BossBehavior.Weakness:
-
+                    weakSpot.gameObject.SetActive(false);
                     Vector3 weaknessPos = Camera.main.transform.position + weaknessOffset;
                     weaknessPos.z = 0;
                     weaknessPos.y = weaknessOffset.y;
@@ -92,10 +151,10 @@ public class BossController : MonoBehaviour, IDamageable
             Rigidbody2D playerRB = transform.GetComponent<Rigidbody2D>();
             playerRB.bodyType = RigidbodyType2D.Kinematic;
             playerRB.simulated = false;
-            Rigidbody2D weakspotRB = transform.GetChild(0).GetComponent<Rigidbody2D>();
+            Rigidbody2D weakspotRB = weakSpot.GetComponent<Rigidbody2D>();
             weakspotRB.bodyType = RigidbodyType2D.Kinematic;
-            playerRB.simulated = false;
-
+            weakspotRB.simulated = false;
+            weakSpot.gameObject.SetActive(false);
         }
     }
 
@@ -104,7 +163,14 @@ public class BossController : MonoBehaviour, IDamageable
         curBehavior = behavior;
         switch (curBehavior)
         {
+            case BossBehavior.AfterSpawn:
+                SoundManager.Instance.PlayOnShot("BossAlert");
+                SoundManager.Instance.Pause("NormalBGM");
+                SoundManager.Instance.Play("BossBGM");
+                curAlertTime = alertTime;
+                break;
             case BossBehavior.Normal:
+                curDelayWeakSpot = delayWeakSpot;
                 weakSpot.ResetWeakSpotHP();
                 break;
             case BossBehavior.Weakness:
@@ -137,6 +203,9 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        SoundManager.Instance.PlayOnShot("Explosive");
+        SoundManager.Instance.Pause("BossBGM");
+        SoundManager.Instance.Play("NormalBGM");
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
@@ -145,7 +214,7 @@ public class BossController : MonoBehaviour, IDamageable
         Destroy(gameObject, 5f);
     }
 
-    public void SpawnProjectile()
+    public void SpawnMissile()
     {
         int index = Random.Range(0, projectilePrefabs.Length);
         Vector3 pos = spawnProjectilePos.position;
@@ -153,15 +222,54 @@ public class BossController : MonoBehaviour, IDamageable
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
         bossProjectile.speed = projectileSpeed;
         bossProjectile.damage = projectileDamage;
+        SoundManager.Instance.PlayOnShot("MissileShot");
     }
 
-    //public void SpawnProjectile()
-    //{
-    //    int index = Random.Range(0, projectilePrefabs.Length);
-    //    Vector3 pos = spawnProjectilePos.position;
-    //    GameObject projectileObj = Instantiate(projectilePrefabs[index], pos, Quaternion.identity);
-    //    BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
+    IEnumerator FireLasser()
+    {
+        int fireCount = 0;
+        while (fireCount < countPerMax)
+        {
+            SpawnLasser();
+            fireCount++;
+            yield return new WaitForSeconds(delayPerCount);
 
-    //}
+        }
+    }
+
+    public void SpawnLasser()
+    {
+        Vector3 pos = bulletSpawnPoint.position;
+        GameObject bulletObj = Instantiate(bullet, pos, Quaternion.identity);
+        EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
+        ebullet.damage = bulletDamage;
+        ebullet.speed = normalBulletSpeed;
+        SoundManager.Instance.PlayOnShot("LaserShot");
+    }
+
+    public void SwitchWeakSpotPos()
+    {
+        if (weakSpot != null)
+        {
+            if (weakSpot.curPos == null)
+            {
+                weakSpot.curPos = pos1;
+                weakSpot.transform.position = pos1.transform.position;
+            }
+            else
+            {
+                if (weakSpot.curPos == pos1)
+                {
+                    weakSpot.curPos = pos2;
+                    weakSpot.transform.position = pos2.transform.position;
+                }
+                else if (weakSpot.curPos == pos2)
+                {
+                    weakSpot.curPos = pos1;
+                    weakSpot.transform.position = pos1.transform.position;
+                }
+            }
+        }
+    }
 
 }

@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
-    public static int reviveItemCount = 1;
+    public static int reviveItemCount = 2;
     public static int coin = 0;
     public int inGameCoin;
 
@@ -28,8 +28,6 @@ public class PlayerManager : MonoBehaviour
 
     public RunningState running = new RunningState();
     public SlideState slide = new SlideState();
-    public HookState hook = new HookState();
-    public EndHookState endHook = new EndHookState();
     public HurtState hurt = new HurtState();
     public ReviveState revive = new ReviveState();
 
@@ -53,7 +51,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Color normalColor;
     [SerializeField] Color blinkColor;
     float curBlinkTime;
-    [SerializeField] float curNoDamageTime;
+    [HideInInspector] public float curNoDamageTime;
     bool isBlink;
     [HideInInspector] public bool isDropDead;
     [HideInInspector] public Transform lastCheckPoint;
@@ -83,6 +81,7 @@ public class PlayerManager : MonoBehaviour
     public Collider2D attackCol;
     public float attackDelay;
     //public GameObject attackParticle;
+    public float counterBulletSpeed;
 
     int attackCount;
     float currentAttackDelay;
@@ -282,8 +281,7 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
         #region Move
-        if (currentState != hurt && !isDead && currentState != hook &&
-            currentState != endHook && currentState != revive)
+        if (currentState != revive && !isDead)
         {
             float speed = GameManager.Instance.currentSpeed;
             //transform.Translate(Vector2.right * Time.deltaTime * speed);
@@ -304,7 +302,10 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
 
-        if (onGrounded) anim.SetBool("onAir", false);
+        if (onGrounded)
+        {
+            anim.SetBool("onAir", false);
+        }
         else
         {
             anim.SetBool("onAir", true);
@@ -407,7 +408,6 @@ public class PlayerManager : MonoBehaviour
             UIManager.Instance.ReviveBut();
         }
 
-
     }
 
     public void Jump(float force)
@@ -415,7 +415,7 @@ public class PlayerManager : MonoBehaviour
         jumpCount--;
 
         attackCol.enabled = false;
-
+        SoundManager.Instance.PlayOnShot("Jump");
         anim.SetBool("Slide", false);
         if (jumpCount == 1)
         {
@@ -442,6 +442,7 @@ public class PlayerManager : MonoBehaviour
     {
         attackCol.enabled = false;
 
+        SoundManager.Instance.PlayOnShot("Jump");
         anim.SetBool("onAir", true);
         anim.SetBool("Slide", false);
 
@@ -462,8 +463,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SlidePerformed()
     {
-        if (currentState != slide && currentState != endHook &&
-            currentState != hook)
+        if (currentState != slide && currentState != revive)
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
@@ -502,8 +502,17 @@ public class PlayerManager : MonoBehaviour
             //}
             //else
             //{
-            if (attackCount % 2 != 0) anim.Play("Attack1");
-            else anim.Play("Attack2");
+            if (attackCount % 2 != 0)
+            {
+                anim.Play("Attack1");
+                SoundManager.Instance.PlayOnShot("MCAtk1");
+            }
+            else
+            {
+                anim.Play("Attack2");
+                SoundManager.Instance.PlayOnShot("MCAtk2");
+
+            }
             //}
             //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
@@ -520,8 +529,6 @@ public class PlayerManager : MonoBehaviour
         onTakeDamage?.Invoke();
         currentHp -= damage;
         noDamage = true;
-        GameManager.Instance.currentMomentumTime = 0;
-        GameManager.Instance.isMomentum = false;
 
         SwitchState(hurt);
 
@@ -540,12 +547,13 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        if (!isDead && !noDamage)
+        if (!isDead && currentState != revive)
         {
-            isDead = true;
             attackCol.enabled = false;
             anim.SetBool("isDead", true);
+            SoundManager.Instance.PlayOnShot("Explosive");
             onDead?.Invoke();
+            isDead = true;
         }
     }
 
@@ -677,16 +685,20 @@ public class PlayerManager : MonoBehaviour
     {
         if (gadgetSlot.gadget != null)
         {
-            if (gadgetSlot.gadget is ProjectileGadget projectileGadget)
-            {
-                GameObject projectileObj = Instantiate(projectileGadget.projectilePrefab,
-                    shurikenSpawnPoint.position, Quaternion.identity);
+            //if (gadgetSlot.gadget is ProjectileGadget projectileGadget)
+            //{
+            //    GameObject projectileObj = Instantiate(projectileGadget.projectilePrefab,
+            //        shurikenSpawnPoint.position, Quaternion.identity);
 
-                Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
-                rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
+            //    Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
+            //    rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
 
-                RemoveGadget(1);
-            }
+            //    RemoveGadget(1);
+
+            //    SoundManager.Instance.PlayOnShot("ShurikenThrow");
+
+            //}
+            gadgetSlot.gadget.UseGadget();
         }
     }
 
