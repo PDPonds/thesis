@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Color normalColor;
     [SerializeField] Color blinkColor;
     float curBlinkTime;
-    [SerializeField] float curNoDamageTime;
+    [HideInInspector] public float curNoDamageTime;
     bool isBlink;
     [HideInInspector] public bool isDropDead;
     [HideInInspector] public Transform lastCheckPoint;
@@ -547,7 +547,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        if (!isDead && !noDamage)
+        if (!isDead && currentState != revive)
         {
             attackCol.enabled = false;
             anim.SetBool("isDead", true);
@@ -685,19 +685,20 @@ public class PlayerManager : MonoBehaviour
     {
         if (gadgetSlot.gadget != null)
         {
-            if (gadgetSlot.gadget is ProjectileGadget projectileGadget)
-            {
-                GameObject projectileObj = Instantiate(projectileGadget.projectilePrefab,
-                    shurikenSpawnPoint.position, Quaternion.identity);
+            //if (gadgetSlot.gadget is ProjectileGadget projectileGadget)
+            //{
+            //    GameObject projectileObj = Instantiate(projectileGadget.projectilePrefab,
+            //        shurikenSpawnPoint.position, Quaternion.identity);
 
-                Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
-                rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
+            //    Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
+            //    rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
 
-                RemoveGadget(1);
+            //    RemoveGadget(1);
 
-                SoundManager.Instance.PlayOnShot("ShurikenThrow");
+            //    SoundManager.Instance.PlayOnShot("ShurikenThrow");
 
-            }
+            //}
+            gadgetSlot.gadget.UseGadget();
         }
     }
 

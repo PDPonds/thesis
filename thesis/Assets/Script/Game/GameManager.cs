@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public GameObject healParticle;
     public GameObject jumpParticle;
     public GameObject slashParticle;
+    public GameObject smokeParticle;
 
     [Header("- Score")]
     public float scoreMul;

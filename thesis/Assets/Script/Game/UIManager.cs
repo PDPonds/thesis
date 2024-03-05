@@ -175,6 +175,9 @@ public class UIManager : MonoBehaviour
 
     void ReturnToLobby()
     {
+        if (PauseManager.Instance.GetPauseState())
+            Time.timeScale = 1f;
+
         SoundManager.Instance.PlayOnShot("Button");
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
         LeanTween.alphaCanvas(fadeCanvas, 1, .3f)

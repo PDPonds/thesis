@@ -66,10 +66,10 @@ public class PlayerAttackTrigger : MonoBehaviour
                 GameManager.Instance.SpawnCoin(collision.transform.position, capsule.dropCoinAmount);
             }
 
-            if (collision.TryGetComponent<ShurikenCapsule>(out ShurikenCapsule shurikenCapsule))
+            if (collision.TryGetComponent<GadgetCapsule>(out GadgetCapsule gadgetCapsule))
             {
-                SpecialGadget gadget = shurikenCapsule.gadget;
-                int amount = shurikenCapsule.amount;
+                SpecialGadget gadget = gadgetCapsule.gadget;
+                int amount = gadgetCapsule.amount;
                 PlayerManager.Instance.AddGadget(gadget, amount);
             }
 
