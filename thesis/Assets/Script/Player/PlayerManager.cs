@@ -361,11 +361,12 @@ public class PlayerManager : MonoBehaviour
                 if (curNoDamageTime < 0)
                 {
                     curNoDamageTime = noDamageTime;
+
+                    Physics2D.IgnoreLayerCollision(3,7,false);
+
                     noDamage = false;
                 }
             }
-
-
         }
         else
         {
@@ -529,6 +530,8 @@ public class PlayerManager : MonoBehaviour
         onTakeDamage?.Invoke();
         currentHp -= damage;
         noDamage = true;
+
+        Physics2D.IgnoreLayerCollision(3, 7,true);
 
         SwitchState(hurt);
 

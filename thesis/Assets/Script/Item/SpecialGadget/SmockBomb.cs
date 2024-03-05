@@ -23,6 +23,11 @@ public class SmockBomb : SpecialGadget
                 GameManager.Instance.SpawnParticle(smoke, playerPos);
                 PlayerManager.Instance.curNoDamageTime = noDamageTime;
                 PlayerManager.Instance.noDamage = true;
+
+                Physics2D.IgnoreLayerCollision(3, 7, true);
+
+                PlayerManager.Instance.RemoveGadget(1);
+
             }
         }
     }
