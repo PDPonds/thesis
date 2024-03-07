@@ -37,8 +37,9 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float delayProjectile;
     float curProjectileDelay;
     [SerializeField] GameObject[] projectilePrefabs;
-    [SerializeField] float projectileSpeed;
-    [SerializeField] float projectileDamage;
+    public float projectileSpeed;
+    public float projectileDamage;
+    public float warningTime;
     [Header("- Lasser")]
     [SerializeField] float countPerMax;
     [SerializeField] float delayPerCount;
@@ -226,9 +227,10 @@ public class BossController : MonoBehaviour, IDamageable
         int index = Random.Range(0, projectilePrefabs.Length);
         Vector3 pos = spawnProjectilePos.position;
         GameObject projectileObj = Instantiate(projectilePrefabs[index], pos, Quaternion.identity);
+
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
-        bossProjectile.speed = projectileSpeed;
-        bossProjectile.damage = projectileDamage;
+        bossProjectile.SetupMissile(this);
+
         SoundManager.Instance.PlayOnShot("MissileShot");
     }
 

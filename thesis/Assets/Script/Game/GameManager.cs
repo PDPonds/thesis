@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject curBoss;
     [Header("===== Coin =====")]
     public GameObject coin1Prefab;
+    [Header("===== Boss =====")]
+    public Transform warningMissileSpawnPoint;
+    public GameObject warningObj;
 
     private void Awake()
     {
