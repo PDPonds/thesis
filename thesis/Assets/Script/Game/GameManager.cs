@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public enum GameState
@@ -9,6 +10,7 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject soundManager;
     public static GameManager Instance;
 
     [Header("===== Game =====")]
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
     public GameObject jumpParticle;
     public GameObject slashParticle;
     public GameObject smokeParticle;
+    public GameObject weakspotParticle;
 
     [Header("- Score")]
     public float scoreMul;
@@ -135,6 +138,25 @@ public class GameManager : MonoBehaviour
         else
         {
             GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+        }
+    }
+
+    public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot, Vector3 scale)
+    {
+        if (randomRot)
+        {
+            float rotZ = Random.Range(-90f, 90f);
+            Vector3 rot = new Vector3(0, 0, rotZ);
+            Vector3 rot2 = new Vector3(0, 0, rotZ + 90f);
+            GameObject particleObj = Instantiate(particle, pos, Quaternion.Euler(rot));
+            GameObject particleObj2 = Instantiate(particle, pos, Quaternion.Euler(rot2));
+            particleObj.transform.localScale = scale;
+            particleObj2.transform.localScale = scale;
+        }
+        else
+        {
+            GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+            particleObj.transform.localScale = scale;
         }
     }
 

@@ -45,10 +45,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: 
-    clip: {fileID: 0}
-    audioMixerGroup: {fileID: 0}
-    volume: 0
-    pitch: 0.1
+  - name: NormalBGM
+    clip: {fileID: 8300000, guid: 14153a0dfb4eeb84cb379b02fb742bea, type: 3}
+    audioMixerGroup: {fileID: -7241936066152368742, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: BossBGM
+    clip: {fileID: 8300000, guid: e75df3b6b54227445b4021757b0bdb88, type: 3}
+    audioMixerGroup: {fileID: -7241936066152368742, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: BossAlert
+    clip: {fileID: 8300000, guid: a2cceb9b887798c4eb1d697a6e65a5b3, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BotDeath
+    clip: {fileID: 8300000, guid: bd2afe602285c594dac6403f85598727, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Explosive
+    clip: {fileID: 8300000, guid: 3275c17156f70ec429cc2df6cc704f5e, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 273d4da49cd3de244851a34ecdf29bdc, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: LaserShot
+    clip: {fileID: 8300000, guid: 03f17f4f1dfc01344a947d9951003185, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MCAtk1
+    clip: {fileID: 8300000, guid: c511570e9f660b54a9cdb419340967b4, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MCAtk2
+    clip: {fileID: 8300000, guid: f649f91377d9f7747970b9fe26abc9e0, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MissileShot
+    clip: {fileID: 8300000, guid: a533f60e894d40f4aa0c17a35fb662d4, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SlashItem
+    clip: {fileID: 8300000, guid: 5aa0c5ffc64614e49bea9d5dfaf21322, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ShurikenThrow
+    clip: {fileID: 8300000, guid: 814832aa6d04d0641acef8f0293cb1a4, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CoinPickup
+    clip: {fileID: 8300000, guid: 07235d3661bca6a428f8fa9600709559, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Button
+    clip: {fileID: 8300000, guid: c1e8d14070ea28b459c35acd5108bb02, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: LaserHit
+    clip: {fileID: 8300000, guid: 3275c17156f70ec429cc2df6cc704f5e, type: 3}
+    audioMixerGroup: {fileID: -7705779105074543034, guid: 314bc922b708adf43a2d1479c293aa75, type: 2}
+    volume: 0.5
+    pitch: 1.5
     loop: 0
     source: {fileID: 0}
