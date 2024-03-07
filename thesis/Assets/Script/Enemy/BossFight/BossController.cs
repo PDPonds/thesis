@@ -43,7 +43,7 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float countPerMax;
     [SerializeField] float delayPerCount;
     [SerializeField] GameObject bullet;
-    [SerializeField] Transform bulletSpawnPoint;
+    [SerializeField] Transform[] bulletSpawnPoint;
     [SerializeField] float bulletDamage;
     [SerializeField] float normalBulletSpeed;
 
@@ -246,7 +246,8 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void SpawnLasser()
     {
-        Vector3 pos = bulletSpawnPoint.position;
+        int ran = Random.Range(0, bulletSpawnPoint.Length);
+        Vector3 pos = bulletSpawnPoint[ran].position;
         GameObject bulletObj = Instantiate(bullet, pos, Quaternion.identity);
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
         ebullet.damage = bulletDamage;

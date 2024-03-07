@@ -14,7 +14,12 @@ public class PlayerBullet : MonoBehaviour
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
-                StartCoroutine(EnemyTakeDamage(collision, idamageable));
+                EnemyController enemy = collision.GetComponent<EnemyController>();
+                Animator anim = enemy.GetComponent<Animator>();
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+                {
+                    StartCoroutine(EnemyTakeDamage(collision, idamageable));
+                }
             }
         }
 
