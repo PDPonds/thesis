@@ -361,9 +361,7 @@ public class PlayerManager : MonoBehaviour
                 if (curNoDamageTime < 0)
                 {
                     curNoDamageTime = noDamageTime;
-
-                    Physics2D.IgnoreLayerCollision(3,7,false);
-
+                    Physics2D.IgnoreLayerCollision(3, 7, false);
                     noDamage = false;
                 }
             }
@@ -373,6 +371,7 @@ public class PlayerManager : MonoBehaviour
             SpriteRenderer meshImage = mesh.GetComponent<SpriteRenderer>();
             meshImage.color = normalColor;
             isBlink = false;
+
         }
 
 
@@ -701,7 +700,16 @@ public class PlayerManager : MonoBehaviour
             //    SoundManager.Instance.PlayOnShot("ShurikenThrow");
 
             //}
+
+            if (noDamage)
+            {
+                curNoDamageTime = noDamageTime;
+                Physics2D.IgnoreLayerCollision(3, 7, false);
+                noDamage = false;
+            }
+
             gadgetSlot.gadget.UseGadget();
+
         }
     }
 

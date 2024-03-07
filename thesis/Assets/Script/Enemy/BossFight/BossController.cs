@@ -43,7 +43,7 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float countPerMax;
     [SerializeField] float delayPerCount;
     [SerializeField] GameObject bullet;
-    [SerializeField] Transform bulletSpawnPoint;
+    [SerializeField] Transform[] bulletSpawnPoint;
     [SerializeField] float bulletDamage;
     [SerializeField] float normalBulletSpeed;
 
@@ -127,10 +127,11 @@ public class BossController : MonoBehaviour, IDamageable
 
                     break;
                 case BossBehavior.Weakness:
+
                     weakSpot.gameObject.SetActive(false);
-                    Vector3 weaknessPos = Camera.main.transform.position + weaknessOffset;
-                    weaknessPos.z = 0;
-                    weaknessPos.y = weaknessOffset.y;
+                    float weaknessYPos = Camera.main.transform.position.y + weaknessOffset.y;
+                    float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
+                    Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
                     transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
                     curWeaknessTime -= Time.deltaTime;
                     if (curWeaknessTime < 0)
@@ -183,20 +184,26 @@ public class BossController : MonoBehaviour, IDamageable
     {
         if (curBehavior == BossBehavior.Weakness)
         {
-            hp--;
-            anim.Play("Hurt");
-            float time = GameManager.Instance.shakeDuration;
-            float mag = GameManager.Instance.shakeMagnitude;
-            StartCoroutine(GameManager.Instance.SceneShake(time, mag));
+            hp -= 2;
             GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
+        }
+        else if (curBehavior == BossBehavior.Normal)
+        {
+            hp--;
+            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true, new Vector3(0.5f, 0.5f, 0.5f));
+        }
 
-            GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
-            yield return null;
+        anim.Play("Hurt");
+        float time = GameManager.Instance.shakeDuration;
+        float mag = GameManager.Instance.shakeMagnitude;
+        StartCoroutine(GameManager.Instance.SceneShake(time, mag));
 
-            if (hp <= 0)
-            {
-                Die();
-            }
+        GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
+        yield return null;
+
+        if (hp <= 0)
+        {
+            Die();
         }
 
     }
@@ -239,7 +246,8 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void SpawnLasser()
     {
-        Vector3 pos = bulletSpawnPoint.position;
+        int ran = Random.Range(0, bulletSpawnPoint.Length);
+        Vector3 pos = bulletSpawnPoint[ran].position;
         GameObject bulletObj = Instantiate(bullet, pos, Quaternion.identity);
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
         ebullet.damage = bulletDamage;
