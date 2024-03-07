@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public GameObject slashParticle;
     public GameObject smokeParticle;
     public GameObject weakspotParticle;
+    public GameObject counterAttackParticle;
 
     [Header("- Score")]
     public float scoreMul;

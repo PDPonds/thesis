@@ -54,6 +54,9 @@ public class PlayerAttackTrigger : MonoBehaviour
                     SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
                     sprite.flipX = true;
 
+                    Vector2 pos = transform.position + new Vector3(1.5f, 0, 0);
+                    GameManager.Instance.SpawnParticle(GameManager.Instance.counterAttackParticle, pos);
+
                     CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
                     Vector2 curOffset = capCol.offset;
                     curOffset.x = capCol.offset.x * -1f;
