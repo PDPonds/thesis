@@ -14,8 +14,12 @@ public class PlayerBullet : MonoBehaviour
         {
             if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
             {
-                StartCoroutine(EnemyTakeDamage(collision, idamageable));
-
+                EnemyController enemy = collision.GetComponent<EnemyController>();
+                Animator anim = enemy.GetComponent<Animator>();
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+                {
+                    StartCoroutine(EnemyTakeDamage(collision, idamageable));
+                }
             }
         }
 
@@ -23,17 +27,7 @@ public class PlayerBullet : MonoBehaviour
         {
             if (collision.TryGetComponent<BossController>(out BossController idamageable))
             {
-                if (idamageable.curBehavior == BossBehavior.Weakness)
-                {
-                    StartCoroutine(EnemyTakeDamage(collision, idamageable));
-
-                }
-                else
-                {
-                    GameObject hitPar = GameManager.Instance.hitParticle;
-                    GameManager.Instance.SpawnParticle(hitPar, transform.position);
-                    Destroy(gameObject);
-                }
+                StartCoroutine(EnemyTakeDamage(collision, idamageable));
             }
         }
 
@@ -41,18 +35,16 @@ public class PlayerBullet : MonoBehaviour
         {
             if (collision.TryGetComponent<WeakSpot>(out WeakSpot weakSpot))
             {
-                GameObject hitPar = GameManager.Instance.hitParticle;
-                GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
-                GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
-
+                StartCoroutine(EnemyTakeDamage(collision, weakSpot.bossController));
                 weakSpot.RemoveWeakSpotHP();
-
+                GameManager.Instance.SpawnParticle(GameManager.Instance.weakspotParticle, transform.position, true);
                 Destroy(gameObject);
             }
         }
 
         if (collision.CompareTag("Ground"))
         {
+            SoundManager.Instance.PlayOnShot("LaserHit");
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, transform.position);
             Destroy(gameObject);
@@ -62,6 +54,7 @@ public class PlayerBullet : MonoBehaviour
 
     IEnumerator EnemyTakeDamage(Collider2D collision, IDamageable damageable)
     {
+        SoundManager.Instance.PlayOnShot("LaserHit");
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
         //GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);

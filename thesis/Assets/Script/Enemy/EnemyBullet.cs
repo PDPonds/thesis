@@ -35,8 +35,7 @@ public class EnemyBullet : MonoBehaviour
                     if (!playerManager.noDamage)
                     {
                         StartCoroutine(PlayerTakeDamage(collision, playerManager));
-                        if (isMissile) SoundManager.Instance.PlayOnShot("Explosive");
-                        else SoundManager.Instance.PlayOnShot("LaserHit");
+
                     }
                 }
             }
@@ -48,7 +47,6 @@ public class EnemyBullet : MonoBehaviour
                 if (collision.TryGetComponent<IDamageable>(out IDamageable idamageable))
                 {
                     StartCoroutine(EnemyTakeDamage(collision, idamageable));
-                    SoundManager.Instance.PlayOnShot("LaserHit");
                 }
             }
 
@@ -56,18 +54,8 @@ public class EnemyBullet : MonoBehaviour
             {
                 if (collision.TryGetComponent<BossController>(out BossController idamageable))
                 {
-                    if (idamageable.curBehavior == BossBehavior.Weakness)
-                    {
-                        StartCoroutine(EnemyTakeDamage(collision, idamageable));
-                        SoundManager.Instance.PlayOnShot("LaserHit");
-                    }
-                    else
-                    {
-                        SoundManager.Instance.PlayOnShot("LaserHit");
-                        GameObject hitPar = GameManager.Instance.hitParticle;
-                        GameManager.Instance.SpawnParticle(hitPar, transform.position);
-                        Destroy(gameObject);
-                    }
+                    StartCoroutine(EnemyTakeDamage(collision, idamageable));
+
                 }
             }
 
@@ -75,11 +63,9 @@ public class EnemyBullet : MonoBehaviour
             {
                 if (collision.TryGetComponent<WeakSpot>(out WeakSpot weakSpot))
                 {
-                    GameObject hitPar = GameManager.Instance.hitParticle;
-                    GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
-                    GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
-                    SoundManager.Instance.PlayOnShot("LaserHit");
+                    StartCoroutine(EnemyTakeDamage(collision, weakSpot.bossController));
                     weakSpot.RemoveWeakSpotHP();
+                    GameManager.Instance.SpawnParticle(GameManager.Instance.weakspotParticle, transform.position, true);
 
                     Destroy(gameObject);
                 }
@@ -98,6 +84,9 @@ public class EnemyBullet : MonoBehaviour
 
     IEnumerator PlayerTakeDamage(Collider2D collision, PlayerManager playerManager)
     {
+        if (isMissile) SoundManager.Instance.PlayOnShot("Explosive");
+        else SoundManager.Instance.PlayOnShot("LaserHit");
+
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
         yield return StartCoroutine(playerManager.TakeDamage(damage));
@@ -106,6 +95,7 @@ public class EnemyBullet : MonoBehaviour
 
     IEnumerator EnemyTakeDamage(Collider2D collision, IDamageable damageable)
     {
+        SoundManager.Instance.PlayOnShot("LaserHit");
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 

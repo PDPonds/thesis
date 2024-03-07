@@ -10,13 +10,38 @@ public enum AudioType
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance;
+    public static SoundManager instance;
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<SoundManager>();
+                if (instance == null)
+                {
+                    GameObject go = Instantiate(GameManager.Instance.soundManager);
+                    SoundManager sound = go.GetComponent<SoundManager>();
+                    instance = sound;
+                }
+            }
+            return instance;
+        }
+    }
 
     public SoundClass[] sounds;
 
     private void Awake()
     {
-        Instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            if (instance != this)
+                Destroy(gameObject);
+        }
 
         GenerateAudioSource();
 

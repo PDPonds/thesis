@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 715659047916571057}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8214288, y: -1.2857143, z: 0}
+  m_LocalPosition: {x: -1.8214288, y: -0.03571427, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67,6 +67,8 @@ Transform:
   m_Children:
   - {fileID: 5971154186814817037}
   - {fileID: 6265856612306996507}
+  - {fileID: 7724751895332200188}
+  - {fileID: 949013266789750574}
   - {fileID: 2935609408147758566}
   - {fileID: 8241738509425423366}
   m_Father: {fileID: 0}
@@ -272,11 +274,14 @@ MonoBehaviour:
   countPerMax: 3
   delayPerCount: 0.5
   bullet: {fileID: 2443047015202457107, guid: b8c8c849dc0f5454cb7615ea169c12dc, type: 3}
-  bulletSpawnPoint: {fileID: 6265856612306996507}
+  bulletSpawnPoint:
+  - {fileID: 6265856612306996507}
+  - {fileID: 7724751895332200188}
+  - {fileID: 949013266789750574}
   bulletDamage: 5
   normalBulletSpeed: 3
   weaknessSpeed: 5
-  weaknessOffset: {x: 0.5, y: -2, z: 0}
+  weaknessOffset: {x: 3.2, y: -2, z: 0}
   weaknessTime: 3
   deathOffset: {x: 0, y: -2.5, z: 0}
 --- !u!1 &2285293436753405639
@@ -500,6 +505,68 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 306848385715742532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7572828346991033794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7724751895332200188}
+  m_Layer: 7
+  m_Name: LaserSpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7724751895332200188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7572828346991033794}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8214288, y: -1.2857143, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 306848385715742532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8234445785933710839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 949013266789750574}
+  m_Layer: 7
+  m_Name: LaserSpawnPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &949013266789750574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8234445785933710839}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8214288, y: -0.53571427, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

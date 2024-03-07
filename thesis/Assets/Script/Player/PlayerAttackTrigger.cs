@@ -35,7 +35,12 @@ public class PlayerAttackTrigger : MonoBehaviour
 
                 PlayerManager.Instance.attackCol.enabled = false;
 
-
+                if (PlayerManager.Instance.noDamage)
+                {
+                    PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
+                    Physics2D.IgnoreLayerCollision(3, 7, false);
+                    PlayerManager.Instance.noDamage = false;
+                }
             }
         }
 
@@ -49,11 +54,22 @@ public class PlayerAttackTrigger : MonoBehaviour
                     SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
                     sprite.flipX = true;
 
+                    Vector2 pos = transform.position + new Vector3(1.5f, 0, 0);
+                    GameManager.Instance.SpawnParticle(GameManager.Instance.counterAttackParticle, pos);
+
                     CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
                     Vector2 curOffset = capCol.offset;
                     curOffset.x = capCol.offset.x * -1f;
                     capCol.offset = curOffset;
                     SoundManager.Instance.PlayOnShot("LaserShot");
+
+                    if (PlayerManager.Instance.noDamage)
+                    {
+                        PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
+                        Physics2D.IgnoreLayerCollision(3, 7, false);
+                        PlayerManager.Instance.noDamage = false;
+                    }
+
                 }
             }
         }
@@ -85,6 +101,13 @@ public class PlayerAttackTrigger : MonoBehaviour
             if (!PlayerManager.Instance.onGrounded)
             {
                 PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce /** 0.75f*/);
+            }
+
+            if (PlayerManager.Instance.noDamage)
+            {
+                PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
+                Physics2D.IgnoreLayerCollision(3, 7, false);
+                PlayerManager.Instance.noDamage = false;
             }
 
             Destroy(collision.transform.parent.gameObject);
