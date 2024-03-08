@@ -130,7 +130,7 @@ public class BossController : MonoBehaviour, IDamageable
                 case BossBehavior.Weakness:
 
                     weakSpot.gameObject.SetActive(false);
-                    float weaknessYPos = Camera.main.transform.position.y + weaknessOffset.y;
+                    float weaknessYPos = Camera.main.transform.position.y - weaknessOffset.y;
                     float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
                     Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
                     transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);

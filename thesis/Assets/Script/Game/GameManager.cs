@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     public Transform DestroyGroundAndEnemy;
     public float xOffset;
     [SerializeField] Vector3 lastEndPos;
+    public int curFloorIndex;
     [Header("Boss State")]
     public GameObject boss;
     public Transform bossSpawnPos;
@@ -170,8 +171,9 @@ public class GameManager : MonoBehaviour
         GameObject floor = new GameObject();
         if (state == GameState.Normal)
         {
-            int floorIndex = Random.Range(0, floorPrefabs.Length);
-            floor = floorPrefabs[floorIndex];
+            if (curFloorIndex == floorPrefabs.Length) curFloorIndex = 0;
+            floor = floorPrefabs[curFloorIndex];
+            curFloorIndex++;
         }
         else if (state == GameState.BossFight)
         {
