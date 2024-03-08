@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4925665195639319579}
   - component: {fileID: 6222976515674294534}
   - component: {fileID: 705519205941875244}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Velonica's Bullet Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4910,7 +4910,7 @@ GameObject:
   - component: {fileID: 4636648222732891179}
   - component: {fileID: 3728754967816465080}
   - component: {fileID: 3028141874503886458}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Velonica's Bullet Fast Brust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4947,7 +4947,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -8749,7 +8749,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 264
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9799,7 +9799,7 @@ GameObject:
   - component: {fileID: 3131954223724979495}
   - component: {fileID: 8209961112458450660}
   - component: {fileID: 3697345468352239374}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Velonica's Bullet Small Brust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9836,7 +9836,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -13638,7 +13638,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 264
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

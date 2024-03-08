@@ -67,7 +67,6 @@ public class BossProjectile : MonoBehaviour
                 spawnPos.y = allBullets[i].transform.position.y;
                 go.transform.position = spawnPos;
                 allWarning.Add(go);
-                Debug.Log("Spawn Warning");
             }
         }
     }
@@ -81,7 +80,6 @@ public class BossProjectile : MonoBehaviour
                 Destroy(go);
             }
             allWarning.Clear();
-            Debug.Log("Clear Warning");
         }
     }
 

@@ -126,9 +126,10 @@ public class GameManager : MonoBehaviour
         Camera.localPosition = originalPos;
     }
 
-    public void SpawnParticle(GameObject particle, Vector3 pos)
+    public GameObject SpawnParticle(GameObject particle, Vector3 pos)
     {
         GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+        return particleObj;
     }
 
     public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot)

@@ -55,8 +55,8 @@ public class PlayerBullet : MonoBehaviour
     IEnumerator EnemyTakeDamage(Collider2D collision, IDamageable damageable)
     {
         SoundManager.Instance.PlayOnShot("LaserHit");
-        GameObject hitPar = GameManager.Instance.hitParticle;
-        GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
+        //GameObject hitPar = GameManager.Instance.hitParticle;
+        //GameManager.Instance.SpawnParticle(hitPar, collision.transform.position, true);
         //GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
         yield return StartCoroutine(damageable.TakeDamage());
         Destroy(gameObject);
