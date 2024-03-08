@@ -214,6 +214,10 @@ public class BossController : MonoBehaviour, IDamageable
         SoundManager.Instance.PlayOnShot("Explosive");
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
+
+        GameObject exprosion = GameManager.Instance.exprosionParticle;
+        GameManager.Instance.SpawnParticle(exprosion, transform.position);
+
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
