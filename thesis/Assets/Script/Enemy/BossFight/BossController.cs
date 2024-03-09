@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    AfterSpawn, Normal, Weakness
+    AfterSpawn, Normal, Weakness, Escape
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -15,7 +15,8 @@ public class BossController : MonoBehaviour, IDamageable
     Animator anim;
 
     public BossBehavior curBehavior;
-    bool isDead;
+    public bool isEnterHalfHP;
+    [HideInInspector] public bool isDead;
     [Header("===== After Spawn Behavior =====")]
     [SerializeField] float alertTime;
     float curAlertTime;
@@ -53,6 +54,12 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] Vector3 weaknessOffset;
     [SerializeField] float weaknessTime;
     float curWeaknessTime;
+    [Header("===== Escape Behavior =====")]
+    [SerializeField] float hurtTime;
+    float curHurtTime;
+    [SerializeField] float escapeTime;
+    float curEscapeTime;
+
     [Header("===== Death Behavior =====")]
     GameObject curDeadParticle;
 
@@ -142,6 +149,40 @@ public class BossController : MonoBehaviour, IDamageable
                     }
 
                     break;
+                case BossBehavior.Escape:
+
+                    if (curHurtTime > 0)
+                    {
+                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset;
+                        normalOffset.z = 0;
+
+                        Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
+                        Vector3 EscapesmoothY = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalYSpeed);
+
+                        transform.position = new Vector3(EscapesmoothX.x, EscapesmoothY.y, EscapesmoothX.z);
+
+                        curHurtTime -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        curEscapeTime -= Time.deltaTime;
+                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset + new Vector3(0, 5f, 0);
+                        normalOffset.z = 0;
+
+                        Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
+                        Vector3 EscapesmoothY = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalYSpeed);
+
+                        transform.position = new Vector3(EscapesmoothX.x, EscapesmoothY.y, EscapesmoothX.z);
+
+                        if (curEscapeTime < 0)
+                        {
+                            UIManager.Instance.ExitCutScene();
+                            GameManager.Instance.SwitchState(GameState.Normal);
+                            gameObject.SetActive(false);
+                        }
+                    }
+
+                    break;
             }
 
         }
@@ -194,6 +235,11 @@ public class BossController : MonoBehaviour, IDamageable
             case BossBehavior.Weakness:
                 curWeaknessTime = weaknessTime;
                 break;
+            case BossBehavior.Escape:
+                curHurtTime = hurtTime;
+                curEscapeTime = escapeTime;
+                UIManager.Instance.EnterCutScene();
+                break;
         }
     }
 
@@ -221,10 +267,24 @@ public class BossController : MonoBehaviour, IDamageable
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         yield return null;
 
-        if (hp <= 0)
+        if (hp <= bossSO.maxHp / 2)
         {
-            Die();
+            if (!isEnterHalfHP)
+            {
+                isEnterHalfHP = true;
+                UIManager.Instance.EnterCutScene();
+                SwitchBehavior(BossBehavior.Escape);
+            }
+            else
+            {
+                if (hp <= 0)
+                {
+                    Die();
+                }
+            }
         }
+
+
 
     }
 
