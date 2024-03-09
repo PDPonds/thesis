@@ -255,6 +255,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossSO: {fileID: 11400000, guid: d0dc750e38bfe8849aa5adfd5e882ee5, type: 2}
   curBehavior: 0
+  isEnterHalfHP: 0
+  isDead: 0
   alertTime: 5
   normalXSpeed: 1.25
   normalYSpeed: 1.75
@@ -272,7 +274,7 @@ MonoBehaviour:
   - {fileID: 6209023416293685447, guid: 2506fec647629644d99e86ad27e24346, type: 3}
   - {fileID: 6209023416293685447, guid: ba06a04a4fcff4c4eb671c3313f602e6, type: 3}
   - {fileID: 6209023416293685447, guid: 6d61db27b6d01304692c0ce6aa4d7325, type: 3}
-  projectileSpeed: 3
+  projectileSpeed: 2.5
   projectileDamage: 10
   warningTime: 1.5
   countPerMax: 3
@@ -287,6 +289,7 @@ MonoBehaviour:
   weaknessSpeed: 5
   weaknessOffset: {x: 3.5, y: 3, z: 0}
   weaknessTime: 3
+  escapeTime: 3
 --- !u!1 &2285293436753405639
 GameObject:
   m_ObjectHideFlags: 0

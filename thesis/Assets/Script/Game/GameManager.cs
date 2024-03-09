@@ -230,7 +230,13 @@ public class GameManager : MonoBehaviour
             GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
             curBoss = bossObj;
         }
-
+        else if (curBoss != null && !isBossClear && !curBoss.activeSelf)
+        {
+            curBoss.transform.position = bossSpawnPos.position;
+            curBoss.gameObject.SetActive(true);
+            BossController boss = curBoss.GetComponent<BossController>();
+            boss.SwitchBehavior(BossBehavior.AfterSpawn);
+        }
     }
 
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2057824228999647070}
   - component: {fileID: 6174569666964393919}
   - component: {fileID: 3627086046507932449}
+  - component: {fileID: -9202902875766065509}
   m_Layer: 15
   m_Name: Hit Spark
   m_TagString: Untagged
@@ -4949,6 +4950,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-9202902875766065509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266473729662284398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7548714e66f0b114b9340034a4848c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2012333082156461047
 GameObject:
   m_ObjectHideFlags: 0
