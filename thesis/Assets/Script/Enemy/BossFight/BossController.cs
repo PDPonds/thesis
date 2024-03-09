@@ -240,7 +240,7 @@ public class BossController : MonoBehaviour, IDamageable
         curDeadParticle = go;
         if (go.TryGetComponent<ParticleSystem>(out ParticleSystem par))
         {
-            float duration = par.duration + 1.1f;
+            float duration = par.duration + 1.5f;
             Destroy(gameObject, duration);
         }
 
