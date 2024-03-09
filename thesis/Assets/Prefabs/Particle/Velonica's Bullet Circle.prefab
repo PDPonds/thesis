@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4925665195639319579}
   - component: {fileID: 6222976515674294534}
   - component: {fileID: 705519205941875244}
+  - component: {fileID: 361507044210762042}
   m_Layer: 15
   m_Name: Velonica's Bullet Circle
   m_TagString: Untagged
@@ -4899,6 +4900,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &361507044210762042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781450819858429456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7548714e66f0b114b9340034a4848c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7001225670009305597
 GameObject:
   m_ObjectHideFlags: 0

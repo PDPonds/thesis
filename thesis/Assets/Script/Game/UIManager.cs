@@ -10,12 +10,14 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     [Header("===== HP =====")]
+    [SerializeField] GameObject hpBorder;
     [SerializeField] Image hpFill;
     [Header("===== Fade =====")]
     [SerializeField] CanvasGroup fadeCanvas;
 
     [Header("===== Score Coin =====")]
     public TextMeshProUGUI scoreText;
+    public GameObject coinBorder;
     public TextMeshProUGUI coinInGameText;
 
     [Header("===== Dead Scene =====")]
@@ -137,8 +139,12 @@ public class UIManager : MonoBehaviour
         {
             if (GameManager.Instance.curBoss != null)
             {
-                bossHPBar.gameObject.SetActive(true);
                 BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                if (boss.curBehavior != BossBehavior.AfterSpawn && !boss.isDead)
+                {
+                    bossHPBar.gameObject.SetActive(true);
+                }
+
                 float max = boss.bossSO.maxHp;
                 float cur = boss.hp;
                 float per = cur / max;
@@ -197,17 +203,40 @@ public class UIManager : MonoBehaviour
         cutscenePanel.gameObject.SetActive(true);
         LeanTween.moveLocal(top, topYPos, 0.5f).setEaseInOutCubic();
         LeanTween.moveLocal(down, downYPos, 0.5f).setEaseInOutCubic();
+
+        hpBorder.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(false);
+        coinBorder.gameObject.SetActive(false);
+        gadgetSlotParent.gameObject.SetActive(false);
+        bossHPBar.gameObject.SetActive(false);
+
+        InputSystemMnanger input = PlayerManager.Instance.transform.GetComponent<InputSystemMnanger>();
+        input.enabled = false;
+
     }
 
     public void ExitCutScene()
     {
-        Vector3 topYPos = new Vector3(0, (Screen.height / 2) + 75, 0);
-        Vector3 downYPos = new Vector3(0, -(Screen.height / 2) - 75, 0);
+        Vector3 topYPos = new Vector3(0, (Screen.height / 2) + 100, 0);
+        Vector3 downYPos = new Vector3(0, -(Screen.height / 2) - 100, 0);
 
         LeanTween.moveLocal(top, topYPos, 0.5f).setEaseInOutCubic();
         LeanTween.moveLocal(down, downYPos, 0.5f)
             .setEaseInOutCubic()
-            .setOnComplete(() => cutscenePanel.gameObject.SetActive(false));
+            .setOnComplete(() => EneableUIInfo());
+    }
+
+    void EneableUIInfo()
+    {
+        cutscenePanel.gameObject.SetActive(false);
+        hpBorder.gameObject.SetActive(true);
+        scoreText.gameObject.SetActive(true);
+        coinBorder.gameObject.SetActive(true);
+        gadgetSlotParent.gameObject.SetActive(true);
+        bossHPBar.gameObject.SetActive(true);
+
+        InputSystemMnanger input = PlayerManager.Instance.transform.GetComponent<InputSystemMnanger>();
+        input.enabled = true;
     }
 
 }
