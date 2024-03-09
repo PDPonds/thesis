@@ -44,6 +44,10 @@ public class UIManager : MonoBehaviour
     [Header("===== Boss =====")]
     public GameObject bossHPBar;
     public Image bossHPFill;
+    [Header("===== CutScene =====")]
+    public GameObject cutscenePanel;
+    public GameObject top;
+    public GameObject down;
 
     private void OnDisable()
     {
@@ -183,6 +187,27 @@ public class UIManager : MonoBehaviour
         LeanTween.alphaCanvas(fadeCanvas, 1, .3f)
              .setEase(LeanTweenType.easeInOutCubic)
              .setOnComplete(() => SceneManager.LoadScene(0));
+    }
+
+    public void EnterCutScene()
+    {
+        Vector3 topYPos = new Vector3(0, (Screen.height / 2), 0);
+        Vector3 downYPos = new Vector3(0, -(Screen.height / 2), 0);
+
+        cutscenePanel.gameObject.SetActive(true);
+        LeanTween.moveLocal(top, topYPos, 0.5f).setEaseInOutCubic();
+        LeanTween.moveLocal(down, downYPos, 0.5f).setEaseInOutCubic();
+    }
+
+    public void ExitCutScene()
+    {
+        Vector3 topYPos = new Vector3(0, (Screen.height / 2) + 75, 0);
+        Vector3 downYPos = new Vector3(0, -(Screen.height / 2) - 75, 0);
+
+        LeanTween.moveLocal(top, topYPos, 0.5f).setEaseInOutCubic();
+        LeanTween.moveLocal(down, downYPos, 0.5f)
+            .setEaseInOutCubic()
+            .setOnComplete(() => cutscenePanel.gameObject.SetActive(false));
     }
 
 }

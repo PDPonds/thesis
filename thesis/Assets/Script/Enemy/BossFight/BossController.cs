@@ -79,6 +79,7 @@ public class BossController : MonoBehaviour, IDamageable
                     }
                     else
                     {
+                        UIManager.Instance.ExitCutScene();
                         SwitchBehavior(BossBehavior.Normal);
                     }
 
@@ -168,6 +169,12 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
+    public void OnDestroy()
+    {
+        UIManager.Instance.ExitCutScene();
+        Destroy(curDeadParticle.gameObject);
+    }
+
     public void SwitchBehavior(BossBehavior behavior)
     {
         curBehavior = behavior;
@@ -177,6 +184,7 @@ public class BossController : MonoBehaviour, IDamageable
                 SoundManager.Instance.PlayOnShot("BossAlert");
                 SoundManager.Instance.Pause("NormalBGM");
                 SoundManager.Instance.Play("BossBGM");
+                UIManager.Instance.EnterCutScene();
                 curAlertTime = alertTime;
                 break;
             case BossBehavior.Normal:
@@ -226,7 +234,7 @@ public class BossController : MonoBehaviour, IDamageable
         SoundManager.Instance.PlayOnShot("Velenicas_Death");
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
-
+        UIManager.Instance.EnterCutScene();
         GameObject exprosion = GameManager.Instance.exprosionParticle;
         GameObject go = GameManager.Instance.SpawnParticle(exprosion, transform.position);
         curDeadParticle = go;
