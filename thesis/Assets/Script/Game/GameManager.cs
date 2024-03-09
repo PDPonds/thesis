@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     public Transform DestroyGroundAndEnemy;
     public float xOffset;
     [SerializeField] Vector3 lastEndPos;
+    public int curFloorIndex;
     [Header("Boss State")]
     public GameObject boss;
     public Transform bossSpawnPos;
@@ -125,9 +126,10 @@ public class GameManager : MonoBehaviour
         Camera.localPosition = originalPos;
     }
 
-    public void SpawnParticle(GameObject particle, Vector3 pos)
+    public GameObject SpawnParticle(GameObject particle, Vector3 pos)
     {
         GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+        return particleObj;
     }
 
     public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot)
@@ -170,8 +172,9 @@ public class GameManager : MonoBehaviour
         GameObject floor = new GameObject();
         if (state == GameState.Normal)
         {
-            int floorIndex = Random.Range(0, floorPrefabs.Length);
-            floor = floorPrefabs[floorIndex];
+            if (curFloorIndex == floorPrefabs.Length) curFloorIndex = 0;
+            floor = floorPrefabs[curFloorIndex];
+            curFloorIndex++;
         }
         else if (state == GameState.BossFight)
         {

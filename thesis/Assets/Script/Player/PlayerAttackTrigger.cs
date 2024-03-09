@@ -23,9 +23,6 @@ public class PlayerAttackTrigger : MonoBehaviour
                 float healAmount = PlayerManager.Instance.maxHp * PlayerManager.Instance.stealHPLevels[PlayerManager.upgradeStealHpLevel] / 100f;
                 PlayerManager.Instance.Heal(healAmount);
 
-                //GameObject hitPar = GameManager.Instance.hitParticle;
-                //GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
-
                 StartCoroutine(idamageable.TakeDamage());
 
                 if (!PlayerManager.Instance.onGrounded)
@@ -54,8 +51,9 @@ public class PlayerAttackTrigger : MonoBehaviour
                     SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
                     sprite.flipX = true;
 
-                    Vector2 pos = transform.position + new Vector3(1.5f, 0, 0);
+                    Vector2 pos = eBullet.transform.position;
                     GameManager.Instance.SpawnParticle(GameManager.Instance.counterAttackParticle, pos);
+                    GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position);
 
                     CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
                     Vector2 curOffset = capCol.offset;
@@ -95,6 +93,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, collision.transform.position, true);
 
             SoundManager.Instance.PlayOnShot("SlashItem");
 

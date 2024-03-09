@@ -168,6 +168,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         float mag = GameManager.Instance.shakeMagnitude;
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
         GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
+        
+        GameObject hitPar = GameManager.Instance.hitParticle;
+        GameManager.Instance.SpawnParticle(hitPar, transform.position);
+
         onDamage?.Invoke();
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         yield return null;

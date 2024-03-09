@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2057824228999647070}
   - component: {fileID: 6174569666964393919}
   - component: {fileID: 3627086046507932449}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Hit Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -3910,7 +3910,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 72
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4960,7 +4960,7 @@ GameObject:
   - component: {fileID: 6694825028829664765}
   - component: {fileID: 7972593089830516060}
   - component: {fileID: 2934586714058486086}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Area Spark Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4997,7 +4997,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -8799,7 +8799,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 72
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9849,7 +9849,7 @@ GameObject:
   - component: {fileID: 6634334453867893817}
   - component: {fileID: 2565358324090581148}
   - component: {fileID: 2188807254785324272}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Area Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9886,7 +9886,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -13688,7 +13688,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 72
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

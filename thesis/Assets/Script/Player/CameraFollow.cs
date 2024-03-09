@@ -12,13 +12,14 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float smoothTime;
     [SerializeField] Transform target;
     [Header("===== Boss =====")]
-    [SerializeField] float bossYCam;
+    [SerializeField] float bossYCamBeforeSpawn;
+    [SerializeField] float bossYCamAfterSpawn;
 
     Vector3 velocity;
 
     void Update()
     {
-        if (!PlayerManager.Instance.isDead )
+        if (!PlayerManager.Instance.isDead)
         {
             Vector3 targetPos = target.position + offset;
             if (GameManager.Instance.state == GameState.Normal)
@@ -26,9 +27,12 @@ public class CameraFollow : MonoBehaviour
                 if (targetPos.y > maxY) targetPos.y = maxY;
                 if (targetPos.y < minY) targetPos.y = minY;
             }
-            else if(GameManager.Instance.state == GameState.BossFight)
+            else if (GameManager.Instance.state == GameState.BossFight)
             {
-                targetPos.y = bossYCam;
+                if(GameManager.Instance.curBoss == null)
+                targetPos.y = bossYCamBeforeSpawn;
+                else
+                    targetPos.y = bossYCamAfterSpawn;
             }
 
             //offset.y = GameManager.Instance.Player.position.y;

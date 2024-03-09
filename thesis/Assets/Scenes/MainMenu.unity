@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5173621218714810066, guid: a42a59fb52897c4419b9a544a7061a23, type: 3}
+      propertyPath: sounds.Array.data[15].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d88aa4b6c853b9438f3ae44cafd3497, type: 3}
     - target: {fileID: 7833388125620272265, guid: a42a59fb52897c4419b9a544a7061a23, type: 3}
       propertyPath: m_Name
       value: SoundManager
@@ -9838,7 +9842,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SFX Volum
+  m_text: SFX Volume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9d1ecc19c706da84893f14124079a40a, type: 2}
   m_sharedMaterial: {fileID: -777648189126031182, guid: 9d1ecc19c706da84893f14124079a40a, type: 2}

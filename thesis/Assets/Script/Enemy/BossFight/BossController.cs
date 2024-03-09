@@ -54,7 +54,7 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float weaknessTime;
     float curWeaknessTime;
     [Header("===== Death Behavior =====")]
-    [SerializeField] Vector3 deathOffset;
+    GameObject curDeadParticle;
 
     private void Start()
     {
@@ -130,7 +130,7 @@ public class BossController : MonoBehaviour, IDamageable
                 case BossBehavior.Weakness:
 
                     weakSpot.gameObject.SetActive(false);
-                    float weaknessYPos = Camera.main.transform.position.y + weaknessOffset.y;
+                    float weaknessYPos = Camera.main.transform.position.y - weaknessOffset.y;
                     float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
                     Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
                     transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
@@ -146,10 +146,14 @@ public class BossController : MonoBehaviour, IDamageable
         }
         else
         {
-            Vector3 deathPos = transform.position + deathOffset;
-            deathPos.z = 0;
-            deathPos.y = deathOffset.y;
-            transform.position = Vector2.MoveTowards(transform.position, deathPos, Time.deltaTime * weaknessSpeed);
+            Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
+            normalOffset.z = 0;
+
+            Vector3 smoothX = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalXSpeed);
+            Vector3 smoothY = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalYSpeed);
+
+            transform.position = new Vector3(smoothX.x, smoothY.y, smoothX.z);
+
             Rigidbody2D playerRB = transform.GetComponent<Rigidbody2D>();
             playerRB.bodyType = RigidbodyType2D.Kinematic;
             playerRB.simulated = false;
@@ -157,6 +161,10 @@ public class BossController : MonoBehaviour, IDamageable
             weakspotRB.bodyType = RigidbodyType2D.Kinematic;
             weakspotRB.simulated = false;
             weakSpot.gameObject.SetActive(false);
+            if (curDeadParticle != null)
+            {
+                curDeadParticle.transform.position = transform.position;
+            }
         }
     }
 
@@ -181,18 +189,21 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
+    [System.Obsolete]
     public IEnumerator TakeDamage()
     {
         if (curBehavior == BossBehavior.Weakness)
         {
             hp -= 2;
-            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
         }
         else if (curBehavior == BossBehavior.Normal)
         {
             hp--;
-            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true, new Vector3(0.5f, 0.5f, 0.5f));
         }
+
+        GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
+        GameObject hitPar = GameManager.Instance.hitParticle;
+        GameManager.Instance.SpawnParticle(hitPar, transform.position);
 
         anim.Play("Hurt");
         float time = GameManager.Instance.shakeDuration;
@@ -209,21 +220,27 @@ public class BossController : MonoBehaviour, IDamageable
 
     }
 
+    [System.Obsolete]
     public void Die()
     {
-        SoundManager.Instance.PlayOnShot("Explosive");
+        SoundManager.Instance.PlayOnShot("Velenicas_Death");
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
 
         GameObject exprosion = GameManager.Instance.exprosionParticle;
-        GameManager.Instance.SpawnParticle(exprosion, transform.position);
+        GameObject go = GameManager.Instance.SpawnParticle(exprosion, transform.position);
+        curDeadParticle = go;
+        if (go.TryGetComponent<ParticleSystem>(out ParticleSystem par))
+        {
+            float duration = par.duration + 1.1f;
+            Destroy(gameObject, duration);
+        }
 
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         GameManager.Instance.isBossClear = true;
         isDead = true;
-        Destroy(gameObject, 5f);
     }
 
     public void SpawnMissile()
