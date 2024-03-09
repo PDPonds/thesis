@@ -61,7 +61,11 @@ public class BossController : MonoBehaviour, IDamageable
     float curEscapeTime;
 
     [Header("===== Death Behavior =====")]
-    GameObject curDeadParticle;
+    public GameObject sparkParticle;
+    public float dyingParticleTime;
+    float curDyimgTime;
+    public GameObject dyingParticle;
+    public GameObject bigFlashParticle;
 
     private void Start()
     {
@@ -72,6 +76,7 @@ public class BossController : MonoBehaviour, IDamageable
         SwitchBehavior(BossBehavior.AfterSpawn);
     }
 
+    [System.Obsolete]
     private void Update()
     {
         if (!isDead)
@@ -166,7 +171,7 @@ public class BossController : MonoBehaviour, IDamageable
                     else
                     {
                         curEscapeTime -= Time.deltaTime;
-                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset + new Vector3(0, 5f, 0);
+                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset + new Vector3(10f, 0, 0);
                         normalOffset.z = 0;
 
                         Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
@@ -203,17 +208,26 @@ public class BossController : MonoBehaviour, IDamageable
             weakspotRB.bodyType = RigidbodyType2D.Kinematic;
             weakspotRB.simulated = false;
             weakSpot.gameObject.SetActive(false);
-            if (curDeadParticle != null)
+
+            curDyimgTime -= Time.deltaTime;
+            dyingParticle.SetActive(true);
+            if (curDyimgTime < 0 && !bigFlashParticle.activeSelf)
             {
-                curDeadParticle.transform.position = transform.position;
+                dyingParticle.SetActive(false);
+                SoundManager.Instance.Pause("SmallExplosion");
+                SoundManager.Instance.PlayOnShot("BigExplosion");
+                ParticleSystem big = bigFlashParticle.GetComponent<ParticleSystem>();
+                float duration = big.duration;
+                Destroy(gameObject, duration);
+                bigFlashParticle.SetActive(true);
             }
+
         }
     }
 
     public void OnDestroy()
     {
         UIManager.Instance.ExitCutScene();
-        Destroy(curDeadParticle.gameObject);
     }
 
     public void SwitchBehavior(BossBehavior behavior)
@@ -282,6 +296,7 @@ public class BossController : MonoBehaviour, IDamageable
                     Die();
                 }
             }
+            sparkParticle.SetActive(true);
         }
 
 
@@ -291,18 +306,19 @@ public class BossController : MonoBehaviour, IDamageable
     [System.Obsolete]
     public void Die()
     {
-        SoundManager.Instance.PlayOnShot("Velenicas_Death");
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
         UIManager.Instance.EnterCutScene();
-        GameObject exprosion = GameManager.Instance.exprosionParticle;
-        GameObject go = GameManager.Instance.SpawnParticle(exprosion, transform.position);
-        curDeadParticle = go;
-        if (go.TryGetComponent<ParticleSystem>(out ParticleSystem par))
-        {
-            float duration = par.duration + 1.1f;
-            Destroy(gameObject, duration);
-        }
+        SoundManager.Instance.PlayOnShot("SmallExplosion");
+        curDyimgTime = dyingParticleTime;
+        //GameObject exprosion = GameManager.Instance.exprosionParticle;
+        //GameObject go = GameManager.Instance.SpawnParticle(exprosion, transform.position);
+        //curDeadParticle = go;
+        //if (go.TryGetComponent<ParticleSystem>(out ParticleSystem par))
+        //{
+        //    float duration = par.duration + 1.1f;
+        //    Destroy(gameObject, duration);
+        //}
 
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;

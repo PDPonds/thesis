@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
     public GameObject smokeParticle;
     public GameObject weakspotParticle;
     public GameObject counterAttackParticle;
-    public GameObject exprosionParticle;
 
     [Header("- Score")]
     public float scoreMul;
@@ -224,18 +223,23 @@ public class GameManager : MonoBehaviour
 
     public void SpawnBoss()
     {
-        if (curBoss == null && !isBossClear)
+        if (state == GameState.BossFight)
         {
-            Vector3 pos = bossSpawnPos.position;
-            GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
-            curBoss = bossObj;
-        }
-        else if (curBoss != null && !isBossClear && !curBoss.activeSelf)
-        {
-            curBoss.transform.position = bossSpawnPos.position;
-            curBoss.gameObject.SetActive(true);
-            BossController boss = curBoss.GetComponent<BossController>();
-            boss.SwitchBehavior(BossBehavior.AfterSpawn);
+            if (curBoss == null && !isBossClear)
+            {
+                Vector3 pos = bossSpawnPos.position;
+                GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
+                curBoss = bossObj;
+            }
+            else if (curBoss != null && !isBossClear && !curBoss.activeSelf)
+            {
+                curBoss.transform.position = bossSpawnPos.position;
+                curBoss.gameObject.SetActive(true);
+                BossController boss = curBoss.GetComponent<BossController>();
+                boss.hp = boss.bossSO.maxHp;
+                boss.sparkParticle.SetActive(false);
+                boss.SwitchBehavior(BossBehavior.AfterSpawn);
+            }
         }
     }
 
