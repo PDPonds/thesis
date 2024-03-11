@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    AfterSpawn, Normal, Weakness
+    AfterSpawn, Normal, Weakness, Escape
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -15,7 +15,8 @@ public class BossController : MonoBehaviour, IDamageable
     Animator anim;
 
     public BossBehavior curBehavior;
-    bool isDead;
+    public bool isEnterHalfHP;
+    [HideInInspector] public bool isDead;
     [Header("===== After Spawn Behavior =====")]
     [SerializeField] float alertTime;
     float curAlertTime;
@@ -53,8 +54,18 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] Vector3 weaknessOffset;
     [SerializeField] float weaknessTime;
     float curWeaknessTime;
+    [Header("===== Escape Behavior =====")]
+    [SerializeField] float hurtTime;
+    float curHurtTime;
+    [SerializeField] float escapeTime;
+    float curEscapeTime;
+
     [Header("===== Death Behavior =====")]
-    [SerializeField] Vector3 deathOffset;
+    public GameObject sparkParticle;
+    public float dyingParticleTime;
+    float curDyimgTime;
+    public GameObject dyingParticle;
+    public GameObject bigFlashParticle;
 
     private void Start()
     {
@@ -65,6 +76,7 @@ public class BossController : MonoBehaviour, IDamageable
         SwitchBehavior(BossBehavior.AfterSpawn);
     }
 
+    [System.Obsolete]
     private void Update()
     {
         if (!isDead)
@@ -79,6 +91,7 @@ public class BossController : MonoBehaviour, IDamageable
                     }
                     else
                     {
+                        UIManager.Instance.ExitCutScene();
                         SwitchBehavior(BossBehavior.Normal);
                     }
 
@@ -130,7 +143,7 @@ public class BossController : MonoBehaviour, IDamageable
                 case BossBehavior.Weakness:
 
                     weakSpot.gameObject.SetActive(false);
-                    float weaknessYPos = Camera.main.transform.position.y + weaknessOffset.y;
+                    float weaknessYPos = Camera.main.transform.position.y - weaknessOffset.y;
                     float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
                     Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
                     transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
@@ -141,15 +154,53 @@ public class BossController : MonoBehaviour, IDamageable
                     }
 
                     break;
+                case BossBehavior.Escape:
+
+                    if (curHurtTime > 0)
+                    {
+                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset;
+                        normalOffset.z = 0;
+
+                        Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
+                        Vector3 EscapesmoothY = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalYSpeed);
+
+                        transform.position = new Vector3(EscapesmoothX.x, EscapesmoothY.y, EscapesmoothX.z);
+
+                        curHurtTime -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        curEscapeTime -= Time.deltaTime;
+                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset + new Vector3(10f, 0, 0);
+                        normalOffset.z = 0;
+
+                        Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
+                        Vector3 EscapesmoothY = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalYSpeed);
+
+                        transform.position = new Vector3(EscapesmoothX.x, EscapesmoothY.y, EscapesmoothX.z);
+
+                        if (curEscapeTime < 0)
+                        {
+                            UIManager.Instance.ExitCutScene();
+                            GameManager.Instance.SwitchState(GameState.Normal);
+                            gameObject.SetActive(false);
+                        }
+                    }
+
+                    break;
             }
 
         }
         else
         {
-            Vector3 deathPos = transform.position + deathOffset;
-            deathPos.z = 0;
-            deathPos.y = deathOffset.y;
-            transform.position = Vector2.MoveTowards(transform.position, deathPos, Time.deltaTime * weaknessSpeed);
+            Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
+            normalOffset.z = 0;
+
+            Vector3 smoothX = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalXSpeed);
+            Vector3 smoothY = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalYSpeed);
+
+            transform.position = new Vector3(smoothX.x, smoothY.y, smoothX.z);
+
             Rigidbody2D playerRB = transform.GetComponent<Rigidbody2D>();
             playerRB.bodyType = RigidbodyType2D.Kinematic;
             playerRB.simulated = false;
@@ -157,7 +208,26 @@ public class BossController : MonoBehaviour, IDamageable
             weakspotRB.bodyType = RigidbodyType2D.Kinematic;
             weakspotRB.simulated = false;
             weakSpot.gameObject.SetActive(false);
+
+            curDyimgTime -= Time.deltaTime;
+            dyingParticle.SetActive(true);
+            if (curDyimgTime < 0 && !bigFlashParticle.activeSelf)
+            {
+                dyingParticle.SetActive(false);
+                SoundManager.Instance.Pause("SmallExplosion");
+                SoundManager.Instance.PlayOnShot("BigExplosion");
+                ParticleSystem big = bigFlashParticle.GetComponent<ParticleSystem>();
+                float duration = big.duration;
+                Destroy(gameObject, duration);
+                bigFlashParticle.SetActive(true);
+            }
+
         }
+    }
+
+    public void OnDestroy()
+    {
+        UIManager.Instance.ExitCutScene();
     }
 
     public void SwitchBehavior(BossBehavior behavior)
@@ -169,6 +239,7 @@ public class BossController : MonoBehaviour, IDamageable
                 SoundManager.Instance.PlayOnShot("BossAlert");
                 SoundManager.Instance.Pause("NormalBGM");
                 SoundManager.Instance.Play("BossBGM");
+                UIManager.Instance.EnterCutScene();
                 curAlertTime = alertTime;
                 break;
             case BossBehavior.Normal:
@@ -178,21 +249,29 @@ public class BossController : MonoBehaviour, IDamageable
             case BossBehavior.Weakness:
                 curWeaknessTime = weaknessTime;
                 break;
+            case BossBehavior.Escape:
+                curHurtTime = hurtTime;
+                curEscapeTime = escapeTime;
+                UIManager.Instance.EnterCutScene();
+                break;
         }
     }
 
+    [System.Obsolete]
     public IEnumerator TakeDamage()
     {
         if (curBehavior == BossBehavior.Weakness)
         {
             hp -= 2;
-            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
         }
         else if (curBehavior == BossBehavior.Normal)
         {
             hp--;
-            GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true, new Vector3(0.5f, 0.5f, 0.5f));
         }
+
+        GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
+        GameObject hitPar = GameManager.Instance.hitParticle;
+        GameManager.Instance.SpawnParticle(hitPar, transform.position);
 
         anim.Play("Hurt");
         float time = GameManager.Instance.shakeDuration;
@@ -202,28 +281,50 @@ public class BossController : MonoBehaviour, IDamageable
         GameManager.Instance.StopFrame(GameManager.Instance.frameStopDuration);
         yield return null;
 
-        if (hp <= 0)
+        if (hp <= bossSO.maxHp / 2)
         {
-            Die();
+            if (!isEnterHalfHP)
+            {
+                isEnterHalfHP = true;
+                UIManager.Instance.EnterCutScene();
+                SwitchBehavior(BossBehavior.Escape);
+            }
+            else
+            {
+                if (hp <= 0)
+                {
+                    Die();
+                }
+            }
+            sparkParticle.SetActive(true);
         }
+
+
 
     }
 
+    [System.Obsolete]
     public void Die()
     {
-        SoundManager.Instance.PlayOnShot("Explosive");
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
-
-        GameObject exprosion = GameManager.Instance.exprosionParticle;
-        GameManager.Instance.SpawnParticle(exprosion, transform.position);
+        UIManager.Instance.EnterCutScene();
+        SoundManager.Instance.PlayOnShot("SmallExplosion");
+        curDyimgTime = dyingParticleTime;
+        //GameObject exprosion = GameManager.Instance.exprosionParticle;
+        //GameObject go = GameManager.Instance.SpawnParticle(exprosion, transform.position);
+        //curDeadParticle = go;
+        //if (go.TryGetComponent<ParticleSystem>(out ParticleSystem par))
+        //{
+        //    float duration = par.duration + 1.1f;
+        //    Destroy(gameObject, duration);
+        //}
 
         GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         GameManager.Instance.isBossClear = true;
         isDead = true;
-        Destroy(gameObject, 5f);
     }
 
     public void SpawnMissile()

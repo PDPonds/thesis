@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
     public GameObject smokeParticle;
     public GameObject weakspotParticle;
     public GameObject counterAttackParticle;
-    public GameObject exprosionParticle;
 
     [Header("- Score")]
     public float scoreMul;
@@ -60,6 +59,7 @@ public class GameManager : MonoBehaviour
     public Transform DestroyGroundAndEnemy;
     public float xOffset;
     [SerializeField] Vector3 lastEndPos;
+    public int curFloorIndex;
     [Header("Boss State")]
     public GameObject boss;
     public Transform bossSpawnPos;
@@ -125,9 +125,10 @@ public class GameManager : MonoBehaviour
         Camera.localPosition = originalPos;
     }
 
-    public void SpawnParticle(GameObject particle, Vector3 pos)
+    public GameObject SpawnParticle(GameObject particle, Vector3 pos)
     {
         GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
+        return particleObj;
     }
 
     public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot)
@@ -170,8 +171,9 @@ public class GameManager : MonoBehaviour
         GameObject floor = new GameObject();
         if (state == GameState.Normal)
         {
-            int floorIndex = Random.Range(0, floorPrefabs.Length);
-            floor = floorPrefabs[floorIndex];
+            if (curFloorIndex == floorPrefabs.Length) curFloorIndex = 0;
+            floor = floorPrefabs[curFloorIndex];
+            curFloorIndex++;
         }
         else if (state == GameState.BossFight)
         {
@@ -221,13 +223,24 @@ public class GameManager : MonoBehaviour
 
     public void SpawnBoss()
     {
-        if (curBoss == null && !isBossClear)
+        if (state == GameState.BossFight)
         {
-            Vector3 pos = bossSpawnPos.position;
-            GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
-            curBoss = bossObj;
+            if (curBoss == null && !isBossClear)
+            {
+                Vector3 pos = bossSpawnPos.position;
+                GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
+                curBoss = bossObj;
+            }
+            else if (curBoss != null && !isBossClear && !curBoss.activeSelf)
+            {
+                curBoss.transform.position = bossSpawnPos.position;
+                curBoss.gameObject.SetActive(true);
+                BossController boss = curBoss.GetComponent<BossController>();
+                boss.hp = boss.bossSO.maxHp;
+                boss.sparkParticle.SetActive(false);
+                boss.SwitchBehavior(BossBehavior.AfterSpawn);
+            }
         }
-
     }
 
 }
