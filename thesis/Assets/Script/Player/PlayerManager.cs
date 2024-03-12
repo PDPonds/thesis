@@ -328,11 +328,11 @@ public class PlayerManager : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.simulated = true;
-            currentHp -= Time.deltaTime * hpMul;
-            if (currentHp <= 0)
-            {
-                Die();
-            }
+            //currentHp -= Time.deltaTime * hpMul;
+            //if (currentHp <= 0)
+            //{
+            //    Die();
+            //}
         }
 
 
