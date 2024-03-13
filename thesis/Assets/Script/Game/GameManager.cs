@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
     [Header("===== Game =====")]
     public GameState state = GameState.Normal;
     public Transform CenterPoint;
-    public float maxNormalSpeed;
-    public float minNormalSpeed;
+    //public float maxNormalSpeed;
+    //public float minNormalSpeed;
 
     public float currentSpeed;
     public Transform DeadPoint;
