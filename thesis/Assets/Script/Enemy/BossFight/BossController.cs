@@ -21,6 +21,7 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float alertTime;
     float curAlertTime;
     [Header("===== Normal Behavior =====")]
+    bool isFire;
     [Header("- WeakSpot")]
     [SerializeField] float normalXSpeed;
     [SerializeField] float normalYSpeed;
@@ -48,7 +49,15 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] Transform[] bulletSpawnPoint;
     [SerializeField] float bulletDamage;
     [SerializeField] float normalBulletSpeed;
-
+    [Header("- Bomb")]
+    [SerializeField] GameObject bomb;
+    [SerializeField] Transform bombSpawnPoint;
+    [SerializeField] float bombCountPerMax;
+    [SerializeField] float bombDelayPerCount;
+    [SerializeField] float bombDamage;
+    [SerializeField] float bombForce;
+    [SerializeField] float minYBounce;
+    [SerializeField] float maxYBounce;
     [Header("===== Weakness Behavior =====")]
     [SerializeField] float weaknessSpeed;
     [SerializeField] Vector3 weaknessOffset;
@@ -123,20 +132,26 @@ public class BossController : MonoBehaviour, IDamageable
                     transform.position = new Vector3(smoothX.x, smoothY.y, smoothX.z);
 
                     curProjectileDelay -= Time.deltaTime;
-                    if (curProjectileDelay < 0)
+                    if (curProjectileDelay < 0 && !isFire)
                     {
-                        int ran = Random.Range(0, 2);
+                        int ran = Random.Range(0, 3);
                         if (ran == 0)
                         {
+                            isFire = true;
                             SpawnMissile();
                             curProjectileDelay = delayProjectile;
                         }
-                        else
+                        else if (ran == 1)
                         {
                             StartCoroutine(FireLasser());
-                            curProjectileDelay = delayProjectile;
-                        }
+                            isFire = true;
 
+                        }
+                        else if (ran == 2)
+                        {
+                            StartCoroutine(FireBomb());
+                            isFire = true;
+                        }
                     }
 
                     break;
@@ -336,6 +351,8 @@ public class BossController : MonoBehaviour, IDamageable
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
         bossProjectile.SetupMissile(this);
 
+        isFire = false;
+
         SoundManager.Instance.PlayOnShot("MissileShot");
     }
 
@@ -347,8 +364,10 @@ public class BossController : MonoBehaviour, IDamageable
             SpawnLasser();
             fireCount++;
             yield return new WaitForSeconds(delayPerCount);
-
         }
+        yield return null;
+        curProjectileDelay = delayProjectile;
+        isFire = false;
     }
 
     public void SpawnLasser()
@@ -387,4 +406,30 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
+    IEnumerator FireBomb()
+    {
+        int fireCount = 0;
+        while (fireCount < bombCountPerMax)
+        {
+            SpawnBomb();
+            fireCount++;
+            yield return new WaitForSeconds(bombDelayPerCount);
+        }
+        yield return null;
+        curProjectileDelay = delayProjectile;
+        isFire = false;
+    }
+
+    public void SpawnBomb()
+    {
+        Vector3 pos = bombSpawnPoint.position;
+        GameObject bombObj = Instantiate(bomb, pos, Quaternion.identity);
+        Bomb bombScr = bombObj.GetComponent<Bomb>();
+        bombScr.damage = bulletDamage;
+        bombScr.force = bombForce;
+        float rand = Random.Range(minYBounce, maxYBounce);
+        bombScr.upForce = rand;
+
+        //SoundManager.Instance.PlayOnShot("LaserShot");
+    }
 }

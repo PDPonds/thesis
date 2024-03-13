@@ -5,17 +5,31 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    public static CameraFollow instance;
+
     [Header("===== Normal =====")]
     [SerializeField] float maxY;
     [SerializeField] float minY;
+
+    [SerializeField] float normalX;
+    [SerializeField] float minX;
+    [SerializeField] float maxX;
+
     [SerializeField] Vector3 offset;
     [SerializeField] float smoothTime;
     [SerializeField] Transform target;
     [Header("===== Boss =====")]
     //[SerializeField] float bossYCamBeforeSpawn;
     [SerializeField] float bossYCam;
+    /*[HideInInspector] public float moveLeftInput;*/
+    /*[HideInInspector] public float moveRightInput;*/
 
     Vector3 velocity;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Update()
     {
@@ -26,16 +40,25 @@ public class CameraFollow : MonoBehaviour
             {
                 if (targetPos.y > maxY) targetPos.y = maxY;
                 if (targetPos.y < minY) targetPos.y = minY;
+                targetPos.x = target.position.x + normalX;
             }
             else if (GameManager.Instance.state == GameState.BossFight)
             {
-                if(GameManager.Instance.curBoss != null &&
+                if (GameManager.Instance.curBoss != null &&
                     GameManager.Instance.curBoss.activeSelf)
+                {
                     targetPos.y = bossYCam;
+                    //float moveInput = moveLeftInput - moveRightInput;
+                    //float speed = moveInput * GameManager.Instance.currentSpeed /** Time.deltaTime*/;
+                    //targetPos.x += speed;
+                    //if (targetPos.x < target.position.x + minX) targetPos.x = target.position.x + minX;
+                    //if (targetPos.x > target.position.x + maxX) targetPos.x = target.position.x + maxX;
+                }
                 else
                 {
                     if (targetPos.y > maxY) targetPos.y = maxY;
                     if (targetPos.y < minY) targetPos.y = minY;
+                    targetPos.x = target.position.x + normalX; ;
                 }
             }
 

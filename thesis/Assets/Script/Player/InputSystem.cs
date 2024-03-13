@@ -89,6 +89,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveLeftWithBossFight"",
+                    ""type"": ""Button"",
+                    ""id"": ""2207516f-0940-407a-8fbf-1ab048c311f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveRightWithBossFight"",
+                    ""type"": ""Button"",
+                    ""id"": ""435512f8-94b7-4436-8f2f-1096db4f716a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -179,6 +197,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf61727b-e147-40b5-aac6-4b0b3cb46d20"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeftWithBossFight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3916c41e-79ee-43fb-8c8a-a2c0a4f44448"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRightWithBossFight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -194,6 +234,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_PlayerInput_SecondHook = m_PlayerInput.FindAction("SecondHook", throwIfNotFound: true);
         m_PlayerInput_SpecialGadget = m_PlayerInput.FindAction("SpecialGadget", throwIfNotFound: true);
         m_PlayerInput_Pause = m_PlayerInput.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerInput_MoveLeftWithBossFight = m_PlayerInput.FindAction("MoveLeftWithBossFight", throwIfNotFound: true);
+        m_PlayerInput_MoveRightWithBossFight = m_PlayerInput.FindAction("MoveRightWithBossFight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -262,6 +304,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_SecondHook;
     private readonly InputAction m_PlayerInput_SpecialGadget;
     private readonly InputAction m_PlayerInput_Pause;
+    private readonly InputAction m_PlayerInput_MoveLeftWithBossFight;
+    private readonly InputAction m_PlayerInput_MoveRightWithBossFight;
     public struct PlayerInputActions
     {
         private @InputSystem m_Wrapper;
@@ -273,6 +317,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @SecondHook => m_Wrapper.m_PlayerInput_SecondHook;
         public InputAction @SpecialGadget => m_Wrapper.m_PlayerInput_SpecialGadget;
         public InputAction @Pause => m_Wrapper.m_PlayerInput_Pause;
+        public InputAction @MoveLeftWithBossFight => m_Wrapper.m_PlayerInput_MoveLeftWithBossFight;
+        public InputAction @MoveRightWithBossFight => m_Wrapper.m_PlayerInput_MoveRightWithBossFight;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -303,6 +349,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @MoveLeftWithBossFight.started += instance.OnMoveLeftWithBossFight;
+            @MoveLeftWithBossFight.performed += instance.OnMoveLeftWithBossFight;
+            @MoveLeftWithBossFight.canceled += instance.OnMoveLeftWithBossFight;
+            @MoveRightWithBossFight.started += instance.OnMoveRightWithBossFight;
+            @MoveRightWithBossFight.performed += instance.OnMoveRightWithBossFight;
+            @MoveRightWithBossFight.canceled += instance.OnMoveRightWithBossFight;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -328,6 +380,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @MoveLeftWithBossFight.started -= instance.OnMoveLeftWithBossFight;
+            @MoveLeftWithBossFight.performed -= instance.OnMoveLeftWithBossFight;
+            @MoveLeftWithBossFight.canceled -= instance.OnMoveLeftWithBossFight;
+            @MoveRightWithBossFight.started -= instance.OnMoveRightWithBossFight;
+            @MoveRightWithBossFight.performed -= instance.OnMoveRightWithBossFight;
+            @MoveRightWithBossFight.canceled -= instance.OnMoveRightWithBossFight;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -354,5 +412,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnSecondHook(InputAction.CallbackContext context);
         void OnSpecialGadget(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnMoveLeftWithBossFight(InputAction.CallbackContext context);
+        void OnMoveRightWithBossFight(InputAction.CallbackContext context);
     }
 }

@@ -74,6 +74,7 @@ Transform:
   - {fileID: 5552037781641294561}
   - {fileID: 634209122137820286}
   - {fileID: 2399297709075105691}
+  - {fileID: 5210821561672694468}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1521400668548888180
@@ -260,7 +261,7 @@ MonoBehaviour:
   curBehavior: 0
   isEnterHalfHP: 0
   isDead: 0
-  alertTime: 5
+  alertTime: 3
   normalXSpeed: 1.25
   normalYSpeed: 1.75
   weakSpot: {fileID: 830009114408858767}
@@ -269,7 +270,7 @@ MonoBehaviour:
   pos2: {fileID: 8241738509425423366}
   delayWeakSpot: 10
   spawnProjectilePos: {fileID: 0}
-  delayProjectile: 4
+  delayProjectile: 2
   projectilePrefabs:
   - {fileID: 6209023416293685447, guid: da5739fca9809a24cb5a6491a064d341, type: 3}
   - {fileID: 6209023416293685447, guid: ae52a571fefb3eb41b9bb254a778239b, type: 3}
@@ -289,6 +290,14 @@ MonoBehaviour:
   - {fileID: 949013266789750574}
   bulletDamage: 5
   normalBulletSpeed: 3
+  bomb: {fileID: 5614172415297088583, guid: bb85191674d46574dacd7406cabb0de1, type: 3}
+  bombSpawnPoint: {fileID: 5210821561672694468}
+  bombCountPerMax: 3
+  bombDelayPerCount: 2
+  bombDamage: 20
+  bombForce: 7
+  minYBounce: 0.5
+  maxYBounce: 1
   weaknessSpeed: 5
   weaknessOffset: {x: 3.5, y: 3, z: 0}
   weaknessTime: 3
@@ -462,6 +471,37 @@ MonoBehaviour:
   bossController: {fileID: 3409312926237311094}
   weakSpotHP: 0
   curPos: {fileID: 0}
+--- !u!1 &2871957665660536258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5210821561672694468}
+  m_Layer: 0
+  m_Name: BombSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5210821561672694468
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2871957665660536258}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.5330515, y: 0.010149002, z: 0.15467831}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 306848385715742532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3786464723752802337
 GameObject:
   m_ObjectHideFlags: 0
