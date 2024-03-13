@@ -121,6 +121,8 @@ public class PauseManager : MonoBehaviour
             }
         }
 
+        if (!enable) StopAllCoroutines();
+
     }
 
     void SetPauseActiveFalse()
