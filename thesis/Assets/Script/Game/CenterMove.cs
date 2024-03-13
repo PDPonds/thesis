@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class CenterMove : MonoBehaviour
 {
+    public static CenterMove instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+
     private void Update()
     {
         if (!PlayerManager.Instance.isDead)

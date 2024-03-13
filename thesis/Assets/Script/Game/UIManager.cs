@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -116,7 +117,7 @@ public class UIManager : MonoBehaviour
                 //returnTolobbyButton.gameObject.SetActive(true);
                 LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f);
                 LeanTween.scale(lobbyButtonParent, new Vector3(1, 1, 1), 0.3f);
-
+                EventSystem.current.SetSelectedGameObject(returnTolobbyButton.gameObject);
             }
         }
 
