@@ -8,7 +8,7 @@ public class Bomb : MonoBehaviour
     public float damage;
     Rigidbody2D rb;
 
-    [HideInInspector] public float upForce;
+    //[HideInInspector] public float upForce;
 
     private void Start()
     {
@@ -37,7 +37,7 @@ public class Bomb : MonoBehaviour
             GameObject hitPar = GameManager.Instance.hitParticle;
             GameManager.Instance.SpawnParticle(hitPar, transform.position);
 
-            Vector2 dir = new Vector2(upForce - 1, upForce);
+            Vector2 dir = new Vector2(-1f, 1f);
             rb.AddForce(dir * force, ForceMode2D.Impulse);
 
         }

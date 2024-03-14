@@ -55,9 +55,10 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float bombCountPerMax;
     [SerializeField] float bombDelayPerCount;
     [SerializeField] float bombDamage;
-    [SerializeField] float bombForce;
-    [SerializeField] float minYBounce;
-    [SerializeField] float maxYBounce;
+    [SerializeField] float bombMinForce;
+    [SerializeField] float bombMaxForce;
+    //[SerializeField] float minYBounce;
+    //[SerializeField] float maxYBounce;
     [Header("- Beam")]
     [SerializeField] Transform beamSpawnPoint;
     [SerializeField] GameObject beamWarning;
@@ -439,9 +440,10 @@ public class BossController : MonoBehaviour, IDamageable
         GameObject bombObj = Instantiate(bomb, pos, Quaternion.identity);
         Bomb bombScr = bombObj.GetComponent<Bomb>();
         bombScr.damage = bulletDamage;
-        bombScr.force = bombForce;
-        float rand = Random.Range(minYBounce, maxYBounce);
-        bombScr.upForce = rand;
+        float rand = Random.Range(bombMinForce, bombMaxForce);
+        bombScr.force = rand;
+        //float rand = Random.Range(minYBounce, maxYBounce);
+        //bombScr.upForce = rand;
 
         //SoundManager.Instance.PlayOnShot("LaserShot");
     }

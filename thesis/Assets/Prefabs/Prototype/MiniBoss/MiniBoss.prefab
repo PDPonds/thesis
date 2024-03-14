@@ -296,9 +296,8 @@ MonoBehaviour:
   bombCountPerMax: 3
   bombDelayPerCount: 2
   bombDamage: 20
-  bombForce: 7
-  minYBounce: 0.5
-  maxYBounce: 1
+  bombMinForce: 3
+  bombMaxForce: 8
   beamSpawnPoint: {fileID: 7125199950530997700}
   beamWarning: {fileID: 5598575347823351288, guid: e61810465906d4a4081ca20ad90e206a, type: 3}
   beam: {fileID: 3312436334616455828, guid: ee194baa9845d854286d82b12ec6c6ef, type: 3}

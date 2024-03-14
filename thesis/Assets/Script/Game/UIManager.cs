@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        fadeCanvas.gameObject.SetActive(true);
         LeanTween.alphaCanvas(fadeCanvas, 0, .25f)
             .setEase(LeanTweenType.easeInOutCubic);
 
