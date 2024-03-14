@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -53,13 +54,20 @@ public class MainMenu : MonoBehaviour
         upgradeStealHpBut.onClick.AddListener(() => UpgradeStealHPBut());
         buyReviveBut.onClick.AddListener(() => BuyReviveItem());
 
+        EventSystem.current.SetSelectedGameObject(startButton.gameObject);
         startButton.onClick.AddListener(() => StartGame());
+    }
+
+    private void Awake()
+    {
+
     }
 
     private void Start()
     {
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
+
     }
 
     private void Update()
@@ -84,6 +92,25 @@ public class MainMenu : MonoBehaviour
         }
         else buyReviveBut.interactable = false;
 
+        if (EventSystem.current.currentSelectedGameObject == null)
+            EventSystem.current.SetSelectedGameObject(startButton.gameObject);
+
+        if (shopBorder.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                CloseShop();
+               
+            }
+        }
+
+        if (confirmBorder.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                CancleExitBut();
+            }
+        }
     }
 
     #region Function
@@ -182,7 +209,13 @@ public class MainMenu : MonoBehaviour
         ToggleUI(upgradeUI, true);
         UpdateUpgradeInfo();
         LeanTween.moveLocal(shopBorder, new Vector3(0, 0, 0), .5f)
-            .setEase(LeanTweenType.easeInOutCubic);
+            .setEase(LeanTweenType.easeInOutCubic)
+            .setOnComplete(SelectUpgradeBut);
+    }
+
+    void SelectUpgradeBut()
+    {
+        EventSystem.current.SetSelectedGameObject(upgradeMaxHpBut.gameObject);
     }
 
     void CloseShop()
@@ -191,6 +224,7 @@ public class MainMenu : MonoBehaviour
         LeanTween.moveLocal(shopBorder, new Vector3(0, -1000, 0), 0.5f)
             .setEase(LeanTweenType.easeInOutCubic)
             .setOnComplete(() => ToggleUI(upgradeUI, false));
+        EventSystem.current.SetSelectedGameObject(startButton.gameObject);
     }
 
     void UpdateCoin()
@@ -217,7 +251,13 @@ public class MainMenu : MonoBehaviour
         SoundManager.Instance.PlayOnShot("Button");
         ToggleUI(confirmPanel, true);
         LeanTween.moveLocal(confirmBorder, new Vector3(0, 0, 0), .5f)
-            .setEase(LeanTweenType.easeInOutCubic);
+            .setEase(LeanTweenType.easeInOutCubic)
+            .setOnComplete(SelectConfirmBut);
+    }
+
+    void SelectConfirmBut()
+    {
+        EventSystem.current.SetSelectedGameObject(confirmBut.gameObject);
     }
 
     void CancleExitBut()
@@ -226,6 +266,7 @@ public class MainMenu : MonoBehaviour
         LeanTween.moveLocal(confirmBorder, new Vector3(0, -700, 0), 0.5f)
             .setEase(LeanTweenType.easeInOutCubic)
             .setOnComplete(() => ToggleUI(confirmPanel, false));
+        EventSystem.current.SetSelectedGameObject(startButton.gameObject);
     }
 
     void ExitGame()
