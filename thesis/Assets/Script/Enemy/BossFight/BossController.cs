@@ -112,7 +112,7 @@ public class BossController : MonoBehaviour, IDamageable
                         SwitchBehavior(BossBehavior.Normal);
                     }
 
-                    Vector3 afterPos = PlayerManager.Instance.transform.position + normalOffset;
+                    Vector3 afterPos = CenterMove.instance.transform.position + normalOffset;
                     normalOffset.z = 0;
 
                     transform.position = Vector3.SmoothDamp(transform.position, afterPos, ref velocity, normalXSpeed);
@@ -131,7 +131,7 @@ public class BossController : MonoBehaviour, IDamageable
                         weakSpot.gameObject.SetActive(true);
                     }
 
-                    Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
+                    Vector3 normalPos = CenterMove.instance.transform.position + normalOffset;
                     normalOffset.z = 0;
 
                     Vector3 smoothX = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalXSpeed);
@@ -186,7 +186,7 @@ public class BossController : MonoBehaviour, IDamageable
 
                     if (curHurtTime > 0)
                     {
-                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset;
+                        Vector3 EscapePos = CenterMove.instance.transform.position + normalOffset;
                         normalOffset.z = 0;
 
                         Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
@@ -199,7 +199,7 @@ public class BossController : MonoBehaviour, IDamageable
                     else
                     {
                         curEscapeTime -= Time.deltaTime;
-                        Vector3 EscapePos = PlayerManager.Instance.transform.position + normalOffset + new Vector3(10f, 0, 0);
+                        Vector3 EscapePos = CenterMove.instance.transform.position + normalOffset + new Vector3(10f, 0, 0);
                         normalOffset.z = 0;
 
                         Vector3 EscapesmoothX = Vector3.SmoothDamp(transform.position, EscapePos, ref velocity, normalXSpeed);
@@ -221,7 +221,7 @@ public class BossController : MonoBehaviour, IDamageable
         }
         else
         {
-            Vector3 normalPos = PlayerManager.Instance.transform.position + normalOffset;
+            Vector3 normalPos = CenterMove.instance.transform.position + normalOffset;
             normalOffset.z = 0;
 
             Vector3 smoothX = Vector3.SmoothDamp(transform.position, normalPos, ref velocity, normalXSpeed);

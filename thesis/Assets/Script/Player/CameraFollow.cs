@@ -12,8 +12,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float minY;
 
     [SerializeField] float normalX;
-    [SerializeField] float minX;
-    [SerializeField] float maxX;
+    //[SerializeField] float minX;
+    //[SerializeField] float maxX;
 
     [SerializeField] Vector3 offset;
     [SerializeField] float smoothTime;

@@ -38,6 +38,12 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public CapsuleCollider2D col;
 
     [Header("===== Game Play =====")]
+    [Header("- Move")]
+    [SerializeField] float minMoveX;
+    [SerializeField] float maxMoveX;
+    [SerializeField] float curMoveX = 0;
+    [HideInInspector] public float leftInput;
+    [HideInInspector] public float rightInput;
     [Header("- Hp")]
     public Transform mesh;
     public float startMaxHP;
@@ -284,19 +290,34 @@ public class PlayerManager : MonoBehaviour
         if (currentState != revive && !isDead)
         {
             float speed = GameManager.Instance.currentSpeed;
-            //transform.Translate(Vector2.right * Time.deltaTime * speed);
-
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
-            Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
-            if (transform.position.x < targetPos.x)
+
+            if (GameManager.Instance.state == GameState.BossFight &&
+                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf)
             {
-                transform.position = Vector3.MoveTowards(transform.position,
-                targetPos, speed * 1.5f * Time.deltaTime);
+                float inputValue = leftInput - rightInput;
+                curMoveX = curMoveX - inputValue * speed * Time.deltaTime;
+
+                if (curMoveX > maxMoveX) curMoveX = maxMoveX;
+                if (curMoveX < minMoveX) curMoveX = minMoveX;
+
+                Vector2 targetPos = new Vector2(centerPoint.x + curMoveX, transform.position.y);
+
+                transform.position = targetPos;
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position,
-                targetPos, speed * Time.deltaTime);
+                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+                if (transform.position.x < targetPos.x)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * 1.5f * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * Time.deltaTime);
+                }
             }
         }
         #endregion

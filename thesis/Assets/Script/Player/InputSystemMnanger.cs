@@ -20,10 +20,10 @@ public class InputSystemMnanger : MonoBehaviour
             //inputSystem.PlayerInput.FirstHook.performed += i => PlayerManager.Instance.FirstHookPerformed();
             //inputSystem.PlayerInput.FirstHook.canceled += i => PlayerManager.Instance.CancleHoldHook();
             inputSystem.PlayerInput.Pause.performed += i => PauseManager.Instance.TogglePause();
-            //inputSystem.PlayerInput.MoveLeftWithBossFight.performed += i => LeftInput();
-            //inputSystem.PlayerInput.MoveLeftWithBossFight.canceled += i => CameraFollow.instance.moveLeftInput = 0;
-            //inputSystem.PlayerInput.MoveRightWithBossFight.performed += i => RightInput();
-            //inputSystem.PlayerInput.MoveRightWithBossFight.canceled += i => CameraFollow.instance.moveRightInput = 0;
+            inputSystem.PlayerInput.MoveLeftWithBossFight.performed += i => LeftInput();
+            inputSystem.PlayerInput.MoveLeftWithBossFight.canceled += i => PlayerManager.Instance.leftInput = 0;
+            inputSystem.PlayerInput.MoveRightWithBossFight.performed += i => RightInput();
+            inputSystem.PlayerInput.MoveRightWithBossFight.canceled += i => PlayerManager.Instance.rightInput = 0;
 
         }
 
@@ -35,19 +35,19 @@ public class InputSystemMnanger : MonoBehaviour
         inputSystem.Disable();
     }
 
-    //void LeftInput()
-    //{
-    //    if (GameManager.Instance.state == GameState.BossFight)
-    //    {
-    //        CameraFollow.instance.moveLeftInput = 1f;
-    //    }
-    //}
+    void LeftInput()
+    {
+        if (GameManager.Instance.state == GameState.BossFight)
+        {
+            PlayerManager.Instance.leftInput = 1;
+        }
+    }
 
-    //void RightInput()
-    //{
-    //    if (GameManager.Instance.state == GameState.BossFight)
-    //    {
-    //        CameraFollow.instance.moveRightInput = 1f;
-    //    }
-    //}
+    void RightInput()
+    {
+        if (GameManager.Instance.state == GameState.BossFight)
+        {
+            PlayerManager.Instance.rightInput = 1f;
+        }
+    }
 }
