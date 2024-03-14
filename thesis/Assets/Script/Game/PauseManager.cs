@@ -120,9 +120,6 @@ public class PauseManager : MonoBehaviour
                 bossCon.enabled = enable;
             }
         }
-
-        if (!enable) StopAllCoroutines();
-
     }
 
     void SetPauseActiveFalse()

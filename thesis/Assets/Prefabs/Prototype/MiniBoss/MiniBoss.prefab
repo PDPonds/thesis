@@ -75,6 +75,7 @@ Transform:
   - {fileID: 634209122137820286}
   - {fileID: 2399297709075105691}
   - {fileID: 5210821561672694468}
+  - {fileID: 7125199950530997700}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1521400668548888180
@@ -298,6 +299,12 @@ MonoBehaviour:
   bombForce: 7
   minYBounce: 0.5
   maxYBounce: 1
+  beamSpawnPoint: {fileID: 7125199950530997700}
+  beamWarning: {fileID: 5598575347823351288, guid: e61810465906d4a4081ca20ad90e206a, type: 3}
+  beam: {fileID: 3312436334616455828, guid: ee194baa9845d854286d82b12ec6c6ef, type: 3}
+  beamDamage: 50
+  beamWarningTime: 1
+  beamTime: 1.5
   weaknessSpeed: 5
   weaknessOffset: {x: 3.5, y: 3, z: 0}
   weaknessTime: 3
@@ -590,6 +597,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.8214288, y: -1.2857143, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 306848385715742532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8168701971422244204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7125199950530997700}
+  m_Layer: 7
+  m_Name: BeamPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7125199950530997700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8168701971422244204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

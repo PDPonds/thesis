@@ -58,6 +58,14 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float bombForce;
     [SerializeField] float minYBounce;
     [SerializeField] float maxYBounce;
+    [Header("- Beam")]
+    [SerializeField] Transform beamSpawnPoint;
+    [SerializeField] GameObject beamWarning;
+    [SerializeField] GameObject beam;
+    [SerializeField] float beamDamage;
+    [SerializeField] float beamWarningTime;
+    [SerializeField] float beamTime;
+
     [Header("===== Weakness Behavior =====")]
     [SerializeField] float weaknessSpeed;
     [SerializeField] Vector3 weaknessOffset;
@@ -134,7 +142,7 @@ public class BossController : MonoBehaviour, IDamageable
                     curProjectileDelay -= Time.deltaTime;
                     if (curProjectileDelay < 0 && !isFire)
                     {
-                        int ran = Random.Range(0, 3);
+                        int ran = Random.Range(0, 4);
                         if (ran == 0)
                         {
                             isFire = true;
@@ -150,6 +158,11 @@ public class BossController : MonoBehaviour, IDamageable
                         else if (ran == 2)
                         {
                             StartCoroutine(FireBomb());
+                            isFire = true;
+                        }
+                        else if (ran == 3)
+                        {
+                            StartCoroutine(SpawnBeam());
                             isFire = true;
                         }
                     }
@@ -432,4 +445,21 @@ public class BossController : MonoBehaviour, IDamageable
 
         //SoundManager.Instance.PlayOnShot("LaserShot");
     }
+
+    public IEnumerator SpawnBeam()
+    {
+        GameObject warning = Instantiate(beamWarning, beamSpawnPoint.position, Quaternion.identity);
+        warning.transform.SetParent(transform);
+        yield return new WaitForSeconds(beamWarningTime);
+        Destroy(warning);
+        GameObject beamObj = Instantiate(beam, beamSpawnPoint.position, Quaternion.identity);
+        beamObj.transform.SetParent(transform);
+        Beam beamScr = beamObj.GetComponent<Beam>();
+        beamScr.damage = beamDamage;
+        yield return new WaitForSeconds(beamTime);
+        Destroy(beamObj);
+        curProjectileDelay = delayProjectile;
+        isFire = false;
+    }
+
 }
