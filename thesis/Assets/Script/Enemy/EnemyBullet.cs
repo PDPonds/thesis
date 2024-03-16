@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    public bool controlDir;
+    public Vector2 dir;
+
     public bool canCounter;
     public bool isCounter;
     public float damage;
@@ -18,7 +21,15 @@ public class EnemyBullet : MonoBehaviour
         }
         else
         {
-            transform.Translate(Vector2.left * Time.deltaTime * speed);
+            if (controlDir)
+            {
+                dir = dir.normalized;
+                transform.Translate(dir * Time.deltaTime * speed);
+            }
+            else
+            {
+                transform.Translate(Vector2.left * Time.deltaTime * speed);
+            }
         }
 
         Destroy(gameObject, 5f);
@@ -32,10 +43,31 @@ public class EnemyBullet : MonoBehaviour
             {
                 if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
                 {
-                    if (!playerManager.noDamage)
+                    if (GameManager.Instance.state == GameState.Normal)
                     {
-                        StartCoroutine(PlayerTakeDamage(collision, playerManager));
-
+                        if (!playerManager.noDamage)
+                        {
+                            StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                        }
+                    }
+                    else if (GameManager.Instance.state == GameState.BossFight)
+                    {
+                        if (GameManager.Instance.curBoss != null &&
+                            GameManager.Instance.curBoss.activeSelf)
+                        {
+                            BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                            if (!playerManager.noDamage && boss.curBehavior != BossBehavior.Escape)
+                            {
+                                StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                            }
+                        }
+                        else
+                        {
+                            if (!playerManager.noDamage)
+                            {
+                                StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                            }
+                        }
                     }
                 }
             }
@@ -59,17 +91,17 @@ public class EnemyBullet : MonoBehaviour
                 }
             }
 
-            if (collision.CompareTag("Weakspot"))
-            {
-                if (collision.TryGetComponent<WeakSpot>(out WeakSpot weakSpot))
-                {
-                    StartCoroutine(EnemyTakeDamage(collision, weakSpot.bossController));
-                    weakSpot.RemoveWeakSpotHP();
-                    GameManager.Instance.SpawnParticle(GameManager.Instance.weakspotParticle, transform.position, true);
+            //if (collision.CompareTag("Weakspot"))
+            //{
+            //    if (collision.TryGetComponent<WeakSpot>(out WeakSpot weakSpot))
+            //    {
+            //        StartCoroutine(EnemyTakeDamage(collision, weakSpot.bossController));
+            //        weakSpot.RemoveWeakSpotHP();
+            //        GameManager.Instance.SpawnParticle(GameManager.Instance.weakspotParticle, transform.position, true);
 
-                    Destroy(gameObject);
-                }
-            }
+            //        Destroy(gameObject);
+            //    }
+            //}
         }
 
         if (collision.CompareTag("Ground"))
@@ -97,4 +129,6 @@ public class EnemyBullet : MonoBehaviour
         yield return StartCoroutine(damageable.TakeDamage());
         Destroy(gameObject);
     }
+
+
 }

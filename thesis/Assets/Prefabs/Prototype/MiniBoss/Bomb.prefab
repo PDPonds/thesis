@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6039895010618128715}
   - component: {fileID: 6840785124212527021}
   - component: {fileID: 5927650897726804599}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: Bomb
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.09, y: 0.9, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -199,4 +199,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 4
   damage: 0
-  upForce: 0

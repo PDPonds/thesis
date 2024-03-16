@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
-    public static int reviveItemCount = 2;
+    public static int reviveItemCount = 50;
     public static int coin = 0;
     public int inGameCoin;
 
@@ -362,13 +362,13 @@ public class PlayerManager : MonoBehaviour
 
         }
 
-
         if (noDamage)
         {
             SpriteRenderer meshImage = mesh.GetComponent<SpriteRenderer>();
 
             Physics2D.IgnoreLayerCollision(3, 7, true);
             Physics2D.IgnoreLayerCollision(3, 12, true);
+            Physics2D.IgnoreLayerCollision(3, 16, true);
 
             curBlinkTime += Time.deltaTime;
             if (curBlinkTime >= blinkTime)
@@ -403,6 +403,7 @@ public class PlayerManager : MonoBehaviour
             isBlink = false;
             Physics2D.IgnoreLayerCollision(3, 7, false);
             Physics2D.IgnoreLayerCollision(3, 12, false);
+            Physics2D.IgnoreLayerCollision(3, 16, false);
         }
 
 
@@ -557,6 +558,7 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator TakeDamage(float damage)
     {
+        
         onTakeDamage?.Invoke();
         currentHp -= damage;
         noDamage = true;

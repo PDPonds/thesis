@@ -31,16 +31,16 @@ public class PlayerBullet : MonoBehaviour
             }
         }
 
-        if (collision.CompareTag("Weakspot"))
-        {
-            if (collision.TryGetComponent<WeakSpot>(out WeakSpot weakSpot))
-            {
-                StartCoroutine(EnemyTakeDamage(collision, weakSpot.bossController));
-                weakSpot.RemoveWeakSpotHP();
-                GameManager.Instance.SpawnParticle(GameManager.Instance.weakspotParticle, transform.position, true);
-                Destroy(gameObject);
-            }
-        }
+        //if (collision.CompareTag("Weakspot"))
+        //{
+        //    if (collision.TryGetComponent<WeakSpot>(out WeakSpot weakSpot))
+        //    {
+        //        StartCoroutine(EnemyTakeDamage(collision, weakSpot.bossController));
+        //        weakSpot.RemoveWeakSpotHP();
+        //        GameManager.Instance.SpawnParticle(GameManager.Instance.weakspotParticle, transform.position, true);
+        //        Destroy(gameObject);
+        //    }
+        //}
 
         if (collision.CompareTag("Ground"))
         {

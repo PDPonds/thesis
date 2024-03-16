@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    AfterSpawn, Normal, Weakness, Escape
+    AfterSpawn, Normal,/* Weakness,*/ Escape
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -22,17 +22,17 @@ public class BossController : MonoBehaviour, IDamageable
     float curAlertTime;
     [Header("===== Normal Behavior =====")]
     bool isFire;
-    [Header("- WeakSpot")]
+    //[Header("- WeakSpot")]
     [SerializeField] float normalXSpeed;
     [SerializeField] float normalYSpeed;
 
-    [SerializeField] WeakSpot weakSpot;
+    //[SerializeField] WeakSpot weakSpot;
     [SerializeField] Vector3 normalOffset;
-    [SerializeField] Transform pos1;
-    [SerializeField] Transform pos2;
+    //[SerializeField] Transform pos1;
+    //[SerializeField] Transform pos2;
     Vector3 velocity;
-    [SerializeField] float delayWeakSpot;
-    float curDelayWeakSpot;
+    //[SerializeField] float delayWeakSpot;
+    //float curDelayWeakSpot;
 
     [Header("- Missile")]
     [SerializeField] Transform spawnProjectilePos;
@@ -43,12 +43,14 @@ public class BossController : MonoBehaviour, IDamageable
     public float projectileDamage;
     public float warningTime;
     [Header("- Lasser")]
+
     [SerializeField] float countPerMax;
     [SerializeField] float delayPerCount;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform[] bulletSpawnPoint;
     [SerializeField] float bulletDamage;
     [SerializeField] float normalBulletSpeed;
+
     [Header("- Bomb")]
     [SerializeField] GameObject bomb;
     [SerializeField] Transform bombSpawnPoint;
@@ -60,18 +62,17 @@ public class BossController : MonoBehaviour, IDamageable
     //[SerializeField] float minYBounce;
     //[SerializeField] float maxYBounce;
     [Header("- Beam")]
-    [SerializeField] Transform beamSpawnPoint;
-    [SerializeField] GameObject beamWarning;
     [SerializeField] GameObject beam;
+    [SerializeField] BoxCollider2D beamCollider;
     [SerializeField] float beamDamage;
-    [SerializeField] float beamWarningTime;
+    [SerializeField] float delayBeam;
     [SerializeField] float beamTime;
 
-    [Header("===== Weakness Behavior =====")]
-    [SerializeField] float weaknessSpeed;
-    [SerializeField] Vector3 weaknessOffset;
-    [SerializeField] float weaknessTime;
-    float curWeaknessTime;
+    //[Header("===== Weakness Behavior =====")]
+    //[SerializeField] float weaknessSpeed;
+    //[SerializeField] Vector3 weaknessOffset;
+    //[SerializeField] float weaknessTime;
+    //float curWeaknessTime;
     [Header("===== Escape Behavior =====")]
     [SerializeField] float hurtTime;
     float curHurtTime;
@@ -92,6 +93,10 @@ public class BossController : MonoBehaviour, IDamageable
         spawnProjectilePos = GameManager.Instance.bossSpawnPos;
         curProjectileDelay = delayProjectile;
         SwitchBehavior(BossBehavior.AfterSpawn);
+
+        Beam beamScr = beamCollider.GetComponent<Beam>();
+        beamScr.damage = beamDamage;
+
     }
 
     [System.Obsolete]
@@ -118,19 +123,19 @@ public class BossController : MonoBehaviour, IDamageable
 
                     transform.position = Vector3.SmoothDamp(transform.position, afterPos, ref velocity, normalXSpeed);
 
-                    weakSpot.gameObject.SetActive(false);
+                    //weakSpot.gameObject.SetActive(false);
 
                     break;
                 case BossBehavior.Normal:
-                    if (curDelayWeakSpot > 0)
-                    {
-                        curDelayWeakSpot -= Time.deltaTime;
-                        if (weakSpot != null) weakSpot.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        weakSpot.gameObject.SetActive(true);
-                    }
+                    //if (curDelayWeakSpot > 0)
+                    //{
+                    //    curDelayWeakSpot -= Time.deltaTime;
+                    //    if (weakSpot != null) weakSpot.gameObject.SetActive(false);
+                    //}
+                    //else
+                    //{
+                    //    weakSpot.gameObject.SetActive(true);
+                    //}
 
                     Vector3 normalPos = CenterMove.instance.transform.position + normalOffset;
                     normalOffset.z = 0;
@@ -169,20 +174,20 @@ public class BossController : MonoBehaviour, IDamageable
                     }
 
                     break;
-                case BossBehavior.Weakness:
+                //case BossBehavior.Weakness:
 
-                    weakSpot.gameObject.SetActive(false);
-                    float weaknessYPos = Camera.main.transform.position.y - weaknessOffset.y;
-                    float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
-                    Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
-                    transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
-                    curWeaknessTime -= Time.deltaTime;
-                    if (curWeaknessTime < 0)
-                    {
-                        SwitchBehavior(BossBehavior.Normal);
-                    }
+                //    weakSpot.gameObject.SetActive(false);
+                //    float weaknessYPos = Camera.main.transform.position.y - weaknessOffset.y;
+                //    float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
+                //    Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
+                //    transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
+                //    curWeaknessTime -= Time.deltaTime;
+                //    if (curWeaknessTime < 0)
+                //    {
+                //        SwitchBehavior(BossBehavior.Normal);
+                //    }
 
-                    break;
+                //    break;
                 case BossBehavior.Escape:
 
                     if (curHurtTime > 0)
@@ -233,10 +238,10 @@ public class BossController : MonoBehaviour, IDamageable
             Rigidbody2D playerRB = transform.GetComponent<Rigidbody2D>();
             playerRB.bodyType = RigidbodyType2D.Kinematic;
             playerRB.simulated = false;
-            Rigidbody2D weakspotRB = weakSpot.GetComponent<Rigidbody2D>();
-            weakspotRB.bodyType = RigidbodyType2D.Kinematic;
-            weakspotRB.simulated = false;
-            weakSpot.gameObject.SetActive(false);
+            //Rigidbody2D weakspotRB = weakSpot.GetComponent<Rigidbody2D>();
+            //weakspotRB.bodyType = RigidbodyType2D.Kinematic;
+            //weakspotRB.simulated = false;
+            //weakSpot.gameObject.SetActive(false);
 
             curDyimgTime -= Time.deltaTime;
             dyingParticle.SetActive(true);
@@ -272,13 +277,16 @@ public class BossController : MonoBehaviour, IDamageable
                 curAlertTime = alertTime;
                 break;
             case BossBehavior.Normal:
-                curDelayWeakSpot = delayWeakSpot;
-                weakSpot.ResetWeakSpotHP();
+                //curDelayWeakSpot = delayWeakSpot;
+                //weakSpot.ResetWeakSpotHP();
                 break;
-            case BossBehavior.Weakness:
-                curWeaknessTime = weaknessTime;
-                break;
+            //case BossBehavior.Weakness:
+            //    curWeaknessTime = weaknessTime;
+            //    break;
             case BossBehavior.Escape:
+                StopAllCoroutines();
+                beamCollider.enabled = false;
+                beam.SetActive(false);
                 curHurtTime = hurtTime;
                 curEscapeTime = escapeTime;
                 UIManager.Instance.EnterCutScene();
@@ -289,14 +297,16 @@ public class BossController : MonoBehaviour, IDamageable
     [System.Obsolete]
     public IEnumerator TakeDamage()
     {
-        if (curBehavior == BossBehavior.Weakness)
-        {
-            hp -= 2;
-        }
-        else if (curBehavior == BossBehavior.Normal)
-        {
-            hp--;
-        }
+        //if (curBehavior == BossBehavior.Weakness)
+        //{
+        //    hp -= 2;
+        //}
+        //else if (curBehavior == BossBehavior.Normal)
+        //{
+        //    hp--;
+        //}
+
+        hp--;
 
         GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
         GameObject hitPar = GameManager.Instance.hitParticle;
@@ -335,6 +345,9 @@ public class BossController : MonoBehaviour, IDamageable
     [System.Obsolete]
     public void Die()
     {
+        beamCollider.enabled = false;
+        beam.SetActive(false);
+
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
         UIManager.Instance.EnterCutScene();
@@ -392,33 +405,40 @@ public class BossController : MonoBehaviour, IDamageable
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
         ebullet.damage = bulletDamage;
         ebullet.speed = normalBulletSpeed;
+        ebullet.controlDir = true;
+        ebullet.dir = PlayerManager.Instance.transform.position - bulletSpawnPoint[ran].position;
+
+        Vector3 dir = bulletSpawnPoint[ran].position - PlayerManager.Instance.transform.position;
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        bulletObj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         SoundManager.Instance.PlayOnShot("LaserShot");
     }
 
-    public void SwitchWeakSpotPos()
-    {
-        if (weakSpot != null)
-        {
-            if (weakSpot.curPos == null)
-            {
-                weakSpot.curPos = pos1;
-                weakSpot.transform.position = pos1.transform.position;
-            }
-            else
-            {
-                if (weakSpot.curPos == pos1)
-                {
-                    weakSpot.curPos = pos2;
-                    weakSpot.transform.position = pos2.transform.position;
-                }
-                else if (weakSpot.curPos == pos2)
-                {
-                    weakSpot.curPos = pos1;
-                    weakSpot.transform.position = pos1.transform.position;
-                }
-            }
-        }
-    }
+    //public void SwitchWeakSpotPos()
+    //{
+    //    if (weakSpot != null)
+    //    {
+    //        if (weakSpot.curPos == null)
+    //        {
+    //            weakSpot.curPos = pos1;
+    //            weakSpot.transform.position = pos1.transform.position;
+    //        }
+    //        else
+    //        {
+    //            if (weakSpot.curPos == pos1)
+    //            {
+    //                weakSpot.curPos = pos2;
+    //                weakSpot.transform.position = pos2.transform.position;
+    //            }
+    //            else if (weakSpot.curPos == pos2)
+    //            {
+    //                weakSpot.curPos = pos1;
+    //                weakSpot.transform.position = pos1.transform.position;
+    //            }
+    //        }
+    //    }
+    //}
 
     IEnumerator FireBomb()
     {
@@ -450,18 +470,16 @@ public class BossController : MonoBehaviour, IDamageable
 
     public IEnumerator SpawnBeam()
     {
-        GameObject warning = Instantiate(beamWarning, beamSpawnPoint.position, Quaternion.identity);
-        warning.transform.SetParent(transform);
-        yield return new WaitForSeconds(beamWarningTime);
-        Destroy(warning);
-        GameObject beamObj = Instantiate(beam, beamSpawnPoint.position, Quaternion.identity);
-        beamObj.transform.SetParent(transform);
-        Beam beamScr = beamObj.GetComponent<Beam>();
-        beamScr.damage = beamDamage;
-        yield return new WaitForSeconds(beamTime);
-        Destroy(beamObj);
+        beam.SetActive(true);
+        beamCollider.enabled = false;
+        yield return new WaitForSecondsRealtime(delayBeam);
+        beamCollider.enabled = true;
+        yield return new WaitForSecondsRealtime(beamTime);
+        beamCollider.enabled = false;
+        beam.SetActive(false);
         curProjectileDelay = delayProjectile;
         isFire = false;
     }
+
 
 }

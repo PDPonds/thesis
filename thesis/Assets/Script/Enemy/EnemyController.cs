@@ -131,13 +131,50 @@ public class EnemyController : MonoBehaviour, IDamageable
                     {
                         if (!playerManager.noDamage)
                         {
-                            onAttack?.Invoke();
+                            if (GameManager.Instance.state == GameState.Normal)
+                            {
+                                if (!playerManager.noDamage)
+                                {
+                                    onAttack?.Invoke();
 
-                            GameObject hitPar = GameManager.Instance.hitParticle;
-                            GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+                                    GameObject hitPar = GameManager.Instance.hitParticle;
+                                    GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
 
-                            StartCoroutine(playerManager.TakeDamage(enemySO.damage));
-                            canAttack = false;
+                                    StartCoroutine(playerManager.TakeDamage(enemySO.damage));
+                                    canAttack = false;
+                                }
+                            }
+                            else if (GameManager.Instance.state == GameState.BossFight)
+                            {
+                                if (GameManager.Instance.curBoss != null &&
+                                    GameManager.Instance.curBoss.activeSelf)
+                                {
+                                    BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                                    if (!playerManager.noDamage && boss.curBehavior != BossBehavior.Escape)
+                                    {
+                                        onAttack?.Invoke();
+
+                                        GameObject hitPar = GameManager.Instance.hitParticle;
+                                        GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+                                        StartCoroutine(playerManager.TakeDamage(enemySO.damage));
+                                        canAttack = false;
+                                    }
+                                }
+                                else
+                                {
+                                    if (!playerManager.noDamage)
+                                    {
+                                        onAttack?.Invoke();
+
+                                        GameObject hitPar = GameManager.Instance.hitParticle;
+                                        GameManager.Instance.SpawnParticle(hitPar, collision.transform.position);
+
+                                        StartCoroutine(playerManager.TakeDamage(enemySO.damage));
+                                        canAttack = false;
+                                    }
+                                }
+                            }
                         }
                     }
                     else

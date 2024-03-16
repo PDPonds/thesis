@@ -20,7 +20,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Transform target;
     [Header("===== Boss =====")]
     //[SerializeField] float bossYCamBeforeSpawn;
-    [SerializeField] float bossYCam;
+    [SerializeField] float FirstStateBossYCam;
+    [SerializeField] float SecondStateBossYCam;
     /*[HideInInspector] public float moveLeftInput;*/
     /*[HideInInspector] public float moveRightInput;*/
 
@@ -47,7 +48,15 @@ public class CameraFollow : MonoBehaviour
                 if (GameManager.Instance.curBoss != null &&
                     GameManager.Instance.curBoss.activeSelf)
                 {
-                    targetPos.y = bossYCam;
+                    BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                    if (boss.isEnterHalfHP)
+                    {
+                        targetPos.y = SecondStateBossYCam;
+                    }
+                    else
+                    {
+                        targetPos.y = FirstStateBossYCam;
+                    }
                     //float moveInput = moveLeftInput - moveRightInput;
                     //float speed = moveInput * GameManager.Instance.currentSpeed /** Time.deltaTime*/;
                     //targetPos.x += speed;

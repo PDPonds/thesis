@@ -25,7 +25,7 @@ public class PlayerAttackTrigger : MonoBehaviour
 
                 StartCoroutine(idamageable.TakeDamage());
 
-                if (!PlayerManager.Instance.onGrounded)
+                if (!PlayerManager.Instance.onGrounded && !collision.CompareTag("Boss"))
                 {
                     PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce /** 0.75f*/);
                 }

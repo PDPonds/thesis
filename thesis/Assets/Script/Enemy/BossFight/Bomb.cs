@@ -22,9 +22,31 @@ public class Bomb : MonoBehaviour
         {
             if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
-                if (!playerManager.noDamage)
+                if (GameManager.Instance.state == GameState.Normal)
                 {
-                    StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                    if (!playerManager.noDamage)
+                    {
+                        StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                    }
+                }
+                else if (GameManager.Instance.state == GameState.BossFight)
+                {
+                    if (GameManager.Instance.curBoss != null &&
+                        GameManager.Instance.curBoss.activeSelf)
+                    {
+                        BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                        if (!playerManager.noDamage && boss.curBehavior != BossBehavior.Escape)
+                        {
+                            StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                        }
+                    }
+                    else
+                    {
+                        if (!playerManager.noDamage)
+                        {
+                            StartCoroutine(PlayerTakeDamage(collision, playerManager));
+                        }
+                    }
                 }
             }
         }

@@ -36,14 +36,45 @@ public class SawBlade : MonoBehaviour
             {
                 if (other.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
                 {
-                    if (!playerManager.noDamage)
+                    if (GameManager.Instance.state == GameState.Normal)
                     {
-                        GameObject hitPar = GameManager.Instance.hitParticle;
-                        GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
+                        if (!playerManager.noDamage)
+                        {
+                            GameObject hitPar = GameManager.Instance.hitParticle;
+                            GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
 
-                        StartCoroutine(playerManager.TakeDamage(damage));
-                        canHit = false;
+                            StartCoroutine(playerManager.TakeDamage(damage));
+                            canHit = false;
+                        }
                     }
+                    else if (GameManager.Instance.state == GameState.BossFight)
+                    {
+                        if (GameManager.Instance.curBoss != null &&
+                            GameManager.Instance.curBoss.activeSelf)
+                        {
+                            BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
+                            if (!playerManager.noDamage && boss.curBehavior != BossBehavior.Escape)
+                            {
+                                GameObject hitPar = GameManager.Instance.hitParticle;
+                                GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
+
+                                StartCoroutine(playerManager.TakeDamage(damage));
+                                canHit = false;
+                            }
+                        }
+                        else
+                        {
+                            if (!playerManager.noDamage)
+                            {
+                                GameObject hitPar = GameManager.Instance.hitParticle;
+                                GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
+
+                                StartCoroutine(playerManager.TakeDamage(damage));
+                                canHit = false;
+                            }
+                        }
+                    }
+
                 }
             }
         }
