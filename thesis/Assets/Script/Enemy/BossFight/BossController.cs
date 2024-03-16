@@ -91,7 +91,6 @@ public class BossController : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         hp = bossSO.maxHp;
         spawnProjectilePos = GameManager.Instance.bossSpawnPos;
-        curProjectileDelay = delayProjectile;
         SwitchBehavior(BossBehavior.AfterSpawn);
 
         Beam beamScr = beamCollider.GetComponent<Beam>();
@@ -275,6 +274,8 @@ public class BossController : MonoBehaviour, IDamageable
                 SoundManager.Instance.Play("BossBGM");
                 UIManager.Instance.EnterCutScene();
                 curAlertTime = alertTime;
+                isFire = false;
+                curProjectileDelay = delayProjectile;
                 break;
             case BossBehavior.Normal:
                 //curDelayWeakSpot = delayWeakSpot;

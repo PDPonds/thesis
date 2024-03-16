@@ -319,6 +319,7 @@ public class PlayerManager : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position,
                     targetPos, speed * Time.deltaTime);
                 }
+                curMoveX = .5f;
             }
         }
         #endregion
