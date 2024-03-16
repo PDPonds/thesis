@@ -51,6 +51,8 @@ public class UIManager : MonoBehaviour
     public GameObject cutscenePanel;
     public GameObject top;
     public GameObject down;
+    [Header("===== DecreasesHP =====")]
+    public bool isDecreases;
 
     private void OnDisable()
     {

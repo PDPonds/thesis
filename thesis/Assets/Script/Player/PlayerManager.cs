@@ -349,11 +349,16 @@ public class PlayerManager : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.simulated = true;
-            //currentHp -= Time.deltaTime * hpMul;
-            //if (currentHp <= 0)
-            //{
-            //    Die();
-            //}
+
+            if (UIManager.Instance.isDecreases)
+            {
+                currentHp -= Time.deltaTime * hpMul;
+                if (currentHp <= 0)
+                {
+                    Die();
+                }
+            }
+
         }
 
 
