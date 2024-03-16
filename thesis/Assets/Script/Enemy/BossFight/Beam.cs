@@ -26,7 +26,7 @@ public class Beam : MonoBehaviour
         //else SoundManager.Instance.PlayOnShot("LaserHit");
 
         yield return StartCoroutine(playerManager.TakeDamage(damage));
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
 }
