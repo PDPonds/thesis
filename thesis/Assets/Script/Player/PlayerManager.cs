@@ -293,7 +293,8 @@ public class PlayerManager : MonoBehaviour
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
 
             if (GameManager.Instance.state == GameState.BossFight &&
-                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf)
+                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
+                && UIManager.Instance.isHorizontalMove)
             {
                 float inputValue = leftInput - rightInput;
                 curMoveX = curMoveX - inputValue * speed * Time.deltaTime;

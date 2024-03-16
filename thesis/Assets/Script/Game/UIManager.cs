@@ -53,6 +53,8 @@ public class UIManager : MonoBehaviour
     public GameObject down;
     [Header("===== DecreasesHP =====")]
     public bool isDecreases;
+    [Header("===== Horizontal Move =====")]
+    public bool isHorizontalMove;
 
     private void OnDisable()
     {
