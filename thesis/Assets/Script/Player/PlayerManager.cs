@@ -473,6 +473,8 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpAfterAttack(float force)
     {
+        if (currentState == slide) return;
+
         attackCol.enabled = false;
 
         SoundManager.Instance.PlayOnShot("Jump");
@@ -535,23 +537,32 @@ public class PlayerManager : MonoBehaviour
             //}
             //else
             //{
-            if (attackCount % 2 != 0)
+            if (currentState == slide)
             {
-                anim.Play("Attack1");
-                SoundManager.Instance.PlayOnShot("MCAtk1");
+                anim.Play("SlideAttack");
+                SoundManager.Instance.PlayOnShot("MCAtk2");
             }
             else
             {
-                anim.Play("Attack2");
-                SoundManager.Instance.PlayOnShot("MCAtk2");
+                if (attackCount % 2 != 0)
+                {
+                    anim.Play("Attack1");
+                    SoundManager.Instance.PlayOnShot("MCAtk1");
+                }
+                else
+                {
+                    anim.Play("Attack2");
+                    SoundManager.Instance.PlayOnShot("MCAtk2");
 
+                }
             }
+
             //}
             //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
 
             attackCol.enabled = true;
-            if (currentState == slide) SwitchState(running);
+
             onAttack?.Invoke();
             canAttack = false;
         }
@@ -559,7 +570,7 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator TakeDamage(float damage)
     {
-        
+
         onTakeDamage?.Invoke();
         currentHp -= damage;
         noDamage = true;
