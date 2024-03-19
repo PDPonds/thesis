@@ -74,6 +74,13 @@ public class PlayerAttackTrigger : MonoBehaviour
 
         if (collision.CompareTag("Capsule"))
         {
+            if (PlayerManager.Instance.noDamage)
+            {
+                PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
+                Physics2D.IgnoreLayerCollision(3, 7, false);
+                PlayerManager.Instance.noDamage = false;
+            }
+
             if (collision.TryGetComponent<CoinCapsule>(out CoinCapsule cc))
             {
                 CoinCapsule capsule = collision.GetComponent<CoinCapsule>();
@@ -82,9 +89,20 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             if (collision.TryGetComponent<GadgetCapsule>(out GadgetCapsule gadgetCapsule))
             {
-                SpecialGadget gadget = gadgetCapsule.gadget;
-                int amount = gadgetCapsule.amount;
-                PlayerManager.Instance.AddGadget(gadget, amount);
+                if (gadgetCapsule.gadget is SmokeBomb smokeBomb)
+                {
+                    Vector3 playerPos = PlayerManager.Instance.transform.position;
+                    GameObject smoke = GameManager.Instance.smokeParticle.gameObject;
+                    GameManager.Instance.SpawnParticle(smoke, playerPos);
+                    PlayerManager.Instance.curNoDamageTime = smokeBomb.noDamageTime;
+                    PlayerManager.Instance.noDamage = true;
+                }
+                else
+                {
+                    SpecialGadget gadget = gadgetCapsule.gadget;
+                    int amount = gadgetCapsule.amount;
+                    PlayerManager.Instance.AddGadget(gadget, amount);
+                }
             }
 
             float time = GameManager.Instance.shakeDuration;
@@ -100,13 +118,6 @@ public class PlayerAttackTrigger : MonoBehaviour
             if (!PlayerManager.Instance.onGrounded)
             {
                 PlayerManager.Instance.JumpAfterAttack(PlayerManager.Instance.jumpForce /** 0.75f*/);
-            }
-
-            if (PlayerManager.Instance.noDamage)
-            {
-                PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
-                Physics2D.IgnoreLayerCollision(3, 7, false);
-                PlayerManager.Instance.noDamage = false;
             }
 
             Destroy(collision.transform.parent.gameObject);

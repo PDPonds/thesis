@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SpecialGadget/SmockBomb")]
-public class SmockBomb : SpecialGadget
+public class SmokeBomb : SpecialGadget
 {
     public float noDamageTime;
 
-    public SmockBomb()
+    public SmokeBomb()
     {
         gadgetType = GadgetType.UseForPlayer;
     }
