@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     public bool controlDir;
-    public Vector2 dir;
+    [HideInInspector] public Vector2 dir;
 
     public bool canCounter;
-    public bool isCounter;
-    public float damage;
-    public float speed;
+    [HideInInspector] public bool isCounter;
+    [HideInInspector] public float damage;
+    [HideInInspector] public float speed;
     public bool isMissile;
 
     private void Update()

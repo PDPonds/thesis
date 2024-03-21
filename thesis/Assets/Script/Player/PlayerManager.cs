@@ -92,33 +92,11 @@ public class PlayerManager : MonoBehaviour
     int attackCount;
     float currentAttackDelay;
     bool canAttack;
+    [Header("- Counter")]
+    public float counterToTargetTime;
+    [HideInInspector] public float curCounterToTargetTime;
+    public bool isCounterToTarget;
     [Space(5f)]
-
-    #region Hook
-    //[Header("- Hook")]
-    //public GameObject hookPrefab;
-    //public Transform hookSpawnPos;
-    //public float hookSpeed;
-    //public float onHookTime;
-    //public float moveToHookSpeed;
-    //[HideInInspector] public bool canHook;
-    //public float delayHookTime;
-    //[HideInInspector] public float curDelayHookTime;
-
-    //[HideInInspector] public List<Collider2D> enemyInFornt = new List<Collider2D>();
-
-    //public float hookLength;
-    //public LayerMask hookMask;
-
-    //[HideInInspector] public Transform curHook;
-    //public float waitHookTime;
-    //public Transform checkHookablePoint;
-
-    //public Transform hookableImage;
-    //public Transform hookBorder;
-    //public Image hookFill;
-    #endregion
-
 
     [Header("========== Shop ==========")]
     [Header("- Revive")]
@@ -324,6 +302,16 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
+        #region Counter To Target
+        if (!isCounterToTarget)
+        {
+            curCounterToTargetTime += Time.deltaTime;
+            if (curCounterToTargetTime >= counterToTargetTime)
+            {
+                isCounterToTarget = true;
+            }
+        }
+        #endregion
 
         if (onGrounded)
         {

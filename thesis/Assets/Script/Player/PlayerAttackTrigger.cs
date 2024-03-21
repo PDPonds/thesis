@@ -51,6 +51,19 @@ public class PlayerAttackTrigger : MonoBehaviour
                     SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
                     sprite.flipX = true;
 
+                    if (PlayerManager.Instance.isCounterToTarget)
+                    {
+                        PlayerManager.Instance.curCounterToTargetTime = 0;
+                        PlayerManager.Instance.isCounterToTarget = false;
+                    }
+                    else
+                    {
+                        Vector3 dir = Vector2.up;
+                        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                        eBullet.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+                    }
+
                     Vector2 pos = eBullet.transform.position;
                     GameManager.Instance.SpawnParticle(GameManager.Instance.counterAttackParticle, pos);
                     GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position);
