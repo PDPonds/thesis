@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using UnityEngine;
 public enum BossBehavior
 {
     AfterSpawn, Normal,/* Weakness,*/ Escape
+}
+
+public enum BossAttackType
+{
+    Beam, Bomb, Lasser, Misslie
 }
 
 public class BossController : MonoBehaviour, IDamageable
@@ -33,6 +39,11 @@ public class BossController : MonoBehaviour, IDamageable
     Vector3 velocity;
     //[SerializeField] float delayWeakSpot;
     //float curDelayWeakSpot;
+
+    [Space(5f)]
+    [Header("Attack Percentage")]
+    public List<BossAttack> attackTypes = new List<BossAttack>();
+    [Space(5f)]
 
     [Header("- Missile")]
     [SerializeField] Transform spawnProjectilePos;
@@ -147,28 +158,27 @@ public class BossController : MonoBehaviour, IDamageable
                     curProjectileDelay -= Time.deltaTime;
                     if (curProjectileDelay < 0 && !isFire)
                     {
-                        int ran = Random.Range(0, 4);
-                        if (ran == 0)
-                        {
-                            isFire = true;
-                            SpawnMissile();
-                            curProjectileDelay = delayProjectile;
-                        }
-                        else if (ran == 1)
-                        {
-                            StartCoroutine(FireLasser());
-                            isFire = true;
 
-                        }
-                        else if (ran == 2)
+                        BossAttackType type = GetRandomValue(attackTypes);
+                        switch (type)
                         {
-                            StartCoroutine(FireBomb());
-                            isFire = true;
-                        }
-                        else if (ran == 3)
-                        {
-                            StartCoroutine(SpawnBeam());
-                            isFire = true;
+                            case BossAttackType.Misslie:
+                                isFire = true;
+                                SpawnMissile();
+                                curProjectileDelay = delayProjectile;
+                                break;
+                            case BossAttackType.Beam:
+                                StartCoroutine(SpawnBeam());
+                                isFire = true;
+                                break;
+                            case BossAttackType.Bomb:
+                                StartCoroutine(FireBomb());
+                                isFire = true;
+                                break;
+                            case BossAttackType.Lasser:
+                                StartCoroutine(FireLasser());
+                                isFire = true;
+                                break;
                         }
                     }
 
@@ -372,7 +382,7 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void SpawnMissile()
     {
-        int index = Random.Range(0, projectilePrefabs.Length);
+        int index = UnityEngine.Random.Range(0, projectilePrefabs.Length);
         Vector3 pos = spawnProjectilePos.position;
         GameObject projectileObj = Instantiate(projectilePrefabs[index], pos, Quaternion.identity);
 
@@ -400,7 +410,7 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void SpawnLasser()
     {
-        int ran = Random.Range(0, bulletSpawnPoint.Length);
+        int ran = UnityEngine.Random.Range(0, bulletSpawnPoint.Length);
         Vector3 pos = bulletSpawnPoint[ran].position;
         GameObject bulletObj = Instantiate(bullet, pos, Quaternion.identity);
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
@@ -461,7 +471,7 @@ public class BossController : MonoBehaviour, IDamageable
         GameObject bombObj = Instantiate(bomb, pos, Quaternion.identity);
         Bomb bombScr = bombObj.GetComponent<Bomb>();
         bombScr.damage = bulletDamage;
-        float rand = Random.Range(bombMinForce, bombMaxForce);
+        float rand = UnityEngine.Random.Range(bombMinForce, bombMaxForce);
         bombScr.force = rand;
         //float rand = Random.Range(minYBounce, maxYBounce);
         //bombScr.upForce = rand;
@@ -482,5 +492,36 @@ public class BossController : MonoBehaviour, IDamageable
         isFire = false;
     }
 
+    BossAttackType GetRandomValue(List<BossAttack> bossAttack)
+    {
+        BossAttackType output = BossAttackType.Misslie;
+        int totalWeight = 0;
 
+        foreach (BossAttack boss in bossAttack)
+        {
+            totalWeight += boss.weight;
+        }
+
+        int rndWeightVal = UnityEngine.Random.Range(0, totalWeight + 1);
+
+        int processedWeight = 0;
+        foreach (BossAttack boss in bossAttack)
+        {
+            processedWeight += boss.weight;
+            if (rndWeightVal <= processedWeight)
+            {
+                output = boss.type;
+                break;
+            }
+        }
+        return output;
+    }
+
+}
+
+[System.Serializable]
+public class BossAttack
+{
+    public BossAttackType type;
+    public int weight;
 }

@@ -4,34 +4,14 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    //private void OnEnable()
-    //{
-    //    PlayerManager.Instance.onAttack += PlayAttackAnimation;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    PlayerManager.Instance.onAttack -= PlayAttackAnimation;
-    //}
-
-    private void Update()
+    public void EnableAttack()
     {
-        //Animator anim = PlayerManager.Instance.anim;
-
-        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        //{
-        //    if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
-        //    {
-        //        PlayerManager.Instance.attackCol.enabled = false;
-        //    }
-        //}
-        
+        PlayerManager.Instance.attackCol.enabled = true;
     }
 
-    //void PlayAttackAnimation()
-    //{
-    //    Animator anim = PlayerManager.Instance.anim;
-    //    anim.Play("Attack");
-    //}
+    public void DisableAttackCol()
+    {
+        PlayerManager.Instance.attackCol.enabled = false;
+    }
 
 }

@@ -561,7 +561,7 @@ public class PlayerManager : MonoBehaviour
             //GameManager.Instance.SpawnParticle(attackParticle, attackCol.transform.position);
             attackCount++;
 
-            attackCol.enabled = true;
+            //attackCol.enabled = true;
 
             onAttack?.Invoke();
             canAttack = false;
