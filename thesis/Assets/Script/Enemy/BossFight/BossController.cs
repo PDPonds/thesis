@@ -485,7 +485,10 @@ public class BossController : MonoBehaviour, IDamageable
         beamCollider.enabled = false;
         yield return new WaitForSecondsRealtime(delayBeam);
         beamCollider.enabled = true;
-        yield return new WaitForSecondsRealtime(beamTime);
+
+        float mag = GameManager.Instance.shakeMagnitude;
+        //GameManager.Instance.SceneShake(beamTime, mag);
+        yield return StartCoroutine(GameManager.Instance.SceneShake(beamTime, mag));
         beamCollider.enabled = false;
         beam.SetActive(false);
         curProjectileDelay = delayProjectile;
