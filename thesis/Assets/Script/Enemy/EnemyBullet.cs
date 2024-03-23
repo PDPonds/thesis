@@ -21,15 +21,7 @@ public class EnemyBullet : MonoBehaviour
         }
         else
         {
-            if (controlDir)
-            {
-                dir = dir.normalized;
-                transform.Translate(dir * Time.deltaTime * speed);
-            }
-            else
-            {
-                transform.Translate(Vector2.left * Time.deltaTime * speed);
-            }
+            transform.Translate(Vector2.left * Time.deltaTime * speed);
         }
 
         Destroy(gameObject, 5f);
