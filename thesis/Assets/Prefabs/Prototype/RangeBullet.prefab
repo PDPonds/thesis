@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3550442600364231418}
   - component: {fileID: -6218924541036930877}
   m_Layer: 12
-  m_Name: CounterBullet
+  m_Name: RangeBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 15a9e04e24bf30f459e1662108aeb766, type: 3}
-  m_Color: {r: 0.7305812, g: 0, b: 0.99999994, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlDir: 0
   dir: {x: 0, y: 0}
-  canCounter: 1
+  canCounter: 0
   isCounter: 0
   damage: 10
   speed: 0
