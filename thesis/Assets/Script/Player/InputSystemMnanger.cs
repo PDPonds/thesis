@@ -24,7 +24,7 @@ public class InputSystemMnanger : MonoBehaviour
             inputSystem.PlayerInput.MoveLeftWithBossFight.canceled += i => PlayerManager.Instance.leftInput = 0;
             inputSystem.PlayerInput.MoveRightWithBossFight.performed += i => RightInput();
             inputSystem.PlayerInput.MoveRightWithBossFight.canceled += i => PlayerManager.Instance.rightInput = 0;
-
+            inputSystem.PlayerInput.Dash.performed += i => PlayerManager.Instance.DashPerformed();
         }
 
         inputSystem.Enable();

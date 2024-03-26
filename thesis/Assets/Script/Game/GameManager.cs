@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     //public float minNormalSpeed;
 
     public float currentSpeed;
+    public float minSpeed;
+    public float maxSpeed;
     public Transform DeadPoint;
 
     public int maxRevivePerGame;

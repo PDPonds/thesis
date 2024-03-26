@@ -30,14 +30,7 @@ public class CenterMove : MonoBehaviour
             {
                 transform.position = PlayerManager.Instance.transform.position;
             }
-        //else
-        //{
-        //    //float speed = GameManager.Instance.currentSpeed;
-        //    transform.Translate(Vector2.right * CenterMoveHookSpeed);
 
-        //    transform.position = new Vector3(transform.position.x,
-        //        PlayerManager.Instance.transform.position.y, transform.position.z);
-        //}
         }
     }
 }

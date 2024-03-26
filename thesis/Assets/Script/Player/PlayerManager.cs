@@ -92,12 +92,21 @@ public class PlayerManager : MonoBehaviour
     int attackCount;
     float currentAttackDelay;
     bool canAttack;
+
     [Header("- Counter")]
     public float counterToTargetTime;
     [HideInInspector] public float curCounterToTargetTime;
     public bool isCounterToTarget;
-    [Space(5f)]
 
+    [Header("- Dash")]
+    public float dashDelay;
+    public float dashPower;
+    public float dashTime;
+    float curDashDelay;
+    bool canDash;
+    bool isDash;
+
+    [Space(5f)]
     [Header("========== Shop ==========")]
     [Header("- Revive")]
     public float reviveTime;
@@ -289,8 +298,16 @@ public class PlayerManager : MonoBehaviour
                 Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
                 if (transform.position.x < targetPos.x)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position,
-                    targetPos, speed * 1.5f * Time.deltaTime);
+                    if (!isDash)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position,
+                        targetPos, speed * 1.5f * Time.deltaTime);
+                    }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position,
+                        targetPos, speed * dashPower * Time.deltaTime);
+                    }
                 }
                 else
                 {
@@ -300,6 +317,20 @@ public class PlayerManager : MonoBehaviour
                 curMoveX = .5f;
             }
         }
+        #endregion
+
+        #region Dash
+
+        if (!canDash)
+        {
+            curDashDelay -= Time.deltaTime;
+            if (curDashDelay < 0)
+            {
+                curDashDelay = dashDelay;
+                canDash = true;
+            }
+        }
+
         #endregion
 
         #region Counter To Target
@@ -401,6 +432,27 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
+
+    }
+
+    public void DashPerformed()
+    {
+        if (canDash && !isDead && currentState != revive &&
+            !isDash)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
+    IEnumerator Dash()
+    {
+        //Dash
+        isDash = true;
+        if (currentState == slide) SwitchState(running);
+        CenterMove.instance.transform.position += Vector3.right * dashPower;
+        yield return new WaitForSeconds(dashTime);
+        isDash = false;
+        canDash = false;
     }
 
     public void AddCoin(int amount)

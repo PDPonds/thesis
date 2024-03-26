@@ -107,6 +107,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6919a30-0d62-4ac6-b116-eb6129689104"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -219,6 +228,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""MoveRightWithBossFight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5441ae5e-f103-4b4e-81b2-7008e185ad0a"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -236,6 +256,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_PlayerInput_Pause = m_PlayerInput.FindAction("Pause", throwIfNotFound: true);
         m_PlayerInput_MoveLeftWithBossFight = m_PlayerInput.FindAction("MoveLeftWithBossFight", throwIfNotFound: true);
         m_PlayerInput_MoveRightWithBossFight = m_PlayerInput.FindAction("MoveRightWithBossFight", throwIfNotFound: true);
+        m_PlayerInput_Dash = m_PlayerInput.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +327,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Pause;
     private readonly InputAction m_PlayerInput_MoveLeftWithBossFight;
     private readonly InputAction m_PlayerInput_MoveRightWithBossFight;
+    private readonly InputAction m_PlayerInput_Dash;
     public struct PlayerInputActions
     {
         private @InputSystem m_Wrapper;
@@ -319,6 +341,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_PlayerInput_Pause;
         public InputAction @MoveLeftWithBossFight => m_Wrapper.m_PlayerInput_MoveLeftWithBossFight;
         public InputAction @MoveRightWithBossFight => m_Wrapper.m_PlayerInput_MoveRightWithBossFight;
+        public InputAction @Dash => m_Wrapper.m_PlayerInput_Dash;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -355,6 +378,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @MoveRightWithBossFight.started += instance.OnMoveRightWithBossFight;
             @MoveRightWithBossFight.performed += instance.OnMoveRightWithBossFight;
             @MoveRightWithBossFight.canceled += instance.OnMoveRightWithBossFight;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -386,6 +412,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @MoveRightWithBossFight.started -= instance.OnMoveRightWithBossFight;
             @MoveRightWithBossFight.performed -= instance.OnMoveRightWithBossFight;
             @MoveRightWithBossFight.canceled -= instance.OnMoveRightWithBossFight;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -414,5 +443,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnMoveLeftWithBossFight(InputAction.CallbackContext context);
         void OnMoveRightWithBossFight(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }
