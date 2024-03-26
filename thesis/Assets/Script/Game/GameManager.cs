@@ -8,6 +8,11 @@ public enum GameState
     Normal, BossFight
 }
 
+public enum MomentumAction
+{
+    None, Dash, Jump, Slide
+}
+
 public class GameManager : MonoBehaviour
 {
     public GameObject soundManager;
@@ -16,14 +21,24 @@ public class GameManager : MonoBehaviour
     [Header("===== Game =====")]
     public GameState state = GameState.Normal;
     public Transform CenterPoint;
-    //public float maxNormalSpeed;
-    //public float minNormalSpeed;
 
     public float currentSpeed;
+    [Header("- Momentum")]
     public float minSpeed;
     public float maxSpeed;
-    public Transform DeadPoint;
+    public float decreaseSpeedMul;
+    /*[HideInInspector]*/
+    public MomentumAction lastAction = MomentumAction.None;
+    public float resetMomentumTime;
+    /*[HideInInspector]*/
+    public float curResetMomentumTime;
+    [Header("- Momentum Multiplie per Action")]
+    public float dashMulSpeed;
+    public float jumpMulSpeed;
+    public float slideMulSpeed;
 
+    [Header("- Dead")]
+    public Transform DeadPoint;
     public int maxRevivePerGame;
 
     [Header("- Frame Stop")]
@@ -93,8 +108,39 @@ public class GameManager : MonoBehaviour
             GenerateFloor();
         }
 
+        #region Momentum
+
+        ResetLastMomentum();
+
+        #endregion
+
     }
 
+    public void AddMomentum(MomentumAction action, float speed)
+    {
+        if (lastAction != action)
+        {
+            lastAction = action;
+            currentSpeed += speed;
+
+            if (currentSpeed > maxSpeed)
+                currentSpeed = maxSpeed;
+        }
+
+    }
+
+    void ResetLastMomentum()
+    {
+        if (lastAction != MomentumAction.None && currentSpeed == minSpeed)
+        {
+            curResetMomentumTime -= Time.deltaTime;
+            if (curResetMomentumTime < 0)
+            {
+                curResetMomentumTime = resetMomentumTime;
+                lastAction = MomentumAction.None;
+            }
+        }
+    }
 
     public void StopFrame(float duratuin)
     {

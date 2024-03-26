@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour
     public SlideState slide = new SlideState();
     public HurtState hurt = new HurtState();
     public ReviveState revive = new ReviveState();
+    public DashState dash = new DashState();
 
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
     [HideInInspector] public PlayerAnimation playerAnimation;
@@ -102,9 +103,8 @@ public class PlayerManager : MonoBehaviour
     public float dashDelay;
     public float dashPower;
     public float dashTime;
-    float curDashDelay;
-    bool canDash;
-    bool isDash;
+    [HideInInspector] public float curDashDelay;
+    [HideInInspector] public bool canDash;
 
     [Space(5f)]
     [Header("========== Shop ==========")]
@@ -298,7 +298,7 @@ public class PlayerManager : MonoBehaviour
                 Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
                 if (transform.position.x < targetPos.x)
                 {
-                    if (!isDash)
+                    if (currentState != dash)
                     {
                         transform.position = Vector3.MoveTowards(transform.position,
                         targetPos, speed * 1.5f * Time.deltaTime);
@@ -426,6 +426,20 @@ public class PlayerManager : MonoBehaviour
             Physics2D.IgnoreLayerCollision(3, 16, false);
         }
 
+        #region Momentum
+
+        float curSpeed = GameManager.Instance.currentSpeed;
+        float minSpeed = GameManager.Instance.minSpeed;
+
+        if (curSpeed > minSpeed)
+        {
+            if (onGrounded)
+            {
+                GameManager.Instance.currentSpeed -= GameManager.Instance.decreaseSpeedMul * Time.deltaTime;
+            }
+        }
+
+        #endregion
 
     }
 
@@ -438,21 +452,12 @@ public class PlayerManager : MonoBehaviour
     public void DashPerformed()
     {
         if (canDash && !isDead && currentState != revive &&
-            !isDash)
+            currentState != dash)
         {
-            StartCoroutine(Dash());
-        }
-    }
 
-    IEnumerator Dash()
-    {
-        //Dash
-        isDash = true;
-        if (currentState == slide) SwitchState(running);
-        CenterMove.instance.transform.position += Vector3.right * dashPower;
-        yield return new WaitForSeconds(dashTime);
-        isDash = false;
-        canDash = false;
+            GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
+            SwitchState(dash);
+        }
     }
 
     public void AddCoin(int amount)
@@ -499,6 +504,8 @@ public class PlayerManager : MonoBehaviour
             anim.Play("SecondJump");
         }
 
+        GameManager.Instance.AddMomentum(MomentumAction.Jump, GameManager.Instance.jumpMulSpeed);
+
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
         SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
@@ -523,6 +530,8 @@ public class PlayerManager : MonoBehaviour
 
         //jumpAfterAttack = true;
 
+        GameManager.Instance.AddMomentum(MomentumAction.Jump, GameManager.Instance.jumpMulSpeed);
+
         Vector2 size = runningCol;
         Vector2 offset = runningColPos;
         SetupPlayerCol(size, offset, CapsuleDirection2D.Vertical);
@@ -542,6 +551,8 @@ public class PlayerManager : MonoBehaviour
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
+
+            GameManager.Instance.AddMomentum(MomentumAction.Slide, GameManager.Instance.slideMulSpeed);
             SwitchState(slide);
         }
     }

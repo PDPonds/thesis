@@ -9134,6 +9134,13 @@ MonoBehaviour:
   currentSpeed: 5
   minSpeed: 5
   maxSpeed: 10
+  decreaseSpeedMul: 3
+  lastAction: 0
+  resetMomentumTime: 2
+  curResetMomentumTime: 0
+  dashMulSpeed: 3
+  jumpMulSpeed: 0
+  slideMulSpeed: 1
   DeadPoint: {fileID: 1257209058}
   maxRevivePerGame: 50
   frameStopDuration: 0.025
@@ -13022,7 +13029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: dashDelay
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 769554591687505016, guid: b68408abc3d2b3743b7f5e873a2648aa, type: 3}
       propertyPath: dashPower
