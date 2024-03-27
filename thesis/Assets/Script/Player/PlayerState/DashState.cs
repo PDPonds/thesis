@@ -9,6 +9,9 @@ public class DashState : BaseState
     {
         PlayerManager.Instance.canDash = false;
         CenterMove.instance.transform.position += Vector3.right * PlayerManager.Instance.dashPower;
+
+        GameObject smoke = GameManager.Instance.dashParticle.gameObject;
+        GameManager.Instance.SpawnParticle(smoke, go.transform.position);
     }
 
     public override void FixedUpdateState(GameObject go)
