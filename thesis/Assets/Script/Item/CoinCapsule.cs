@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CoinCapsule : MonoBehaviour
 {
-    public int dropCoinAmount;
+    public int dropCointMin;
+    public int dropCoinMax;
     [SerializeField] GameObject attackInfo;
 
     private void Update()
