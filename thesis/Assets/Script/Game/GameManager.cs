@@ -196,6 +196,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public void SpawnParticle(GameObject particle, Vector3 pos, Transform parent)
+    {
+        GameObject newParticle = SpawnParticle(particle, pos);
+        newParticle.transform.SetParent(parent);
+    }
+
+
     public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot, Vector3 scale)
     {
         if (randomRot)
