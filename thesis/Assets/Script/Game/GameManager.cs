@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     public GameObject smokeParticle;
     public GameObject weakspotParticle;
     public GameObject counterAttackParticle;
+    public GameObject dashParticle;
 
     [Header("- Score")]
     public float scoreMul;
@@ -194,6 +195,14 @@ public class GameManager : MonoBehaviour
             GameObject particleObj = Instantiate(particle, pos, Quaternion.identity);
         }
     }
+
+
+    public void SpawnParticle(GameObject particle, Vector3 pos, Transform parent)
+    {
+        GameObject newParticle = SpawnParticle(particle, pos);
+        newParticle.transform.SetParent(parent);
+    }
+
 
     public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot, Vector3 scale)
     {
