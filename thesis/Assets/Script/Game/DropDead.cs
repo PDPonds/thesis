@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DropDead : MonoBehaviour
@@ -11,8 +12,13 @@ public class DropDead : MonoBehaviour
             if (collision.TryGetComponent<PlayerManager>(out PlayerManager playerManager))
             {
                 playerManager.isDropDead = true;
-                playerManager.Die();
+                playerManager.attackCol.enabled = false;
+                playerManager.anim.SetBool("isDead", true);
+                SoundManager.Instance.PlayOnShot("Explosive");
+                playerManager.onDead?.Invoke();
+                playerManager.isDead = true;
             }
         }
     }
+
 }

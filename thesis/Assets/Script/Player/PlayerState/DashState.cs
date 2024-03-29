@@ -10,8 +10,6 @@ public class DashState : BaseState
         PlayerManager.Instance.canDash = false;
         CenterMove.instance.transform.position += Vector3.right * PlayerManager.Instance.dashPower;
 
-        PlayerManager.Instance.rb.simulated = false;
-
         GameObject smoke = GameManager.Instance.dashParticle.gameObject;
         GameManager.Instance.SpawnParticle(smoke, go.transform.position, go.transform);
     }
@@ -26,7 +24,6 @@ public class DashState : BaseState
         PlayerManager.Instance.curDashDelay -= Time.deltaTime;
         if (PlayerManager.Instance.curDashDelay < 0)
         {
-            PlayerManager.Instance.rb.simulated = true;
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
         }
     }

@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     public event Action onSlide;
     public event Action onAttack;
     public event Action onTakeDamage;
-    public event Action onDead;
+    public Action onDead;
     public event Action onHeal;
 
     public BaseState currentState;
@@ -406,8 +406,6 @@ public class PlayerManager : MonoBehaviour
         {
             float speed = GameManager.Instance.currentSpeed;
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
-            Vector2 dir = centerPoint - transform.position;
-            dir = dir.normalized;
 
             if (GameManager.Instance.state == GameState.BossFight &&
                 GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
@@ -432,23 +430,17 @@ public class PlayerManager : MonoBehaviour
                     {
                         transform.position = Vector3.MoveTowards(transform.position,
                         targetPos, speed * 1.5f * Time.deltaTime);
-                        //float s = speed * 1.5f * Time.deltaTime;
-                        
                     }
                     else
                     {
                         transform.position = Vector3.MoveTowards(transform.position,
                         targetPos, speed * dashPower * Time.deltaTime);
-                        //float s = speed * dashPower * Time.deltaTime;
-
                     }
                 }
                 else
                 {
                     transform.position = Vector3.MoveTowards(transform.position,
                     targetPos, speed * Time.deltaTime);
-                    //float s = speed * Time.deltaTime;
-
                 }
                 curMoveX = .5f;
             }
@@ -462,9 +454,8 @@ public class PlayerManager : MonoBehaviour
         if (canDash && !isDead && currentState != revive &&
             currentState != dash)
         {
-
-            GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
             SwitchState(dash);
+            GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
         }
     }
 
