@@ -132,13 +132,20 @@ public class GameManager : MonoBehaviour
 
     void ResetLastMomentum()
     {
-        if (lastAction != MomentumAction.None && currentSpeed == minSpeed)
+        if (lastAction != MomentumAction.None)
         {
-            curResetMomentumTime -= Time.deltaTime;
-            if (curResetMomentumTime < 0)
+            if(currentSpeed > minSpeed)
             {
-                curResetMomentumTime = resetMomentumTime;
-                lastAction = MomentumAction.None;
+                curResetMomentumTime -= Time.deltaTime;
+                if (curResetMomentumTime < 0)
+                {
+                    curResetMomentumTime = resetMomentumTime;
+                    lastAction = MomentumAction.None;
+                }
+            }
+            else if(currentSpeed < minSpeed)
+            {
+                currentSpeed = minSpeed;
             }
         }
     }

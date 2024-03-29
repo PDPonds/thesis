@@ -20,7 +20,7 @@ public class SpeedSetting : MonoBehaviour
     public void SetSpeed()
     {
         float speed = speedSlider.value;
-        GameManager.Instance.currentSpeed = speed;
+        GameManager.Instance.minSpeed = speed;
         speedText.text = $"Speed : {speed.ToString("N1")}";
         PlayerPrefs.SetFloat("speed", speed);
     }
