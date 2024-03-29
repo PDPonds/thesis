@@ -13,6 +13,8 @@ public class ReviveState : BaseState
             PlayerManager.Instance.transform.position = PlayerManager.Instance.lastCheckPoint.position;
             PlayerManager.Instance.isDropDead = false;
         }
+
+
         PlayerManager.Instance.curReviveCount++;
         PlayerManager.Instance.isDead = false;
         PlayerManager.Instance.anim.SetBool("isDead", false);
@@ -23,15 +25,15 @@ public class ReviveState : BaseState
 
     public override void FixedUpdateState(GameObject go)
     {
+
+    }
+
+    public override void UpdateState(GameObject go)
+    {
         curReviveTime -= Time.deltaTime;
         if (curReviveTime < 0)
         {
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
         }
-    }
-
-    public override void UpdateState(GameObject go)
-    {
-
     }
 }
