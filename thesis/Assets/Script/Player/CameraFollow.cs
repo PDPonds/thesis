@@ -18,6 +18,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Vector3 offset;
     [SerializeField] float smoothTime;
     [SerializeField] Transform target;
+
     [Header("===== Boss =====")]
     //[SerializeField] float bossYCamBeforeSpawn;
     [SerializeField] float FirstStateBossYCam;

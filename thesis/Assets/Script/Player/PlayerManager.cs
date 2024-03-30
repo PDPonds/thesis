@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     public event Action onSlide;
     public event Action onAttack;
     public event Action onTakeDamage;
-    public event Action onDead;
+    public Action onDead;
     public event Action onHeal;
 
     public BaseState currentState;
@@ -273,52 +273,6 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
-        #region Move
-        if (currentState != revive && !isDead)
-        {
-            float speed = GameManager.Instance.currentSpeed;
-            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
-
-            if (GameManager.Instance.state == GameState.BossFight &&
-                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
-                && UIManager.Instance.isHorizontalMove)
-            {
-                float inputValue = leftInput - rightInput;
-                curMoveX = curMoveX - inputValue * speed * Time.deltaTime;
-
-                if (curMoveX > maxMoveX) curMoveX = maxMoveX;
-                if (curMoveX < minMoveX) curMoveX = minMoveX;
-
-                Vector2 targetPos = new Vector2(centerPoint.x + curMoveX, transform.position.y);
-
-                transform.position = targetPos;
-            }
-            else
-            {
-                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
-                if (transform.position.x < targetPos.x)
-                {
-                    if (currentState != dash)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position,
-                        targetPos, speed * 1.5f * Time.deltaTime);
-                    }
-                    else
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position,
-                        targetPos, speed * dashPower * Time.deltaTime);
-                    }
-                }
-                else
-                {
-                    transform.position = Vector3.MoveTowards(transform.position,
-                    targetPos, speed * Time.deltaTime);
-                }
-                curMoveX = .5f;
-            }
-        }
-        #endregion
-
         #region Dash
 
         if (!canDash)
@@ -447,6 +401,52 @@ public class PlayerManager : MonoBehaviour
     {
         currentState.FixedUpdateState(transform.gameObject);
 
+        #region Move
+        if (currentState != revive && !isDead)
+        {
+            float speed = GameManager.Instance.currentSpeed;
+            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
+
+            if (GameManager.Instance.state == GameState.BossFight &&
+                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
+                && UIManager.Instance.isHorizontalMove)
+            {
+                float inputValue = leftInput - rightInput;
+                curMoveX = curMoveX - inputValue * speed * Time.deltaTime;
+
+                if (curMoveX > maxMoveX) curMoveX = maxMoveX;
+                if (curMoveX < minMoveX) curMoveX = minMoveX;
+
+                Vector2 targetPos = new Vector2(centerPoint.x + curMoveX, transform.position.y);
+
+                transform.position = targetPos;
+            }
+            else
+            {
+                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+                if (transform.position.x < targetPos.x)
+                {
+                    if (currentState != dash)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position,
+                        targetPos, speed * 1.5f * Time.deltaTime);
+                    }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position,
+                        targetPos, speed * dashPower * Time.deltaTime);
+                    }
+                }
+                else
+                {
+                    transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * Time.deltaTime);
+                }
+                curMoveX = .5f;
+            }
+        }
+        #endregion
+
     }
 
     public void DashPerformed()
@@ -454,9 +454,8 @@ public class PlayerManager : MonoBehaviour
         if (canDash && !isDead && currentState != revive &&
             currentState != dash)
         {
-
-            GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
             SwitchState(dash);
+            GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
         }
     }
 
