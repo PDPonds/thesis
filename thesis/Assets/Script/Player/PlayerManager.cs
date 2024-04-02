@@ -40,6 +40,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("===== Game Play =====")]
     [Header("- Move")]
+    float speed;
     [SerializeField] float minMoveX;
     [SerializeField] float maxMoveX;
     [SerializeField] float curMoveX = 0;
@@ -317,12 +318,12 @@ public class PlayerManager : MonoBehaviour
 
         if (isDead)
         {
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
             rb.simulated = false;
         }
         else
         {
-            rb.isKinematic = false;
+            rb.bodyType = RigidbodyType2D.Dynamic;
             rb.simulated = true;
 
             if (UIManager.Instance.isDecreases)
@@ -404,7 +405,6 @@ public class PlayerManager : MonoBehaviour
         #region Move
         if (currentState != revive && !isDead)
         {
-            float speed = GameManager.Instance.currentSpeed;
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
 
             if (GameManager.Instance.state == GameState.BossFight &&
@@ -423,25 +423,30 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
+                #region Transform Move
+                speed = GameManager.Instance.currentSpeed;
                 Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
                 if (transform.position.x < targetPos.x)
                 {
-                    if (currentState != dash)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position,
-                        targetPos, speed * 1.5f * Time.deltaTime);
-                    }
-                    else
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position,
-                        targetPos, speed * dashPower * Time.deltaTime);
-                    }
+                    //if (currentState != dash)
+                    //{
+                    transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * 1.5f * Time.deltaTime);
+                    //}
+                    //else
+                    //{
+                    //    transform.position = Vector3.MoveTowards(transform.position,
+                    //    targetPos, speed * dashPower * Time.deltaTime);
+
+                    //}
                 }
                 else
                 {
                     transform.position = Vector3.MoveTowards(transform.position,
                     targetPos, speed * Time.deltaTime);
                 }
+                #endregion
+
                 curMoveX = .5f;
             }
         }
@@ -503,6 +508,8 @@ public class PlayerManager : MonoBehaviour
             anim.Play("SecondJump");
         }
 
+        if (currentState == dash) SwitchState(running);
+
         GameManager.Instance.AddMomentum(MomentumAction.Jump, GameManager.Instance.jumpMulSpeed);
 
         Vector2 size = runningCol;
@@ -550,7 +557,6 @@ public class PlayerManager : MonoBehaviour
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
-
             GameManager.Instance.AddMomentum(MomentumAction.Slide, GameManager.Instance.slideMulSpeed);
             SwitchState(slide);
         }

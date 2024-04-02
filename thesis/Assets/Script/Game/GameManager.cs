@@ -27,11 +27,9 @@ public class GameManager : MonoBehaviour
     public float minSpeed;
     public float maxSpeed;
     public float decreaseSpeedMul;
-    /*[HideInInspector]*/
-    public MomentumAction lastAction = MomentumAction.None;
+    [HideInInspector] public MomentumAction lastAction = MomentumAction.None;
     public float resetMomentumTime;
-    /*[HideInInspector]*/
-    public float curResetMomentumTime;
+    [HideInInspector] public float curResetMomentumTime;
     [Header("- Momentum Multiplie per Action")]
     public float dashMulSpeed;
     public float jumpMulSpeed;
