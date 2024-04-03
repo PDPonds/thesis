@@ -248,8 +248,9 @@ MonoBehaviour:
   isCounterToTarget: 0
   dashDelay: 2
   dashPower: 3
-  dashTime: 1
+  dashTime: 0.4
   curDashDelay: 0
+  curDashTime: 0
   canDash: 0
   reviveTime: 1
   hpPerLevels:
@@ -318,7 +319,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.98, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -2266
+  m_InstanceId: -3450
   m_LocalBounds:
     m_Center: {x: 0, y: -0.22000003, z: 0}
     m_Extent: {x: 0.5, y: 0.76, z: 0}

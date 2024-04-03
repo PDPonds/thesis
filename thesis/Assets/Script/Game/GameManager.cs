@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum GameState
 {
-    Normal, BossFight
+    BeforeGameStart, Normal, BossFight
 }
 
 public enum MomentumAction
@@ -27,11 +27,9 @@ public class GameManager : MonoBehaviour
     public float minSpeed;
     public float maxSpeed;
     public float decreaseSpeedMul;
-    /*[HideInInspector]*/
-    public MomentumAction lastAction = MomentumAction.None;
+    [HideInInspector] public MomentumAction lastAction = MomentumAction.None;
     public float resetMomentumTime;
-    /*[HideInInspector]*/
-    public float curResetMomentumTime;
+    [HideInInspector] public float curResetMomentumTime;
     [Header("- Momentum Multiplie per Action")]
     public float dashMulSpeed;
     public float jumpMulSpeed;
@@ -72,6 +70,8 @@ public class GameManager : MonoBehaviour
     public Transform Player;
 
     [Header("- Spawn Floor")]
+    [Header("Before Game Start State")]
+    public GameObject[] beforeGameStartFloorPrefabs;
     [Header("Normal State")]
     public GameObject[] floorPrefabs;
     public Transform DestroyGroundAndEnemy;
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
     {
         if (lastAction != MomentumAction.None)
         {
-            if(currentSpeed > minSpeed)
+            if (currentSpeed > minSpeed)
             {
                 curResetMomentumTime -= Time.deltaTime;
                 if (curResetMomentumTime < 0)
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
                     lastAction = MomentumAction.None;
                 }
             }
-            else if(currentSpeed < minSpeed)
+            else if (currentSpeed < minSpeed)
             {
                 currentSpeed = minSpeed;
             }
@@ -243,6 +243,11 @@ public class GameManager : MonoBehaviour
         {
             int floorIndex = Random.Range(0, bossFloorPrefabs.Length);
             floor = bossFloorPrefabs[floorIndex];
+        }
+        else if (state == GameState.BeforeGameStart)
+        {
+            int floorIndex = Random.Range(0, beforeGameStartFloorPrefabs.Length);
+            floor = beforeGameStartFloorPrefabs[floorIndex];
         }
 
         GameObject buildObj = Instantiate(floor);
