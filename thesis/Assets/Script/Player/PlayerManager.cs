@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -170,111 +167,6 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
-        #region Hook
-
-        //if (!canHook)
-        //{
-        //    hookableImage.gameObject.SetActive(false);
-        //    hookBorder.gameObject.SetActive(true);
-        //    curDelayHookTime += Time.deltaTime;
-        //    if (curDelayHookTime >= delayHookTime)
-        //    {
-        //        canHook = true;
-        //    }
-
-        //    float percent = curDelayHookTime / delayHookTime;
-        //    hookFill.fillAmount = percent;
-
-        //}
-        //else
-        //{
-        //    hookableImage.gameObject.SetActive(true);
-        //    hookBorder.gameObject.SetActive(false);
-        //    curDelayHookTime = 0;
-        //}
-
-        //Collider2D[] enemys = Physics2D.OverlapCircleAll(transform.position, hookLength, hookMask);
-        //if (enemys.Length > 0)
-        //{
-        //    enemyInFornt.Clear();
-        //    foreach (Collider2D col in enemys)
-        //    {
-        //        EnemyController controller = col.GetComponent<EnemyController>();
-        //        if (controller.hookable)
-        //        {
-        //            enemyInFornt.Add(col);
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    if (enemyInFornt.Count > 0) enemyInFornt.Clear();
-        //}
-
-        //if (enemyInFornt.Count > 0)
-        //{
-        //    enemyInFornt = enemyInFornt.OrderBy
-        //        (x => Vector2.Distance(transform.position, x.transform.position)).ToList();
-        //}
-
-        //if (canHook)
-        //{
-        //    if (enemyInFornt.Count > 0)
-        //    {
-        //        if (enemyInFornt[0] != null)
-        //        {
-        //            EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
-        //            controller.targetVisual.gameObject.SetActive(true);
-        //        }
-
-        //    }
-
-        //    //if (enemyInFornt.Count > 1)
-        //    //{
-        //    //    if (enemyInFornt[1] != null)
-        //    //    {
-        //    //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-        //    //        controller.targetVisual.gameObject.SetActive(true);
-        //    //    }
-        //    //}
-        //}
-        //else
-        //{
-        //    if (enemyInFornt.Count > 0)
-        //    {
-        //        if (enemyInFornt[0] != null)
-        //        {
-        //            EnemyController controller = enemyInFornt[0].GetComponent<EnemyController>();
-        //            controller.targetVisual.gameObject.SetActive(false);
-        //        }
-
-        //    }
-
-        //    //if (enemyInFornt.Count > 1)
-        //    //{
-        //    //    if (enemyInFornt[1] != null)
-        //    //    {
-        //    //        EnemyController controller = enemyInFornt[1].GetComponent<EnemyController>();
-        //    //        controller.targetVisual.gameObject.SetActive(false);
-        //    //    }
-        //    //}
-
-        //}
-
-        //if (curHook != null)
-        //{
-        //    if (currentState == hook || currentState == endHook)
-        //    {
-        //        if (curHook.position.x < transform.position.x)
-        //        {
-        //            curHook = null;
-        //            SwitchState(running);
-        //        }
-        //    }
-        //}
-
-        #endregion
-
         #region Dash
 
         if (!canDash)
@@ -402,7 +294,6 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
-
         #region Move
         if (currentState != revive && !isDead)
         {
@@ -422,43 +313,40 @@ public class PlayerManager : MonoBehaviour
 
                 transform.position = targetPos;
             }
+            else if (GameManager.Instance.state == GameState.BeforeGameStart)
+            {
+                speed = GameManager.Instance.currentSpeed;
+                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+                transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * Time.deltaTime);
+            }
             else
             {
-                #region Transform Move
+
                 speed = GameManager.Instance.currentSpeed;
                 Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
                 if (transform.position.x < targetPos.x)
                 {
-                    //if (currentState != dash)
-                    //{
                     transform.position = Vector3.MoveTowards(transform.position,
                     targetPos, speed * 1.5f * Time.deltaTime);
-                    //}
-                    //else
-                    //{
-                    //    transform.position = Vector3.MoveTowards(transform.position,
-                    //    targetPos, speed * dashPower * Time.deltaTime);
-
-                    //}
                 }
                 else
                 {
                     transform.position = Vector3.MoveTowards(transform.position,
                     targetPos, speed * Time.deltaTime);
                 }
-                #endregion
 
                 curMoveX = .5f;
             }
         }
         #endregion
-
     }
 
     public void DashPerformed()
     {
         if (canDash && !isDead && currentState != revive &&
-            currentState != dash)
+            currentState != dash &&
+            GameManager.Instance.state != GameState.BeforeGameStart)
         {
             SwitchState(dash);
             GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
@@ -472,7 +360,7 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpPerformed()
     {
-        if (!isDead)
+        if (!isDead && GameManager.Instance.state != GameState.BeforeGameStart)
         {
             if (onGrounded)
             {
@@ -486,11 +374,14 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-        else
+        else if (isDead)
         {
             UIManager.Instance.ReviveBut();
         }
-
+        else if (GameManager.Instance.state == GameState.BeforeGameStart)
+        {
+            DialogueManager.Instance.NextDialog();
+        }
     }
 
     public void Jump(float force)
@@ -554,7 +445,8 @@ public class PlayerManager : MonoBehaviour
 
     public void SlidePerformed()
     {
-        if (currentState != slide && currentState != revive)
+        if (currentState != slide && currentState != revive
+            && GameManager.Instance.state != GameState.BeforeGameStart)
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
