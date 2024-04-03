@@ -105,6 +105,7 @@ public class PlayerManager : MonoBehaviour
     public float dashPower;
     public float dashTime;
     [HideInInspector] public float curDashDelay;
+    [HideInInspector] public float curDashTime;
     [HideInInspector] public bool canDash;
 
     [Space(5f)]
