@@ -205,7 +205,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         float mag = GameManager.Instance.shakeMagnitude;
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
         GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
-        
+
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, transform.position);
 
@@ -224,7 +224,16 @@ public class EnemyController : MonoBehaviour, IDamageable
         if (anim != null) anim.Play("Dead");
         SoundManager.Instance.PlayOnShot("BotDeath");
         GameManager.Instance.hitScore += enemySO.dropScore;
-        PlayerManager.Instance.AddCoin(enemySO.dropCoin);
+        if (GameManager.Instance.CheckInTargetMomentum())
+        {
+            PlayerManager.Instance.AddCoin(enemySO.dropCoin * 2);
+            Debug.Log("InMomentum");
+        }
+        else
+        {
+            PlayerManager.Instance.AddCoin(enemySO.dropCoin);
+        }
+
 
     }
 

@@ -96,9 +96,20 @@ public class PlayerAttackTrigger : MonoBehaviour
 
             if (collision.TryGetComponent<CoinCapsule>(out CoinCapsule cc))
             {
-                CoinCapsule capsule = collision.GetComponent<CoinCapsule>();
-                int amount = Random.Range(capsule.dropCointMin, capsule.dropCoinMax + 1);
-                GameManager.Instance.SpawnCoin(collision.transform.position, amount);
+                if (GameManager.Instance.CheckInTargetMomentum())
+                {
+                    CoinCapsule capsule = collision.GetComponent<CoinCapsule>();
+                    int amount = Random.Range(capsule.dropCointMin, capsule.dropCoinMax + 1);
+                    GameManager.Instance.SpawnCoin(collision.transform.position, amount * 2);
+                    Debug.Log("InMomentum");
+                }
+                else
+                {
+                    CoinCapsule capsule = collision.GetComponent<CoinCapsule>();
+                    int amount = Random.Range(capsule.dropCointMin, capsule.dropCoinMax + 1);
+                    GameManager.Instance.SpawnCoin(collision.transform.position, amount);
+                }
+
             }
 
             if (collision.TryGetComponent<GadgetCapsule>(out GadgetCapsule gadgetCapsule))
