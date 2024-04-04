@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public float minSpeed;
     public float maxSpeed;
     public float targetMomentum;
+    [SerializeField] GameObject momentumEffect;
     public float decreaseSpeedMul;
     [HideInInspector] public MomentumAction lastAction = MomentumAction.None;
     public float resetMomentumTime;
@@ -113,6 +114,15 @@ public class GameManager : MonoBehaviour
         #region Momentum
 
         ResetLastMomentum();
+
+        if(CheckInTargetMomentum())
+        {
+            momentumEffect.SetActive(true);
+        }
+        else
+        {
+            momentumEffect.SetActive(false);
+        }
 
         #endregion
 
