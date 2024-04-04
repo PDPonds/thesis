@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [Header("- Momentum")]
     public float minSpeed;
     public float maxSpeed;
+    public float targetMomentum;
     public float decreaseSpeedMul;
     [HideInInspector] public MomentumAction lastAction = MomentumAction.None;
     public float resetMomentumTime;
@@ -115,6 +116,11 @@ public class GameManager : MonoBehaviour
 
         #endregion
 
+    }
+
+    public bool CheckInTargetMomentum()
+    {
+        return currentSpeed >= targetMomentum;
     }
 
     public void AddMomentum(MomentumAction action, float speed)
