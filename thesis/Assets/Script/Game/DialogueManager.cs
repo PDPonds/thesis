@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DialogOwner
+{
+    Player, Velonica, Operator
+}
+
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
@@ -16,6 +21,11 @@ public class DialogueManager : MonoBehaviour
     public Transform dialogParent;
 
     public float dialogDist;
+
+    public GameObject playerDialogBox;
+    public GameObject velonicaDialogBox;
+    public GameObject operatorDialogBox;
+
 
     private void Awake()
     {
@@ -54,7 +64,24 @@ public class DialogueManager : MonoBehaviour
     void GenerateDialogBox(int index)
     {
         Dialog dialog = dialogs[index];
-        GameObject dialogObj = Instantiate(dialog.dialogPrefab, dialogParent);
+        GameObject dialogPrefab = null;
+        switch (dialog.owner)
+        {
+            case DialogOwner.Player:
+                dialogPrefab = playerDialogBox;
+                break;
+            case DialogOwner.Velonica:
+                dialogPrefab = velonicaDialogBox;
+                break;
+            case DialogOwner.Operator:
+                dialogPrefab = operatorDialogBox;
+                break;
+            default:
+                dialogPrefab = playerDialogBox;
+                break;
+        }
+
+        GameObject dialogObj = Instantiate(dialogPrefab, dialogParent);
 
         //Setup Position
         RectTransform rectTransform = dialogObj.GetComponent<RectTransform>();
@@ -100,5 +127,5 @@ public class DialogueManager : MonoBehaviour
 public class Dialog
 {
     public string sentence;
-    public GameObject dialogPrefab;
+    public DialogOwner owner;
 }
