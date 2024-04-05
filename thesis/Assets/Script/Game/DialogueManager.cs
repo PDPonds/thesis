@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
@@ -11,10 +10,12 @@ public class DialogueManager : MonoBehaviour
     public Dialog[] dialogs;
     public float textSpeed;
 
-    int curDialogIndex;
+    [HideInInspector] public int curDialogIndex;
     DialogBox curDialogBox;
 
     public Transform dialogParent;
+
+    public float dialogDist;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (curDialogIndex < dialogs.Length - 1)
         {
+            StopAllCoroutines();
             curDialogBox.textBox.text = dialogs[curDialogIndex].sentence;
             curDialogIndex++;
             GenerateDialogBox(curDialogIndex);
@@ -53,6 +55,28 @@ public class DialogueManager : MonoBehaviour
     {
         Dialog dialog = dialogs[index];
         GameObject dialogObj = Instantiate(dialog.dialogPrefab, dialogParent);
+
+        //Setup Position
+        RectTransform rectTransform = dialogObj.GetComponent<RectTransform>();
+        float dialogHeight = rectTransform.rect.height;
+        rectTransform.anchoredPosition = new Vector3(0, -dialogHeight, 0);
+
+        if (dialogParent.childCount > 0)
+        {
+            for (int i = 0; i < dialogParent.childCount; i++)
+            {
+                RectTransform rt = dialogParent.GetChild(i).GetComponent<RectTransform>();
+                float yPos = (rt.rect.height * (dialogParent.childCount - i)) + (dialogDist * (dialogParent.childCount - i));
+                Vector3 pos = new Vector3(0, yPos, 0);
+
+                LeanTween.move(rt, pos, 0.5f)
+                    .setEaseInOutCubic();
+            }
+
+            LeanTween.move(rectTransform, new Vector3(0, 0, 0), 0.5f)
+            .setEaseInOutCubic();
+        }
+
         DialogBox dialogBox = dialogObj.GetComponent<DialogBox>();
         curDialogBox = dialogBox;
         dialogBox.StartDialog(dialog.sentence);
