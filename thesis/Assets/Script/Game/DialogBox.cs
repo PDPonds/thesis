@@ -19,6 +19,14 @@ public class DialogBox : MonoBehaviour
         {
             textBox.text += c;
             yield return new WaitForSeconds(DialogueManager.Instance.textSpeed);
+            //if (DialogueManager.Instance.curDialogIndex <
+            //    DialogueManager.Instance.dialogs.Length - 1)
+            //{
+            //    if (textBox.text.Length == lines.ToCharArray().Length)
+            //    {
+            //        DialogueManager.Instance.NextDialog();
+            //    }
+            //}
         }
     }
 }

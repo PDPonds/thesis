@@ -29,6 +29,8 @@ public class PlayerManager : MonoBehaviour
     public ReviveState revive = new ReviveState();
     public DashState dash = new DashState();
 
+    public BaseState lastState;
+
     [HideInInspector] public InputSystemMnanger inputSystemMnanger;
     [HideInInspector] public PlayerAnimation playerAnimation;
     [HideInInspector] public Animator anim;
@@ -465,6 +467,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SwitchState(BaseState state)
     {
+        lastState = currentState;
         currentState = state;
         currentState.EnterState(transform.gameObject);
     }
@@ -562,77 +565,6 @@ public class PlayerManager : MonoBehaviour
         }
         return false;
     }
-
-    #region Hook
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(transform.position, hookLength);
-    //}
-
-    //public void FirstHookPerformed()
-    //{
-    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
-    //    {
-    //        canHook = false;
-    //        SpawnHook(enemyInFornt[0].transform);
-    //    }
-    //}
-
-    //void SecondHookPerformed()
-    //{
-    //    if (enemyInFornt.Count > 1)
-    //    {
-    //        if (enemyInFornt[1] != null)
-    //        {
-    //            SpawnHook(enemyInFornt[1].transform);
-    //        }
-    //    }
-    //    else if (enemyInFornt.Count == 1)
-    //    {
-    //        SpawnHook(enemyInFornt[0].transform);
-    //    }
-    //    canHook = false;
-
-    //}
-
-    //void SpawnHook(Transform enemy)
-    //{
-    //    GameObject hookObj = Instantiate(hookPrefab, hookSpawnPos.position, Quaternion.identity);
-    //    Hook hookScr = hookObj.GetComponent<Hook>();
-    //    hookScr.target = enemy;
-
-    //    anim.Play("HookUsing");
-
-    //    curHook = hookObj.transform;
-    //    SwitchState(hook);
-    //}
-
-    //public void HoldHook()
-    //{
-    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
-    //    {
-    //        inputHookPerformed = true;
-    //    }
-    //}
-
-    //public void CancleHoldHook()
-    //{
-    //    inputHookPerformed = false;
-    //    if (enemyInFornt.Count > 0 && canHook && !isDead)
-    //    {
-    //        if (holdTime >= holdTarget)
-    //        {
-    //            SecondHookPerformed();
-    //            holdTime = 0;
-    //        }
-    //        else
-    //        {
-    //            FirstHookPerformed();
-    //            holdTime = 0;
-    //        }
-    //    }
-    //}
-    #endregion
 
     public void AddGadget(SpecialGadget gadget, int amount)
     {
