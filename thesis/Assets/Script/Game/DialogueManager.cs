@@ -88,21 +88,18 @@ public class DialogueManager : MonoBehaviour
         float dialogHeight = rectTransform.rect.height;
         rectTransform.anchoredPosition = new Vector3(0, -dialogHeight, 0);
 
-        if (dialogParent.childCount > 0)
+        if (curDialogBox != null)
         {
-            for (int i = 0; i < dialogParent.childCount; i++)
-            {
-                RectTransform rt = dialogParent.GetChild(i).GetComponent<RectTransform>();
-                float yPos = (rt.rect.height * (dialogParent.childCount - i)) + (dialogDist * (dialogParent.childCount - i));
-                Vector3 pos = new Vector3(0, yPos, 0);
+            RectTransform rt = curDialogBox.GetComponent<RectTransform>();
+            Vector3 pos = new Vector3(0, -rt.rect.height, 0);
 
-                LeanTween.move(rt, pos, 0.5f)
-                    .setEaseInOutCubic();
-            }
+            LeanTween.move(rt, pos, 0.5f)
+                .setEaseInOutCubic();
 
-            LeanTween.move(rectTransform, new Vector3(0, 0, 0), 0.5f)
-            .setEaseInOutCubic();
         }
+
+        LeanTween.move(rectTransform, new Vector3(0, dialogDist, 0), 0.5f)
+            .setEaseInOutCubic();
 
         DialogBox dialogBox = dialogObj.GetComponent<DialogBox>();
         curDialogBox = dialogBox;
