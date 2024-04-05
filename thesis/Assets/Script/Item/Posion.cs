@@ -13,6 +13,8 @@ public class Posion : MonoBehaviour
             {
                 if(PlayerManager.Instance.Heal(healAmount))
                 {
+                    SoundManager.instance.PlayOnShot("Heal");
+
                     GameObject hitPar = GameManager.Instance.healParticle;
                     GameManager.Instance.SpawnParticle(hitPar, other.transform.position);
 
