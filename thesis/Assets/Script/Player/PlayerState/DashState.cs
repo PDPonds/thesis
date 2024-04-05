@@ -29,7 +29,7 @@ public class DashState : BaseState
         {
             PlayerManager.Instance.rb.constraints = RigidbodyConstraints2D.None;
             PlayerManager.Instance.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.lastState);
         }
     }
 }

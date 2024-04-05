@@ -15,7 +15,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image hpFill;
     [Header("===== Fade =====")]
     [SerializeField] CanvasGroup fadeCanvas;
-
+    [Header("===== Dash =====")]
+    [SerializeField] GameObject dashBorder;
+    [SerializeField] Image dashFill;
     [Header("===== Score Coin =====")]
     public TextMeshProUGUI scoreText;
     public GameObject coinBorder;
@@ -161,6 +163,18 @@ public class UIManager : MonoBehaviour
                 bossHPBar.gameObject.SetActive(false);
             }
         }
+
+        UpdateDashTime();
+
+    }
+
+    void UpdateDashTime()
+    {
+        float cur = PlayerManager.Instance.curDashDelay;
+        float max = PlayerManager.Instance.dashDelay;
+        float per = Mathf.Abs((cur / max) - 1);
+        if (per == 0) per = 1;
+        dashFill.fillAmount = per;
     }
 
     public void ReviveBut()
@@ -211,6 +225,7 @@ public class UIManager : MonoBehaviour
         LeanTween.moveLocal(down, downYPos, 0.5f).setEaseInOutCubic();
 
         hpBorder.gameObject.SetActive(false);
+        dashBorder.gameObject.SetActive(false);
         scoreText.gameObject.SetActive(false);
         coinBorder.gameObject.SetActive(false);
         gadgetSlotParent.gameObject.SetActive(false);
@@ -236,6 +251,7 @@ public class UIManager : MonoBehaviour
     {
         cutscenePanel.gameObject.SetActive(false);
         hpBorder.gameObject.SetActive(true);
+        dashBorder.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(true);
         coinBorder.gameObject.SetActive(true);
         gadgetSlotParent.gameObject.SetActive(true);
