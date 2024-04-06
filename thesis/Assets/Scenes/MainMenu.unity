@@ -678,7 +678,6 @@ RectTransform:
   - {fileID: 240444059}
   - {fileID: 396986477}
   - {fileID: 343036307}
-  - {fileID: 880222236}
   - {fileID: 442192723}
   - {fileID: 241090607}
   - {fileID: 474406544}
@@ -686,6 +685,7 @@ RectTransform:
   - {fileID: 1184161824}
   - {fileID: 84715057}
   - {fileID: 398610946}
+  - {fileID: 880222236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3408,7 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ec9ac05496a8345979bc9d7cf3636c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 409013571}
   parallaxXEffect: 0.5
   parallaxYEffect: 0.05
 --- !u!212 &412405497
@@ -10066,7 +10066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ec9ac05496a8345979bc9d7cf3636c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 409013571}
   parallaxXEffect: 0.3
   parallaxYEffect: 0.01
 --- !u!212 &1274352826
@@ -14050,7 +14050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ec9ac05496a8345979bc9d7cf3636c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 409013571}
   parallaxXEffect: 0.1
   parallaxYEffect: 0.005
 --- !u!212 &1858238588
