@@ -352,8 +352,6 @@ public class BossController : MonoBehaviour, IDamageable
             sparkParticle.SetActive(true);
         }
 
-
-
     }
 
     [System.Obsolete]

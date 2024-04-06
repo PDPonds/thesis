@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject dashBorder;
     [SerializeField] Image dashFill;
     [Header("===== Score Coin =====")]
+    public GameObject scoreBorder;
     public TextMeshProUGUI scoreText;
     public GameObject coinBorder;
     public TextMeshProUGUI coinInGameText;
@@ -148,7 +149,8 @@ public class UIManager : MonoBehaviour
             if (GameManager.Instance.curBoss != null)
             {
                 BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
-                if (boss.curBehavior != BossBehavior.AfterSpawn && !boss.isDead)
+                if (boss.curBehavior != BossBehavior.AfterSpawn && !boss.isDead &&
+                    boss.curBehavior != BossBehavior.Escape)
                 {
                     bossHPBar.gameObject.SetActive(true);
                 }
@@ -226,7 +228,7 @@ public class UIManager : MonoBehaviour
 
         hpBorder.gameObject.SetActive(false);
         dashBorder.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(false);
+        scoreBorder.gameObject.SetActive(false);
         coinBorder.gameObject.SetActive(false);
         gadgetSlotParent.gameObject.SetActive(false);
         bossHPBar.gameObject.SetActive(false);
@@ -252,7 +254,7 @@ public class UIManager : MonoBehaviour
         cutscenePanel.gameObject.SetActive(false);
         hpBorder.gameObject.SetActive(true);
         dashBorder.gameObject.SetActive(true);
-        scoreText.gameObject.SetActive(true);
+        scoreBorder.gameObject.SetActive(true);
         coinBorder.gameObject.SetActive(true);
         gadgetSlotParent.gameObject.SetActive(true);
         bossHPBar.gameObject.SetActive(true);
