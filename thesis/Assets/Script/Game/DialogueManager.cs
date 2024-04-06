@@ -11,8 +11,16 @@ public enum DialogOwner
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
-
+    [Header("===== Before Game Start =====")]
     public Dialog[] dialogs;
+    [Header("===== First State Boss =====")]
+    public Dialog[] beforeFirstBossDialogs;
+    public Dialog[] afterFirstBossDialogs;
+    [Header("===== Second State Boss =====")]
+    public Dialog[] beforeSecondBossDialogs;
+    public Dialog[] afterSecondBossDialogs;
+
+    [Header("===== Setting =====")]
     public float textSpeed;
 
     [HideInInspector] public int curDialogIndex;
@@ -21,7 +29,7 @@ public class DialogueManager : MonoBehaviour
     public Transform dialogParent;
 
     public float dialogDist;
-
+    [Header("===== Prefabs =====")]
     public GameObject playerDialogBox;
     public GameObject velonicaDialogBox;
     public GameObject operatorDialogBox;
@@ -32,36 +40,45 @@ public class DialogueManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        StrartDialog();
-    }
 
-    void StrartDialog()
+    public void StrartDialog(Dialog[] dialogs)
     {
         curDialogIndex = 0;
-        GenerateDialogBox(curDialogIndex);
+        GenerateDialogBox(curDialogIndex, dialogs);
     }
 
-    public void NextDialog()
+    public void NextDialog(Dialog[] dialogs)
     {
         if (curDialogIndex < dialogs.Length - 1)
         {
             StopAllCoroutines();
             curDialogBox.textBox.text = dialogs[curDialogIndex].sentence;
             curDialogIndex++;
-            GenerateDialogBox(curDialogIndex);
+            GenerateDialogBox(curDialogIndex, dialogs);
+
         }
         else
         {
             curDialogBox = null;
             curDialogIndex = 0;
             ClearDialogParent();
-            GameManager.Instance.SwitchState(GameState.Normal);
+            switch (GameManager.Instance.state)
+            {
+                case GameState.BeforeGameStart:
+                case GameState.AfterSecondBoss:
+                case GameState.AfterFirstBoss:
+                    GameManager.Instance.SwitchState(GameState.Normal);
+                    break;
+                case GameState.BeforeSecondBoss:
+                case GameState.BeforeFirstBoss:
+                    GameManager.Instance.SwitchState(GameState.BossFight);
+                    break;
+            }
+
         }
     }
 
-    void GenerateDialogBox(int index)
+    void GenerateDialogBox(int index, Dialog[] dialogs)
     {
         Dialog dialog = dialogs[index];
         GameObject dialogPrefab = null;

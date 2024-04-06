@@ -225,7 +225,7 @@ public class BossController : MonoBehaviour, IDamageable
                         if (curEscapeTime < 0)
                         {
                             UIManager.Instance.ExitCutScene();
-                            GameManager.Instance.SwitchState(GameState.Normal);
+                            GameManager.Instance.SwitchState(GameState.AfterFirstBoss);
                             gameObject.SetActive(false);
                         }
                     }
@@ -263,6 +263,7 @@ public class BossController : MonoBehaviour, IDamageable
                 float duration = big.duration;
                 Destroy(gameObject, duration);
                 bigFlashParticle.SetActive(true);
+                GameManager.Instance.SwitchState(GameState.AfterSecondBoss);
             }
 
         }
@@ -373,7 +374,6 @@ public class BossController : MonoBehaviour, IDamageable
         //    Destroy(gameObject, duration);
         //}
 
-        GameManager.Instance.state = GameState.Normal;
         GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         GameManager.Instance.isBossClear = true;

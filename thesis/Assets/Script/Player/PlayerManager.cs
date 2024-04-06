@@ -343,14 +343,18 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
-       
+
     }
 
     public void DashPerformed()
     {
         if (canDash && !isDead && currentState != revive &&
             currentState != dash &&
-            GameManager.Instance.state != GameState.BeforeGameStart)
+            GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             SwitchState(dash);
             GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
@@ -364,7 +368,11 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpPerformed()
     {
-        if (!isDead && GameManager.Instance.state != GameState.BeforeGameStart)
+        if (!isDead && GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             if (onGrounded)
             {
@@ -384,7 +392,23 @@ public class PlayerManager : MonoBehaviour
         }
         else if (GameManager.Instance.state == GameState.BeforeGameStart)
         {
-            DialogueManager.Instance.NextDialog();
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.dialogs);
+        }
+        else if (GameManager.Instance.state == GameState.BeforeFirstBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeFirstBossDialogs);
+        }
+        else if (GameManager.Instance.state == GameState.BeforeSecondBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeSecondBossDialogs);
+        }
+        else if (GameManager.Instance.state == GameState.AfterFirstBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterFirstBossDialogs);
+        }
+        else if (GameManager.Instance.state == GameState.AfterSecondBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterSecondBossDialogs);
         }
     }
 
@@ -450,7 +474,11 @@ public class PlayerManager : MonoBehaviour
     public void SlidePerformed()
     {
         if (currentState != slide && currentState != revive
-            && GameManager.Instance.state != GameState.BeforeGameStart)
+            && GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
@@ -483,7 +511,12 @@ public class PlayerManager : MonoBehaviour
 
     public void AttackPerformed()
     {
-        if (canAttack && !isDead)
+        if (canAttack && !isDead &&
+            GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss) 
         {
             //if (currentState == slide)
             //{

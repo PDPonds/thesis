@@ -10,7 +10,14 @@ public class SwitchToBossFigthTrigger : MonoBehaviour
         {
             if (!GameManager.Instance.isBossClear)
             {
-                GameManager.Instance.SwitchState(GameState.BossFight);
+                if (GameManager.Instance.curBoss == null)
+                {
+                    GameManager.Instance.SwitchState(GameState.BeforeFirstBoss);
+                }
+                else
+                {
+                    GameManager.Instance.SwitchState(GameState.BeforeSecondBoss);
+                }
             }
         }
     }

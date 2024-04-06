@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum GameState
 {
-    BeforeGameStart, Normal, BossFight
+    BeforeGameStart, Normal, BeforeFirstBoss, BeforeSecondBoss, BossFight,
+    AfterFirstBoss, AfterSecondBoss
 }
 
 public enum MomentumAction
@@ -97,6 +98,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        SwitchState(GameState.BeforeGameStart);
+    }
+
     private void Update()
     {
         float dis = Player.position.x - transform.position.x;
@@ -115,7 +121,7 @@ public class GameManager : MonoBehaviour
 
         ResetLastMomentum();
 
-        if(CheckInTargetMomentum())
+        if (CheckInTargetMomentum())
         {
             momentumEffect.SetActive(true);
         }
@@ -260,7 +266,11 @@ public class GameManager : MonoBehaviour
             int floorIndex = Random.Range(0, bossFloorPrefabs.Length);
             floor = bossFloorPrefabs[floorIndex];
         }
-        else if (state == GameState.BeforeGameStart)
+        else if (state == GameState.BeforeGameStart ||
+            state == GameState.BeforeFirstBoss ||
+            state == GameState.BeforeSecondBoss ||
+            state == GameState.AfterFirstBoss ||
+            state == GameState.AfterSecondBoss)
         {
             int floorIndex = Random.Range(0, beforeGameStartFloorPrefabs.Length);
             floor = beforeGameStartFloorPrefabs[floorIndex];
@@ -302,6 +312,21 @@ public class GameManager : MonoBehaviour
             case GameState.Normal:
                 break;
             case GameState.BossFight:
+                break;
+            case GameState.BeforeGameStart:
+                DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
+                break;
+            case GameState.BeforeFirstBoss:
+                DialogueManager.Instance.StrartDialog(DialogueManager.Instance.beforeFirstBossDialogs);
+                break;
+            case GameState.BeforeSecondBoss:
+                DialogueManager.Instance.StrartDialog(DialogueManager.Instance.beforeSecondBossDialogs);
+                break;
+            case GameState.AfterFirstBoss:
+                DialogueManager.Instance.StrartDialog(DialogueManager.Instance.afterFirstBossDialogs);
+                break;
+            case GameState.AfterSecondBoss:
+                DialogueManager.Instance.StrartDialog(DialogueManager.Instance.afterSecondBossDialogs);
                 break;
         }
     }
