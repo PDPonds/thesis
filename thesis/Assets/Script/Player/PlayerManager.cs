@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
     public static PlayerManager Instance;
 
     public static int upgradeMaxHpLevel = 0;
@@ -103,6 +102,7 @@ public class PlayerManager : MonoBehaviour
     public float dashDelay;
     public float dashPower;
     public float dashTime;
+    [SerializeField] DashIcon dashIcon;
     [HideInInspector] public float curDashDelay;
     [HideInInspector] public float curDashTime;
     [HideInInspector] public bool canDash;
@@ -177,6 +177,7 @@ public class PlayerManager : MonoBehaviour
             if (curDashDelay < 0)
             {
                 curDashDelay = dashDelay;
+                dashIcon.PlayDashReady();
                 canDash = true;
             }
         }
