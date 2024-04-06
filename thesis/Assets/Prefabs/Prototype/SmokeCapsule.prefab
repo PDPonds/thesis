@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.39}
+  m_AnchoredPosition: {x: 0, y: 1.065}
   m_SizeDelta: {x: 2.5, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &592924953705014516
@@ -265,7 +265,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 368b46701dfb4864593c599eea9a21df, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -286,7 +286,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9f533866f0a737c47b4e140f260fe87b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6664f1378e170bd4eb0fab489a6d8072, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -333,7 +333,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.6, y: 2.8}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.6, y: 0.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -422,10 +422,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Z Attack
+  m_text: Attack
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9d1ecc19c706da84893f14124079a40a, type: 2}
-  m_sharedMaterial: {fileID: -777648189126031182, guid: 9d1ecc19c706da84893f14124079a40a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6d2a9e116937bc546a15eae618ddd899, type: 2}
+  m_sharedMaterial: {fileID: 3283285640212115723, guid: 6d2a9e116937bc546a15eae618ddd899, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
