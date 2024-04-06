@@ -302,6 +302,8 @@ public class BossController : MonoBehaviour, IDamageable
                 curHurtTime = hurtTime;
                 curEscapeTime = escapeTime;
                 UIManager.Instance.EnterCutScene();
+                SoundManager.Instance.Pause("BossBGM");
+                SoundManager.Instance.Play("NormalBGM");
                 break;
         }
     }

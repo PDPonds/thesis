@@ -139,11 +139,11 @@ public class UIManager : MonoBehaviour
             gadgetSlotParent.SetActive(false);
         }
 
-        if (GameManager.Instance.state == GameState.Normal)
+        if (GameManager.Instance.state != GameState.BossFight)
         {
             bossHPBar.gameObject.SetActive(false);
         }
-        else if (GameManager.Instance.state == GameState.BossFight)
+        else
         {
             if (GameManager.Instance.curBoss != null)
             {
