@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
     public static PlayerManager Instance;
 
     public static int upgradeMaxHpLevel = 0;
@@ -103,6 +102,7 @@ public class PlayerManager : MonoBehaviour
     public float dashDelay;
     public float dashPower;
     public float dashTime;
+    [SerializeField] DashIcon dashIcon;
     [HideInInspector] public float curDashDelay;
     [HideInInspector] public float curDashTime;
     [HideInInspector] public bool canDash;
@@ -177,10 +177,58 @@ public class PlayerManager : MonoBehaviour
             if (curDashDelay < 0)
             {
                 curDashDelay = dashDelay;
+                dashIcon.PlayDashReady();
                 canDash = true;
             }
         }
 
+        #endregion
+
+        #region Move
+        if (currentState != revive && !isDead)
+        {
+            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
+
+            if (GameManager.Instance.state == GameState.BossFight &&
+                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
+                && UIManager.Instance.isHorizontalMove)
+            {
+                float inputValue = leftInput - rightInput;
+                curMoveX = curMoveX - inputValue * speed * Time.deltaTime;
+
+                if (curMoveX > maxMoveX) curMoveX = maxMoveX;
+                if (curMoveX < minMoveX) curMoveX = minMoveX;
+
+                Vector2 targetPos = new Vector2(centerPoint.x + curMoveX, transform.position.y);
+
+                transform.position = targetPos;
+            }
+            else if (GameManager.Instance.state == GameState.BeforeGameStart)
+            {
+                speed = GameManager.Instance.currentSpeed;
+                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+                transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * Time.deltaTime);
+            }
+            else
+            {
+
+                speed = GameManager.Instance.currentSpeed;
+                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
+                if (transform.position.x < targetPos.x)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * 1.5f * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position = Vector3.MoveTowards(transform.position,
+                    targetPos, speed * Time.deltaTime);
+                }
+
+                curMoveX = .5f;
+            }
+        }
         #endregion
 
         #region Counter To Target
@@ -296,59 +344,18 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.FixedUpdateState(transform.gameObject);
-        #region Move
-        if (currentState != revive && !isDead)
-        {
-            Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
 
-            if (GameManager.Instance.state == GameState.BossFight &&
-                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
-                && UIManager.Instance.isHorizontalMove)
-            {
-                float inputValue = leftInput - rightInput;
-                curMoveX = curMoveX - inputValue * speed * Time.deltaTime;
-
-                if (curMoveX > maxMoveX) curMoveX = maxMoveX;
-                if (curMoveX < minMoveX) curMoveX = minMoveX;
-
-                Vector2 targetPos = new Vector2(centerPoint.x + curMoveX, transform.position.y);
-
-                transform.position = targetPos;
-            }
-            else if (GameManager.Instance.state == GameState.BeforeGameStart)
-            {
-                speed = GameManager.Instance.currentSpeed;
-                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
-                transform.position = Vector3.MoveTowards(transform.position,
-                    targetPos, speed * Time.deltaTime);
-            }
-            else
-            {
-
-                speed = GameManager.Instance.currentSpeed;
-                Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
-                if (transform.position.x < targetPos.x)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position,
-                    targetPos, speed * 1.5f * Time.deltaTime);
-                }
-                else
-                {
-                    transform.position = Vector3.MoveTowards(transform.position,
-                    targetPos, speed * Time.deltaTime);
-                }
-
-                curMoveX = .5f;
-            }
-        }
-        #endregion
     }
 
     public void DashPerformed()
     {
         if (canDash && !isDead && currentState != revive &&
             currentState != dash &&
-            GameManager.Instance.state != GameState.BeforeGameStart)
+            GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             SwitchState(dash);
             GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
@@ -362,7 +369,11 @@ public class PlayerManager : MonoBehaviour
 
     public void JumpPerformed()
     {
-        if (!isDead && GameManager.Instance.state != GameState.BeforeGameStart)
+        if (!isDead && GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             if (onGrounded)
             {
@@ -382,7 +393,23 @@ public class PlayerManager : MonoBehaviour
         }
         else if (GameManager.Instance.state == GameState.BeforeGameStart)
         {
-            DialogueManager.Instance.NextDialog();
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.dialogs);
+        }
+        else if (GameManager.Instance.state == GameState.BeforeFirstBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeFirstBossDialogs);
+        }
+        else if (GameManager.Instance.state == GameState.BeforeSecondBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeSecondBossDialogs);
+        }
+        else if (GameManager.Instance.state == GameState.AfterFirstBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterFirstBossDialogs);
+        }
+        else if (GameManager.Instance.state == GameState.AfterSecondBoss)
+        {
+            DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterSecondBossDialogs);
         }
     }
 
@@ -448,7 +475,11 @@ public class PlayerManager : MonoBehaviour
     public void SlidePerformed()
     {
         if (currentState != slide && currentState != revive
-            && GameManager.Instance.state != GameState.BeforeGameStart)
+            && GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             attackCol.enabled = false;
             onSlide?.Invoke();
@@ -481,7 +512,12 @@ public class PlayerManager : MonoBehaviour
 
     public void AttackPerformed()
     {
-        if (canAttack && !isDead)
+        if (canAttack && !isDead &&
+            GameManager.Instance.state != GameState.BeforeGameStart &&
+            GameManager.Instance.state != GameState.BeforeFirstBoss &&
+            GameManager.Instance.state != GameState.BeforeSecondBoss &&
+            GameManager.Instance.state != GameState.AfterFirstBoss &&
+            GameManager.Instance.state != GameState.AfterSecondBoss) 
         {
             //if (currentState == slide)
             //{
