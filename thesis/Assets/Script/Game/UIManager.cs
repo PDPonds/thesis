@@ -52,8 +52,6 @@ public class UIManager : MonoBehaviour
     public GameObject cutscenePanel;
     public GameObject top;
     public GameObject down;
-    [Header("===== Horizontal Move =====")]
-    public bool isHorizontalMove;
 
     private void OnDisable()
     {

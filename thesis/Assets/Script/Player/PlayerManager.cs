@@ -39,9 +39,6 @@ public class PlayerManager : MonoBehaviour
     [Header("===== Game Play =====")]
     [Header("- Move")]
     float speed;
-    [SerializeField] float minMoveX;
-    [SerializeField] float maxMoveX;
-    [SerializeField] float curMoveX = 0;
     [HideInInspector] public float leftInput;
     [HideInInspector] public float rightInput;
     [Header("- Hp")]
@@ -188,21 +185,7 @@ public class PlayerManager : MonoBehaviour
         {
             Vector3 centerPoint = GameManager.Instance.CenterPoint.position;
 
-            if (GameManager.Instance.state == GameState.BossFight &&
-                GameManager.Instance.curBoss != null && GameManager.Instance.curBoss.activeSelf
-                && UIManager.Instance.isHorizontalMove)
-            {
-                float inputValue = leftInput - rightInput;
-                curMoveX = curMoveX - inputValue * speed * Time.deltaTime;
-
-                if (curMoveX > maxMoveX) curMoveX = maxMoveX;
-                if (curMoveX < minMoveX) curMoveX = minMoveX;
-
-                Vector2 targetPos = new Vector2(centerPoint.x + curMoveX, transform.position.y);
-
-                transform.position = targetPos;
-            }
-            else if (GameManager.Instance.state == GameState.BeforeGameStart)
+            if (GameManager.Instance.state == GameState.BeforeGameStart)
             {
                 speed = GameManager.Instance.currentSpeed;
                 Vector2 targetPos = new Vector2(centerPoint.x, transform.position.y);
@@ -224,8 +207,6 @@ public class PlayerManager : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position,
                     targetPos, speed * Time.deltaTime);
                 }
-
-                curMoveX = .5f;
             }
         }
         #endregion
