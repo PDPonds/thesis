@@ -302,6 +302,8 @@ public class BossController : MonoBehaviour, IDamageable
                 curHurtTime = hurtTime;
                 curEscapeTime = escapeTime;
                 UIManager.Instance.EnterCutScene();
+                SoundManager.Instance.Pause("BossBGM");
+                SoundManager.Instance.Play("NormalBGM");
                 break;
         }
     }
@@ -350,8 +352,6 @@ public class BossController : MonoBehaviour, IDamageable
             sparkParticle.SetActive(true);
         }
 
-
-
     }
 
     [System.Obsolete]
@@ -373,8 +373,6 @@ public class BossController : MonoBehaviour, IDamageable
         //    float duration = par.duration + 1.1f;
         //    Destroy(gameObject, duration);
         //}
-
-        GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         GameManager.Instance.isBossClear = true;
         isDead = true;

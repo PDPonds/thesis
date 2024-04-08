@@ -60,13 +60,7 @@ public class GameManager : MonoBehaviour
     public GameObject weakspotParticle;
     public GameObject counterAttackParticle;
     public GameObject dashParticle;
-
-    [Header("- Score")]
-    public float scoreMul;
-    [HideInInspector] public int currentScore;
-    [HideInInspector] public int hitScore;
-    [Space(10f)]
-
+    public GameObject missileExplosion;
 
     [Header("===== Player =====")]
     public Transform Camera;
@@ -105,10 +99,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        float dis = Player.position.x - transform.position.x;
-        float disScore = dis * scoreMul;
-        float totalScore = disScore + hitScore;
-        if (totalScore > currentScore) currentScore = (int)totalScore;
 
         float playerAndSpawnPoint = Vector3.Distance(PlayerManager.Instance.transform.position,
             lastEndPos);

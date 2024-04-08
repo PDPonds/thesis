@@ -10,7 +10,6 @@ public class EnemySO : ScriptableObject
     public int minExpDropCount;
     public int maxExpDropCount;
     public int dropCoin;
-    public int dropScore;
     public EnemyType type;
 
 }

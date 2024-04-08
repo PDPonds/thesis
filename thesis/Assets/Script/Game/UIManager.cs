@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject dashBorder;
     [SerializeField] Image dashFill;
     [Header("===== Score Coin =====")]
-    public TextMeshProUGUI scoreText;
     public GameObject coinBorder;
     public TextMeshProUGUI coinInGameText;
 
@@ -85,8 +84,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        scoreText.text = GameManager.Instance.currentScore.ToString();
-        scoreOnDeadScene.text = GameManager.Instance.currentScore.ToString();
         coinInGameText.text = PlayerManager.Instance.inGameCoin.ToString();
 
         float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
@@ -139,16 +136,17 @@ public class UIManager : MonoBehaviour
             gadgetSlotParent.SetActive(false);
         }
 
-        if (GameManager.Instance.state == GameState.Normal)
+        if (GameManager.Instance.state != GameState.BossFight)
         {
             bossHPBar.gameObject.SetActive(false);
         }
-        else if (GameManager.Instance.state == GameState.BossFight)
+        else
         {
             if (GameManager.Instance.curBoss != null)
             {
                 BossController boss = GameManager.Instance.curBoss.GetComponent<BossController>();
-                if (boss.curBehavior != BossBehavior.AfterSpawn && !boss.isDead)
+                if (boss.curBehavior != BossBehavior.AfterSpawn && !boss.isDead &&
+                    boss.curBehavior != BossBehavior.Escape)
                 {
                     bossHPBar.gameObject.SetActive(true);
                 }
@@ -186,7 +184,6 @@ public class UIManager : MonoBehaviour
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
             curReviveTime = 0;
             deadScene.gameObject.SetActive(false);
-            scoreText.gameObject.SetActive(true);
             coinInGameText.gameObject.SetActive(true);
         }
 
@@ -199,7 +196,6 @@ public class UIManager : MonoBehaviour
         LeanTween.scale(scoreOnDeadScene.gameObject, new Vector3(1, 1, 1), 0.3f);
         LeanTween.scale(coinParent, new Vector3(1, 1, 1), 0.3f);
         LeanTween.scale(reviveInfoText, new Vector3(1, 1, 1), 1.25f).setLoopClamp();
-        scoreText.gameObject.SetActive(false);
         coinInGameText.gameObject.SetActive(false);
     }
 
@@ -226,7 +222,6 @@ public class UIManager : MonoBehaviour
 
         hpBorder.gameObject.SetActive(false);
         dashBorder.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(false);
         coinBorder.gameObject.SetActive(false);
         gadgetSlotParent.gameObject.SetActive(false);
         bossHPBar.gameObject.SetActive(false);
@@ -252,7 +247,6 @@ public class UIManager : MonoBehaviour
         cutscenePanel.gameObject.SetActive(false);
         hpBorder.gameObject.SetActive(true);
         dashBorder.gameObject.SetActive(true);
-        scoreText.gameObject.SetActive(true);
         coinBorder.gameObject.SetActive(true);
         gadgetSlotParent.gameObject.SetActive(true);
         bossHPBar.gameObject.SetActive(true);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerAttackTrigger : MonoBehaviour
 {
@@ -45,35 +46,11 @@ public class PlayerAttackTrigger : MonoBehaviour
         {
             if (collision.transform.TryGetComponent<EnemyBullet>(out EnemyBullet eBullet))
             {
-                if (eBullet.canCounter)
+                if (eBullet.isMissile)
                 {
-                    eBullet.isCounter = true;
-                    SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
-                    sprite.flipX = true;
-
-                    if (PlayerManager.Instance.isCounterToTarget)
-                    {
-                        PlayerManager.Instance.curCounterToTargetTime = 0;
-                        PlayerManager.Instance.isCounterToTarget = false;
-                    }
-                    else
-                    {
-                        Vector3 dir = Vector2.up;
-                        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                        eBullet.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-                    }
-
-                    Vector2 pos = eBullet.transform.position;
-                    GameManager.Instance.SpawnParticle(GameManager.Instance.counterAttackParticle, pos);
+                    GameManager.Instance.SpawnParticle(GameManager.Instance.missileExplosion, eBullet.transform.position);
                     GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position);
-
-                    CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
-                    Vector2 curOffset = capCol.offset;
-                    curOffset.x = capCol.offset.x * -1f;
-                    capCol.offset = curOffset;
-                    SoundManager.Instance.PlayOnShot("LaserShot");
-
+                    SoundManager.Instance.PlayOnShot("Explosive");
                     if (PlayerManager.Instance.noDamage)
                     {
                         PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
@@ -81,6 +58,49 @@ public class PlayerAttackTrigger : MonoBehaviour
                         PlayerManager.Instance.noDamage = false;
                     }
 
+                    StartCoroutine(PlayerManager.Instance.TakeDamage(eBullet.damage));
+
+                    Destroy(eBullet.gameObject);
+                }
+                else
+                {
+                    if (eBullet.canCounter)
+                    {
+                        eBullet.isCounter = true;
+                        SpriteRenderer sprite = eBullet.transform.GetComponent<SpriteRenderer>();
+                        sprite.flipX = true;
+
+                        if (PlayerManager.Instance.isCounterToTarget)
+                        {
+                            PlayerManager.Instance.curCounterToTargetTime = 0;
+                            PlayerManager.Instance.isCounterToTarget = false;
+                        }
+                        else
+                        {
+                            Vector3 dir = Vector2.up;
+                            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                            eBullet.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+                        }
+
+                        Vector2 pos = eBullet.transform.position;
+                        GameManager.Instance.SpawnParticle(GameManager.Instance.counterAttackParticle, pos);
+                        GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position);
+
+                        CapsuleCollider2D capCol = eBullet.transform.GetComponent<CapsuleCollider2D>();
+                        Vector2 curOffset = capCol.offset;
+                        curOffset.x = capCol.offset.x * -1f;
+                        capCol.offset = curOffset;
+                        SoundManager.Instance.PlayOnShot("LaserShot");
+
+                        if (PlayerManager.Instance.noDamage)
+                        {
+                            PlayerManager.Instance.curNoDamageTime = PlayerManager.Instance.noDamageTime;
+                            Physics2D.IgnoreLayerCollision(3, 7, false);
+                            PlayerManager.Instance.noDamage = false;
+                        }
+
+                    }
                 }
             }
         }
