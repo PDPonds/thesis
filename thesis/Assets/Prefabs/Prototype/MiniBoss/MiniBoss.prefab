@@ -206,21 +206,11 @@ MonoBehaviour:
     weight: 25
   - type: 3
     weight: 40
-  spawnProjectilePos: {fileID: 0}
   delayProjectile: 2
-  projectilePrefabs:
-  - {fileID: 6209023416293685447, guid: b3c7dc8c3a044a64c898eaa338f7061b, type: 3}
-  - {fileID: 6209023416293685447, guid: 5d29302f526b5394aa7ca30f55a84eba, type: 3}
-  - {fileID: 6209023416293685447, guid: da5739fca9809a24cb5a6491a064d341, type: 3}
-  - {fileID: 6209023416293685447, guid: ae52a571fefb3eb41b9bb254a778239b, type: 3}
-  - {fileID: 6209023416293685447, guid: f992f24296e71174ab777e6eb434ecdd, type: 3}
-  - {fileID: 6209023416293685447, guid: 2506fec647629644d99e86ad27e24346, type: 3}
-  - {fileID: 6209023416293685447, guid: ba06a04a4fcff4c4eb671c3313f602e6, type: 3}
-  - {fileID: 6209023416293685447, guid: 6d61db27b6d01304692c0ce6aa4d7325, type: 3}
-  - {fileID: 6209023416293685447, guid: 81fd69feef73c1947a6092efdd04f6bf, type: 3}
-  - {fileID: 6209023416293685447, guid: 4c2eb83b5162b8346b60df706ba7a91d, type: 3}
-  - {fileID: 6209023416293685447, guid: 1344b7d07c219b84e8e950ecf05ade04, type: 3}
-  - {fileID: 6209023416293685447, guid: 842758ddd3c7d7848bd7b2a5a41def28, type: 3}
+  spawnProjectilePos: {fileID: 0}
+  projectilePrefab: {fileID: 6209023416293685447, guid: 1e484b492fa38f646bd1c31450584e24, type: 3}
+  missliePerMax: 4
+  missileDelayPerCount: 1
   projectileSpeed: 10
   projectileDamage: 10
   warningTime: 1.5
