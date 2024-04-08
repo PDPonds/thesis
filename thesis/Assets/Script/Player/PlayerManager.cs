@@ -48,7 +48,6 @@ public class PlayerManager : MonoBehaviour
     public Transform mesh;
     public float startMaxHP;
     public float maxHp;
-    public float hpMul;
     [HideInInspector] public float currentHp;
     [HideInInspector] public bool isDead;
     [HideInInspector] public bool noDamage;
@@ -268,16 +267,6 @@ public class PlayerManager : MonoBehaviour
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
             rb.simulated = true;
-
-            if (UIManager.Instance.isDecreases)
-            {
-                currentHp -= Time.deltaTime * hpMul;
-                if (currentHp <= 0)
-                {
-                    Die();
-                }
-            }
-
         }
 
         if (noDamage)
