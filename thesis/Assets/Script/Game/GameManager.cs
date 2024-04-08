@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     public GameObject weakspotParticle;
     public GameObject counterAttackParticle;
     public GameObject dashParticle;
-
+    public GameObject missileExplosion;
 
     [Header("===== Player =====")]
     public Transform Camera;
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        
+
         float playerAndSpawnPoint = Vector3.Distance(PlayerManager.Instance.transform.position,
             lastEndPos);
         if (playerAndSpawnPoint < 30f)
