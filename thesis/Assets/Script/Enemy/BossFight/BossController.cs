@@ -373,8 +373,6 @@ public class BossController : MonoBehaviour, IDamageable
         //    float duration = par.duration + 1.1f;
         //    Destroy(gameObject, duration);
         //}
-
-        GameManager.Instance.hitScore += bossSO.dropScore;
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         GameManager.Instance.isBossClear = true;
         isDead = true;

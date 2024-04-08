@@ -223,7 +223,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (anim != null) anim.Play("Dead");
         SoundManager.Instance.PlayOnShot("BotDeath");
-        GameManager.Instance.hitScore += enemySO.dropScore;
         if (GameManager.Instance.CheckInTargetMomentum())
         {
             PlayerManager.Instance.AddCoin(enemySO.dropCoin * 2);

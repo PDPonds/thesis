@@ -8,5 +8,4 @@ public class BossSO : ScriptableObject
     public int maxHp;
     public int weakSpotHP;
     public int dropCoin;
-    public int dropScore;
 }
