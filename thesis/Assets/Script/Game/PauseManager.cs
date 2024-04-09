@@ -14,6 +14,12 @@ public class PauseManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        if (!isPause) Cursor.lockState = CursorLockMode.Locked;
+        else Cursor.lockState = CursorLockMode.None;
+    }
+
     public void TogglePause()
     {
         if (!UIManager.Instance.deadScene.gameObject.activeSelf &&
@@ -23,6 +29,7 @@ public class PauseManager : MonoBehaviour
             if (isPause)
             {
                 SoundManager.Instance.PlayOnShot("Button");
+
                 UIManager.Instance.pausePanel.SetActive(true);
                 GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
                 GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
@@ -33,11 +40,13 @@ public class PauseManager : MonoBehaviour
                 ToggleEnableScript(false);
 
                 EventSystem.current.SetSelectedGameObject(resumeBut);
+
             }
             else
             {
 
                 SoundManager.Instance.PlayOnShot("Button");
+
                 GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
                 GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
                 LeanTween.scale(resumeBut, new Vector3(0, 0, 0), 0.3f)
@@ -47,6 +56,7 @@ public class PauseManager : MonoBehaviour
                    .setOnComplete(SetPauseActiveFalse);
 
                 EventSystem.current.SetSelectedGameObject(null);
+
             }
         }
     }
