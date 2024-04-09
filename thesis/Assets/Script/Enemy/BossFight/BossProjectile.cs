@@ -32,7 +32,7 @@ public class BossProjectile : MonoBehaviour
         }
         else if (state == MissileState.Warning)
         {
-            transform.position = GameManager.Instance.bossSpawnPos.position;
+            transform.position = new Vector3(GameManager.Instance.bossSpawnPos.position.x, transform.position.y, 0);
             curWarningTime -= Time.deltaTime;
             if (curWarningTime < 0)
             {

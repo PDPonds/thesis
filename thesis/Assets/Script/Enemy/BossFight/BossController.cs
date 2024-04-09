@@ -45,11 +45,14 @@ public class BossController : MonoBehaviour, IDamageable
     public List<BossAttack> attackTypes = new List<BossAttack>();
     [Space(5f)]
 
-    [Header("- Missile")]
-    [SerializeField] Transform spawnProjectilePos;
     [SerializeField] float delayProjectile;
     float curProjectileDelay;
-    [SerializeField] GameObject[] projectilePrefabs;
+
+    [Header("- Missile")]
+    [SerializeField] Transform spawnProjectilePos;
+    [SerializeField] GameObject projectilePrefab;
+    [SerializeField] int missliePerMax;
+    [SerializeField] float missileDelayPerCount;
     public float projectileSpeed;
     public float projectileDamage;
     public float warningTime;
@@ -163,9 +166,8 @@ public class BossController : MonoBehaviour, IDamageable
                         switch (type)
                         {
                             case BossAttackType.Misslie:
+                                StartCoroutine(SpawnMissile());
                                 isFire = true;
-                                SpawnMissile();
-                                curProjectileDelay = delayProjectile;
                                 break;
                             case BossAttackType.Beam:
                                 StartCoroutine(SpawnBeam());
@@ -378,18 +380,29 @@ public class BossController : MonoBehaviour, IDamageable
         isDead = true;
     }
 
-    public void SpawnMissile()
+    public void FireMissile()
     {
-        int index = UnityEngine.Random.Range(0, projectilePrefabs.Length);
         Vector3 pos = spawnProjectilePos.position;
-        GameObject projectileObj = Instantiate(projectilePrefabs[index], pos, Quaternion.identity);
+        GameObject projectileObj = Instantiate(projectilePrefab, pos, Quaternion.identity);
 
         BossProjectile bossProjectile = projectileObj.GetComponent<BossProjectile>();
         bossProjectile.SetupMissile(this);
 
-        isFire = false;
-
         SoundManager.Instance.PlayOnShot("MissileShot");
+    }
+
+    IEnumerator SpawnMissile()
+    {
+        int fireCount = 0;
+        while (fireCount < missliePerMax)
+        {
+            FireMissile();
+            fireCount++;
+            yield return new WaitForSeconds(missileDelayPerCount);
+        }
+        yield return null;
+        curProjectileDelay = delayProjectile;
+        isFire = false;
     }
 
     IEnumerator FireLasser()
