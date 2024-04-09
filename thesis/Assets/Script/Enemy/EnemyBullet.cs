@@ -108,7 +108,11 @@ public class EnemyBullet : MonoBehaviour
 
     IEnumerator PlayerTakeDamage(Collider2D collision, PlayerManager playerManager)
     {
-        if (isMissile) SoundManager.Instance.PlayOnShot("Explosive");
+        if (isMissile)
+        {
+            SoundManager.Instance.PlayOnShot("Explosive");
+            GameManager.Instance.SpawnParticle(GameManager.Instance.missileExplosion, transform.position);
+        }
         else SoundManager.Instance.PlayOnShot("LaserHit");
 
         yield return StartCoroutine(playerManager.TakeDamage(damage));
