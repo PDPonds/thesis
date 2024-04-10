@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     [Header("===== Game =====")]
     public GameState state = GameState.Normal;
+    GameState lastState;
+
     public Transform CenterPoint;
 
     public float currentSpeed;
@@ -75,8 +77,6 @@ public class GameManager : MonoBehaviour
     public Map[] normalMap;
 
     Map curMap;
-    //public GameObject[] floorPrefabs;
-
 
     public Transform DestroyGroundAndEnemy;
     public float xOffset;
@@ -103,7 +103,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SwitchState(GameState.BeforeGameStart);
-        curMap = normalMap[Random.Range(0, normalMap.Length)];
+        if (PlayerManager.passTutorial) curMap = normalMap[Random.Range(0, normalMap.Length)];
+        else curMap = tutorailMap;
     }
 
     private void Update()
@@ -224,7 +225,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void SpawnParticle(GameObject particle, Vector3 pos, Transform parent)
     {
         GameObject newParticle = SpawnParticle(particle, pos);
@@ -279,8 +279,8 @@ public class GameManager : MonoBehaviour
         Building currentBuilding = buildObj.GetComponent<Building>();
 
         Vector3 offset = buildObj.transform.position - currentBuilding.startPos.position;
-        //Vector3 speedOffset = new Vector3(currentSpeed * xOffset, 0, 0);
-        buildObj.transform.position = lastEndPos + offset /*+ speedOffset*/;
+
+        buildObj.transform.position = lastEndPos + offset;
 
         lastEndPos = currentBuilding.endPos.position;
 
@@ -309,20 +309,35 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.Normal:
+
+                if(lastState == GameState.BeforeGameStart)
+                {
+                    UIManager.Instance.EnableProgressPoint(1);
+                }
+                else if(lastState == GameState.AfterFirstBoss)
+                {
+                    UIManager.Instance.EnableProgressPoint(3);
+                }
+
                 break;
             case GameState.BossFight:
                 break;
             case GameState.BeforeGameStart:
                 DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
+                UIManager.Instance.EnableProgressPoint(0);
+                lastState = GameState.BeforeGameStart;
                 break;
             case GameState.BeforeFirstBoss:
                 DialogueManager.Instance.StrartDialog(DialogueManager.Instance.beforeFirstBossDialogs);
+                UIManager.Instance.EnableProgressPoint(2);
                 break;
             case GameState.BeforeSecondBoss:
                 DialogueManager.Instance.StrartDialog(DialogueManager.Instance.beforeSecondBossDialogs);
+                UIManager.Instance.EnableProgressPoint(4);
                 break;
             case GameState.AfterFirstBoss:
                 DialogueManager.Instance.StrartDialog(DialogueManager.Instance.afterFirstBossDialogs);
+                lastState = GameState.AfterFirstBoss;
                 break;
             case GameState.AfterSecondBoss:
                 DialogueManager.Instance.StrartDialog(DialogueManager.Instance.afterSecondBossDialogs);

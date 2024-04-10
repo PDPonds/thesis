@@ -51,6 +51,8 @@ public class UIManager : MonoBehaviour
     public GameObject cutscenePanel;
     public GameObject top;
     public GameObject down;
+    [Header("===== Progress Bar =====")]
+    public GameObject[] progressPoint;
 
     private void OnDisable()
     {
@@ -249,6 +251,20 @@ public class UIManager : MonoBehaviour
 
         InputSystemMnanger input = PlayerManager.Instance.transform.GetComponent<InputSystemMnanger>();
         input.enabled = true;
+    }
+
+    void DisableAllProgressPoint()
+    {
+        foreach (GameObject g in progressPoint)
+        {
+            g.SetActive(false);
+        }
+    }
+
+    public void EnableProgressPoint(int Phase)
+    {
+        DisableAllProgressPoint();
+        progressPoint[Phase].gameObject.SetActive(true);
     }
 
 }
