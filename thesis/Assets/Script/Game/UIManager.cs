@@ -201,6 +201,7 @@ public class UIManager : MonoBehaviour
 
         SoundManager.Instance.PlayOnShot("Button");
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
+        SaveSystem.Save();
         LeanTween.alphaCanvas(fadeCanvas, 1, .3f)
              .setEase(LeanTweenType.easeInOutCubic)
              .setOnComplete(() => SceneManager.LoadScene(0));
