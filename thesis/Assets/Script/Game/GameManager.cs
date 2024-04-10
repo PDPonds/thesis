@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public enum GameState
@@ -61,6 +60,7 @@ public class GameManager : MonoBehaviour
     public GameObject counterAttackParticle;
     public GameObject dashParticle;
     public GameObject missileExplosion;
+    public GameObject mineExplosion;
 
     [Header("===== Player =====")]
     public Transform Camera;
