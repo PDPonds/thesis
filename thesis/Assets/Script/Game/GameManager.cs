@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     public Transform CenterPoint;
 
     public float currentSpeed;
+    [Header("- Time")]
+    public float gameTime;
+    [HideInInspector] public float curGameTime;
+
     [Header("- Momentum")]
     public float minSpeed;
     public float maxSpeed;
@@ -132,6 +136,21 @@ public class GameManager : MonoBehaviour
 
         #endregion
 
+        DecreaseTime();
+
+    }
+
+    void DecreaseTime()
+    {
+        if (state == GameState.Normal ||
+            state == GameState.BossFight)
+        {
+            curGameTime -= Time.deltaTime;
+            if (curGameTime < 0)
+            {
+                Debug.Log("Time Out");
+            }
+        }
     }
 
     public bool CheckInTargetMomentum()
@@ -310,11 +329,11 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Normal:
 
-                if(lastState == GameState.BeforeGameStart)
+                if (lastState == GameState.BeforeGameStart)
                 {
                     UIManager.Instance.EnableProgressPoint(1);
                 }
-                else if(lastState == GameState.AfterFirstBoss)
+                else if (lastState == GameState.AfterFirstBoss)
                 {
                     UIManager.Instance.EnableProgressPoint(3);
                 }
@@ -323,6 +342,7 @@ public class GameManager : MonoBehaviour
             case GameState.BossFight:
                 break;
             case GameState.BeforeGameStart:
+                curGameTime = gameTime;
                 DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
                 UIManager.Instance.EnableProgressPoint(0);
                 lastState = GameState.BeforeGameStart;

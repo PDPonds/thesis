@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     [Header("===== HP =====")]
     [SerializeField] GameObject hpBorder;
     [SerializeField] Image hpFill;
+    [Header("===== Time =====")]
+    [SerializeField] TextMeshProUGUI timeText;
     [Header("===== Fade =====")]
     [SerializeField] CanvasGroup fadeCanvas;
     [Header("===== Dash =====")]
@@ -85,6 +87,8 @@ public class UIManager : MonoBehaviour
 
         float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
         hpFill.fillAmount = hpPercent;
+
+        timeText.text = GameManager.Instance.curGameTime.ToString("N2");
 
         if (deadScene.gameObject.activeSelf)
         {
