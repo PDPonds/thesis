@@ -5,5 +5,8 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class Map : ScriptableObject
 {
-    
+    public List<GameObject> floors = new List<GameObject>();
+
+
+
 }
