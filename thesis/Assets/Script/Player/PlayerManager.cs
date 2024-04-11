@@ -341,10 +341,12 @@ public class PlayerManager : MonoBehaviour
         }
 
         bool Mine = !passTutorial && TutorialManager.instance.isTutorialPause &&
-          TutorialManager.instance.IsTutorial(TutorialState.Mine);
+          TutorialManager.instance.IsTutorial(TutorialState.Mine) &&
+          TutorialManager.instance.CheckCanSkip();
 
         bool Dash = !passTutorial && TutorialManager.instance.isTutorialPause &&
-            TutorialManager.instance.IsTutorial(TutorialState.Dash);
+            TutorialManager.instance.IsTutorial(TutorialState.Dash) &&
+          TutorialManager.instance.CheckCanSkip();
 
         if (Mine || Dash)
         {
@@ -423,7 +425,8 @@ public class PlayerManager : MonoBehaviour
             DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterSecondBossDialogs);
         }
 
-        bool inTu = !passTutorial && TutorialManager.instance.isTutorialPause;
+        bool inTu = !passTutorial && TutorialManager.instance.isTutorialPause &&
+          TutorialManager.instance.CheckCanSkip();
 
         if (inTu)
         {
@@ -510,7 +513,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (!passTutorial && TutorialManager.instance.isTutorialPause &&
-            TutorialManager.instance.IsTutorial(TutorialState.Slide))
+            TutorialManager.instance.IsTutorial(TutorialState.Slide) &&
+          TutorialManager.instance.CheckCanSkip())
         {
             TutorialManager.instance.NextTutorial();
         }
@@ -579,16 +583,20 @@ public class PlayerManager : MonoBehaviour
         }
 
         bool Attack = !passTutorial && TutorialManager.instance.isTutorialPause &&
-            TutorialManager.instance.IsTutorial(TutorialState.Attack);
+            TutorialManager.instance.IsTutorial(TutorialState.Attack) &&
+          TutorialManager.instance.CheckCanSkip();
 
         bool Counter = !passTutorial && TutorialManager.instance.isTutorialPause &&
-         TutorialManager.instance.IsTutorial(TutorialState.Counter);
+         TutorialManager.instance.IsTutorial(TutorialState.Counter) &&
+          TutorialManager.instance.CheckCanSkip();
 
         bool Shuriken = !passTutorial && TutorialManager.instance.isTutorialPause &&
-           TutorialManager.instance.IsTutorial(TutorialState.Shuriken);
+           TutorialManager.instance.IsTutorial(TutorialState.Shuriken) &&
+          TutorialManager.instance.CheckCanSkip();
 
         bool Smoke = !passTutorial && TutorialManager.instance.isTutorialPause &&
-          TutorialManager.instance.IsTutorial(TutorialState.Smoke);
+          TutorialManager.instance.IsTutorial(TutorialState.Smoke) &&
+          TutorialManager.instance.CheckCanSkip();
 
 
 

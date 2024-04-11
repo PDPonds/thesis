@@ -144,4 +144,9 @@ public class TutorialManager : MonoBehaviour
         return tutorialState == state;
     }
 
+    public bool CheckCanSkip()
+    {
+        return tutorialImage.transform.localScale == Vector3.one;
+    }
+
 }
