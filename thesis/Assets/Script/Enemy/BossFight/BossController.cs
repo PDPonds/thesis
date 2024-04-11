@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum BossBehavior
 {
-    AfterSpawn, Normal,/* Weakness,*/ Escape
+    AfterSpawn, Normal,/* Weakness,*/ Escape, TutorialSpawn, TutorialEscape
 }
 
 public enum BossAttackType
@@ -23,22 +23,21 @@ public class BossController : MonoBehaviour, IDamageable
     public BossBehavior curBehavior;
     public bool isEnterHalfHP;
     [HideInInspector] public bool isDead;
+    [Header("===== Tutorial Spawn Behavior =====")]
+    [SerializeField] Vector3 tutorialSpawnOffset;
+    [SerializeField] float tutorialSpawnSpeed;
+    [Header("===== Tutorial Escape Behavior =====")]
+    [SerializeField] float tutorialEscapeBossTime;
+    float curTutorialEscapeTime;
     [Header("===== After Spawn Behavior =====")]
     [SerializeField] float alertTime;
     float curAlertTime;
     [Header("===== Normal Behavior =====")]
     bool isFire;
-    //[Header("- WeakSpot")]
     [SerializeField] float normalXSpeed;
     [SerializeField] float normalYSpeed;
-
-    //[SerializeField] WeakSpot weakSpot;
     [SerializeField] Vector3 normalOffset;
-    //[SerializeField] Transform pos1;
-    //[SerializeField] Transform pos2;
     Vector3 velocity;
-    //[SerializeField] float delayWeakSpot;
-    //float curDelayWeakSpot;
 
     [Space(5f)]
     [Header("Attack Percentage")]
@@ -73,8 +72,7 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float bombDamage;
     [SerializeField] float bombMinForce;
     [SerializeField] float bombMaxForce;
-    //[SerializeField] float minYBounce;
-    //[SerializeField] float maxYBounce;
+
     [Header("- Beam")]
     [SerializeField] GameObject beam;
     [SerializeField] BoxCollider2D beamCollider;
@@ -82,11 +80,6 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float delayBeam;
     [SerializeField] float beamTime;
 
-    //[Header("===== Weakness Behavior =====")]
-    //[SerializeField] float weaknessSpeed;
-    //[SerializeField] Vector3 weaknessOffset;
-    //[SerializeField] float weaknessTime;
-    //float curWeaknessTime;
     [Header("===== Escape Behavior =====")]
     [SerializeField] float hurtTime;
     float curHurtTime;
@@ -105,7 +98,6 @@ public class BossController : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         hp = bossSO.maxHp;
         spawnProjectilePos = GameManager.Instance.bossSpawnPos;
-        SwitchBehavior(BossBehavior.AfterSpawn);
 
         Beam beamScr = beamCollider.GetComponent<Beam>();
         beamScr.damage = beamDamage;
@@ -119,6 +111,32 @@ public class BossController : MonoBehaviour, IDamageable
         {
             switch (curBehavior)
             {
+                case BossBehavior.TutorialSpawn:
+
+                    Vector3 tutorialPos = CenterMove.instance.transform.position + tutorialSpawnOffset;
+                    normalOffset.z = 0;
+
+                    Vector3 tutorialIdle = Vector3.SmoothDamp(transform.position, tutorialPos, ref velocity, tutorialSpawnSpeed);
+                    transform.position = tutorialIdle;
+
+                    break;
+                case BossBehavior.TutorialEscape:
+
+                    curTutorialEscapeTime -= Time.deltaTime;
+
+                    Vector3 tutorialEscapePos = CenterMove.instance.transform.position + tutorialSpawnOffset + new Vector3(10f, 0, 0);
+                    normalOffset.z = 0;
+
+                    Vector3 tutorialEscape = Vector3.SmoothDamp(transform.position, tutorialEscapePos, ref velocity, tutorialSpawnSpeed);
+                    transform.position = tutorialEscape;
+
+                    if (curTutorialEscapeTime < 0)
+                    {
+                        GameManager.Instance.SwitchState(GameState.Normal);
+                        gameObject.SetActive(false);
+                    }
+
+                    break;
                 case BossBehavior.AfterSpawn:
 
                     if (curAlertTime > 0)
@@ -136,19 +154,8 @@ public class BossController : MonoBehaviour, IDamageable
 
                     transform.position = Vector3.SmoothDamp(transform.position, afterPos, ref velocity, normalXSpeed);
 
-                    //weakSpot.gameObject.SetActive(false);
-
                     break;
                 case BossBehavior.Normal:
-                    //if (curDelayWeakSpot > 0)
-                    //{
-                    //    curDelayWeakSpot -= Time.deltaTime;
-                    //    if (weakSpot != null) weakSpot.gameObject.SetActive(false);
-                    //}
-                    //else
-                    //{
-                    //    weakSpot.gameObject.SetActive(true);
-                    //}
 
                     Vector3 normalPos = CenterMove.instance.transform.position + normalOffset;
                     normalOffset.z = 0;
@@ -185,20 +192,6 @@ public class BossController : MonoBehaviour, IDamageable
                     }
 
                     break;
-                //case BossBehavior.Weakness:
-
-                //    weakSpot.gameObject.SetActive(false);
-                //    float weaknessYPos = Camera.main.transform.position.y - weaknessOffset.y;
-                //    float weaknessXPos = PlayerManager.Instance.transform.position.x + weaknessOffset.x;
-                //    Vector3 weaknessPos = new Vector3(weaknessXPos, weaknessYPos, 0);
-                //    transform.position = Vector2.MoveTowards(transform.position, weaknessPos, Time.deltaTime * weaknessSpeed);
-                //    curWeaknessTime -= Time.deltaTime;
-                //    if (curWeaknessTime < 0)
-                //    {
-                //        SwitchBehavior(BossBehavior.Normal);
-                //    }
-
-                //    break;
                 case BossBehavior.Escape:
 
                     if (curHurtTime > 0)
@@ -249,10 +242,6 @@ public class BossController : MonoBehaviour, IDamageable
             Rigidbody2D playerRB = transform.GetComponent<Rigidbody2D>();
             playerRB.bodyType = RigidbodyType2D.Kinematic;
             playerRB.simulated = false;
-            //Rigidbody2D weakspotRB = weakSpot.GetComponent<Rigidbody2D>();
-            //weakspotRB.bodyType = RigidbodyType2D.Kinematic;
-            //weakspotRB.simulated = false;
-            //weakSpot.gameObject.SetActive(false);
 
             curDyimgTime -= Time.deltaTime;
             dyingParticle.SetActive(true);
@@ -281,6 +270,11 @@ public class BossController : MonoBehaviour, IDamageable
         curBehavior = behavior;
         switch (curBehavior)
         {
+            case BossBehavior.TutorialSpawn:
+                break;
+            case BossBehavior.TutorialEscape:
+                curTutorialEscapeTime = tutorialEscapeBossTime;
+                break;
             case BossBehavior.AfterSpawn:
                 SoundManager.Instance.PlayOnShot("BossAlert");
                 SoundManager.Instance.Pause("NormalBGM");
@@ -294,9 +288,6 @@ public class BossController : MonoBehaviour, IDamageable
                 //curDelayWeakSpot = delayWeakSpot;
                 //weakSpot.ResetWeakSpotHP();
                 break;
-            //case BossBehavior.Weakness:
-            //    curWeaknessTime = weaknessTime;
-            //    break;
             case BossBehavior.Escape:
                 StopAllCoroutines();
                 beamCollider.enabled = false;
@@ -313,15 +304,6 @@ public class BossController : MonoBehaviour, IDamageable
     [System.Obsolete]
     public IEnumerator TakeDamage()
     {
-        //if (curBehavior == BossBehavior.Weakness)
-        //{
-        //    hp -= 2;
-        //}
-        //else if (curBehavior == BossBehavior.Normal)
-        //{
-        //    hp--;
-        //}
-
         hp--;
 
         GameManager.Instance.SpawnParticle(GameManager.Instance.slashParticle, transform.position, true);
@@ -367,14 +349,6 @@ public class BossController : MonoBehaviour, IDamageable
         UIManager.Instance.EnterCutScene();
         SoundManager.Instance.PlayOnShot("SmallExplosion");
         curDyimgTime = dyingParticleTime;
-        //GameObject exprosion = GameManager.Instance.exprosionParticle;
-        //GameObject go = GameManager.Instance.SpawnParticle(exprosion, transform.position);
-        //curDeadParticle = go;
-        //if (go.TryGetComponent<ParticleSystem>(out ParticleSystem par))
-        //{
-        //    float duration = par.duration + 1.1f;
-        //    Destroy(gameObject, duration);
-        //}
         PlayerManager.Instance.AddCoin(bossSO.dropCoin);
         GameManager.Instance.isBossClear = true;
         isDead = true;

@@ -190,22 +190,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossSO: {fileID: 11400000, guid: d0dc750e38bfe8849aa5adfd5e882ee5, type: 2}
-  curBehavior: 0
+  curBehavior: 3
   isEnterHalfHP: 0
   isDead: 0
+  tutorialSpawnOffset: {x: 20, y: 1, z: 0}
+  tutorialSpawnSpeed: 1.25
+  tutorialEscapeBossTime: 3
   alertTime: 3
   normalXSpeed: 1.25
   normalYSpeed: 1.75
   normalOffset: {x: 20, y: 1, z: 0}
   attackTypes:
   - type: 0
-    weight: 0
+    weight: 10
   - type: 1
-    weight: 0
+    weight: 25
   - type: 2
-    weight: 0
+    weight: 25
   - type: 3
-    weight: 1
+    weight: 40
   delayProjectile: 2
   spawnProjectilePos: {fileID: 0}
   projectilePrefab: {fileID: 6209023416293685447, guid: 1e484b492fa38f646bd1c31450584e24, type: 3}

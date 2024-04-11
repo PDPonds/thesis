@@ -350,7 +350,11 @@ public class GameManager : MonoBehaviour
             case GameState.BeforeGameStart:
                 curGameTime = gameTime;
 
-                if (!PlayerManager.passTutorial) DialogueManager.Instance.StrartDialog(DialogueManager.Instance.tutorialDialogs);
+                if (!PlayerManager.passTutorial)
+                {
+                    SpawnBoss();
+                    DialogueManager.Instance.StrartDialog(DialogueManager.Instance.tutorialDialogs);
+                }
                 else DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
                 UIManager.Instance.EnableProgressPoint(0);
 
@@ -389,9 +393,22 @@ public class GameManager : MonoBehaviour
                 curBoss.transform.position = bossSpawnPos.position;
                 curBoss.gameObject.SetActive(true);
                 BossController boss = curBoss.GetComponent<BossController>();
-                boss.hp = boss.bossSO.maxHp;
+                //boss.hp = boss.bossSO.maxHp;
                 boss.sparkParticle.SetActive(false);
                 boss.SwitchBehavior(BossBehavior.AfterSpawn);
+
+            }
+        }
+
+        if (state == GameState.BeforeGameStart && !PlayerManager.passTutorial)
+        {
+            if (curBoss == null)
+            {
+                Vector3 pos = bossSpawnPos.position;
+                GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
+                BossController bossCon = bossObj.GetComponent<BossController>();
+                bossCon.SwitchBehavior(BossBehavior.TutorialSpawn);
+                curBoss = bossObj;
             }
         }
     }

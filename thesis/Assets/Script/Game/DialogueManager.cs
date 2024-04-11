@@ -53,11 +53,12 @@ public class DialogueManager : MonoBehaviour
     {
         if (curDialogIndex < dialogs.Length - 1)
         {
+            if (curDialogBox == null) return;
+
             StopAllCoroutines();
             curDialogBox.textBox.text = dialogs[curDialogIndex].sentence;
             curDialogIndex++;
             GenerateDialogBox(curDialogIndex, dialogs);
-
         }
         else
         {
@@ -67,6 +68,16 @@ public class DialogueManager : MonoBehaviour
             switch (GameManager.Instance.state)
             {
                 case GameState.BeforeGameStart:
+                    if (PlayerManager.passTutorial)
+                    {
+                        GameManager.Instance.SwitchState(GameState.Normal);
+                    }
+                    else
+                    {
+                        BossController bossCon = GameManager.Instance.curBoss.GetComponent<BossController>();
+                        bossCon.SwitchBehavior(BossBehavior.TutorialEscape);
+                    }
+                    break;
                 case GameState.AfterSecondBoss:
                 case GameState.AfterFirstBoss:
                     GameManager.Instance.SwitchState(GameState.Normal);
