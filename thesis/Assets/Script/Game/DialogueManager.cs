@@ -11,6 +11,8 @@ public enum DialogOwner
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
+    [Header("===== Tutorial =====")]
+    public Dialog[] tutorialDialogs;
     [Header("===== Before Game Start =====")]
     public Dialog[] dialogs;
     [Header("===== First State Boss =====")]

@@ -349,8 +349,11 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.BeforeGameStart:
                 curGameTime = gameTime;
-                DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
+
+                if (!PlayerManager.passTutorial) DialogueManager.Instance.StrartDialog(DialogueManager.Instance.tutorialDialogs);
+                else DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
                 UIManager.Instance.EnableProgressPoint(0);
+
                 lastState = GameState.BeforeGameStart;
                 break;
             case GameState.BeforeFirstBoss:
