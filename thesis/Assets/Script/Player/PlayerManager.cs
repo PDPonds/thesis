@@ -78,6 +78,9 @@ public class PlayerManager : MonoBehaviour
     public Vector2 runningColPos;
     public Vector2 slideCol;
     public Vector2 slideColPos;
+    [HideInInspector] public bool isSlideButtonDown;
+    [HideInInspector] public bool hasGroundOnHead;
+    public float checkHeadRange;
     [Space(5f)]
 
     [Header("- Attack")]
@@ -310,6 +313,10 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
+        if (currentState != slide) hasGroundOnHead = false;
+
+
+
     }
 
     private void FixedUpdate()
@@ -347,15 +354,35 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.AfterFirstBoss &&
             GameManager.Instance.state != GameState.AfterSecondBoss)
         {
-            if (onGrounded)
+            if (currentState != slide)
             {
-                Jump(jumpForce);
-            }
-            else if (!onGrounded)
-            {
-                if (jumpCount > 0)
+                if (onGrounded)
                 {
-                    Jump(jumpForce/* * 0.75f*/);
+                    Jump(jumpForce);
+                }
+                else if (!onGrounded)
+                {
+                    if (jumpCount > 0)
+                    {
+                        Jump(jumpForce);
+                    }
+                }
+            }
+            else
+            {
+                if (!hasGroundOnHead)
+                {
+                    if (onGrounded)
+                    {
+                        Jump(jumpForce);
+                    }
+                    else if (!onGrounded)
+                    {
+                        if (jumpCount > 0)
+                        {
+                            Jump(jumpForce);
+                        }
+                    }
                 }
             }
         }
@@ -402,6 +429,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (currentState == dash) SwitchState(running);
+        if (currentState == slide) SwitchState(running);
 
         GameManager.Instance.AddMomentum(MomentumAction.Jump, GameManager.Instance.jumpMulSpeed);
 
@@ -446,13 +474,14 @@ public class PlayerManager : MonoBehaviour
 
     public void SlidePerformed()
     {
-        if (currentState != slide && currentState != revive
-            && GameManager.Instance.state != GameState.BeforeGameStart &&
+        if (currentState != revive &&
+            GameManager.Instance.state != GameState.BeforeGameStart &&
             GameManager.Instance.state != GameState.BeforeFirstBoss &&
             GameManager.Instance.state != GameState.BeforeSecondBoss &&
             GameManager.Instance.state != GameState.AfterFirstBoss &&
             GameManager.Instance.state != GameState.AfterSecondBoss)
         {
+            isSlideButtonDown = true;
             attackCol.enabled = false;
             onSlide?.Invoke();
             GameManager.Instance.AddMomentum(MomentumAction.Slide, GameManager.Instance.slideMulSpeed);
@@ -462,10 +491,10 @@ public class PlayerManager : MonoBehaviour
 
     public void SliderCancle()
     {
-        if (currentState == slide)
-        {
-            SwitchState(running);
-        }
+        //if (currentState == slide)
+        //{
+        isSlideButtonDown = false;
+        //}
     }
 
     public void SwitchState(BaseState state)

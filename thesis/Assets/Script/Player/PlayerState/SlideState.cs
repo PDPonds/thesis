@@ -24,16 +24,19 @@ public class SlideState : BaseState
 
     public override void FixedUpdateState(GameObject go)
     {
-        
+
     }
 
     public override void UpdateState(GameObject go)
     {
-        //currentSlideTime -= Time.deltaTime;
-        //if (currentSlideTime < 0)
-        //{
-        //    PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
-        //}
+        PlayerManager.Instance.hasGroundOnHead = Physics2D.Raycast(PlayerManager.Instance.transform.position,
+            PlayerManager.Instance.transform.up, PlayerManager.Instance.checkHeadRange);
+
+        if (!PlayerManager.Instance.isSlideButtonDown && !PlayerManager.Instance.hasGroundOnHead)
+        {
+            PlayerManager.Instance.isSlideButtonDown = false;
+            PlayerManager.Instance.SwitchState(PlayerManager.Instance.running);
+        }
     }
 
 }
