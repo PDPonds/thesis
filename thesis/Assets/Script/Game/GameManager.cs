@@ -386,6 +386,9 @@ public class GameManager : MonoBehaviour
             {
                 Vector3 pos = bossSpawnPos.position;
                 GameObject bossObj = Instantiate(boss, pos, Quaternion.identity);
+                BossController bossCon = bossObj.GetComponent<BossController>();
+                bossCon.hp = bossCon.bossSO.maxHp;
+                bossCon.SwitchBehavior(BossBehavior.AfterSpawn);
                 curBoss = bossObj;
             }
             else if (curBoss != null && !isBossClear && !curBoss.activeSelf)

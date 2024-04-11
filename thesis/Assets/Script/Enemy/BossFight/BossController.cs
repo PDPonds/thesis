@@ -310,7 +310,6 @@ public class BossController : MonoBehaviour, IDamageable
         GameObject hitPar = GameManager.Instance.hitParticle;
         GameManager.Instance.SpawnParticle(hitPar, transform.position);
 
-        anim.Play("Hurt");
         float time = GameManager.Instance.shakeDuration;
         float mag = GameManager.Instance.shakeMagnitude;
         StartCoroutine(GameManager.Instance.SceneShake(time, mag));
@@ -367,6 +366,11 @@ public class BossController : MonoBehaviour, IDamageable
 
     IEnumerator SpawnMissile()
     {
+        anim.Play("Missile Power Start");
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
         int fireCount = 0;
         while (fireCount < missliePerMax)
         {
@@ -375,12 +379,18 @@ public class BossController : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(missileDelayPerCount);
         }
         yield return null;
+        anim.Play("Missile Power End");
         curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
     IEnumerator FireLasser()
     {
+        anim.Play("Gatling Start");
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
         int fireCount = 0;
         while (fireCount < countPerMax)
         {
@@ -389,6 +399,7 @@ public class BossController : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(delayPerCount);
         }
         yield return null;
+        anim.Play("Gatling End");
         curProjectileDelay = delayProjectile;
         isFire = false;
     }
@@ -438,6 +449,11 @@ public class BossController : MonoBehaviour, IDamageable
 
     IEnumerator FireBomb()
     {
+        anim.Play("Bouncing Ball Start");
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
         int fireCount = 0;
         while (fireCount < bombCountPerMax)
         {
@@ -446,6 +462,7 @@ public class BossController : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(bombDelayPerCount);
         }
         yield return null;
+        anim.Play("Bouncing Ball End");
         curProjectileDelay = delayProjectile;
         isFire = false;
     }
@@ -466,6 +483,11 @@ public class BossController : MonoBehaviour, IDamageable
 
     public IEnumerator SpawnBeam()
     {
+        anim.Play("Particle Cannon Start");
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
         beam.SetActive(true);
         beamCollider.enabled = false;
         yield return new WaitForSecondsRealtime(delayBeam);
@@ -474,6 +496,7 @@ public class BossController : MonoBehaviour, IDamageable
         float mag = GameManager.Instance.shakeMagnitude;
         //GameManager.Instance.SceneShake(beamTime, mag);
         yield return StartCoroutine(GameManager.Instance.SceneShake(beamTime, mag));
+        anim.Play("Particle Cannon End");
         beamCollider.enabled = false;
         beam.SetActive(false);
         curProjectileDelay = delayProjectile;
