@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     [Header("===== HP =====")]
     [SerializeField] GameObject hpBorder;
     [SerializeField] Image hpFill;
+    [Header("===== Time =====")]
+    [SerializeField] TextMeshProUGUI timeText;
     [Header("===== Fade =====")]
     [SerializeField] CanvasGroup fadeCanvas;
     [Header("===== Dash =====")]
@@ -51,6 +53,8 @@ public class UIManager : MonoBehaviour
     public GameObject cutscenePanel;
     public GameObject top;
     public GameObject down;
+    [Header("===== Progress Bar =====")]
+    public GameObject[] progressPoint;
 
     private void OnDisable()
     {
@@ -83,6 +87,8 @@ public class UIManager : MonoBehaviour
 
         float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
         hpFill.fillAmount = hpPercent;
+
+        timeText.text = GameManager.Instance.curGameTime.ToString("N2");
 
         if (deadScene.gameObject.activeSelf)
         {
@@ -201,6 +207,7 @@ public class UIManager : MonoBehaviour
 
         SoundManager.Instance.PlayOnShot("Button");
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
+        SaveSystem.Save();
         LeanTween.alphaCanvas(fadeCanvas, 1, .3f)
              .setEase(LeanTweenType.easeInOutCubic)
              .setOnComplete(() => SceneManager.LoadScene(0));
@@ -248,6 +255,20 @@ public class UIManager : MonoBehaviour
 
         InputSystemMnanger input = PlayerManager.Instance.transform.GetComponent<InputSystemMnanger>();
         input.enabled = true;
+    }
+
+    void DisableAllProgressPoint()
+    {
+        foreach (GameObject g in progressPoint)
+        {
+            g.SetActive(false);
+        }
+    }
+
+    public void EnableProgressPoint(int Phase)
+    {
+        DisableAllProgressPoint();
+        progressPoint[Phase].gameObject.SetActive(true);
     }
 
 }

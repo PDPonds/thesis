@@ -20,6 +20,7 @@ public class ReviveState : BaseState
         PlayerManager.Instance.anim.SetBool("isDead", false);
         PlayerManager.Instance.noDamage = true;
         PlayerManager.reviveItemCount--;
+        SaveSystem.Save();
         curReviveTime = PlayerManager.Instance.reviveTime;
     }
 

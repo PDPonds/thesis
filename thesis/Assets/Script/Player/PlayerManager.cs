@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
 
+    public static bool passTutorial;
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
     public static int reviveItemCount = 50;
@@ -317,6 +318,7 @@ public class PlayerManager : MonoBehaviour
 
     }
 
+
     public void DashPerformed()
     {
         if (canDash && !isDead && currentState != revive &&
@@ -487,7 +489,7 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.BeforeFirstBoss &&
             GameManager.Instance.state != GameState.BeforeSecondBoss &&
             GameManager.Instance.state != GameState.AfterFirstBoss &&
-            GameManager.Instance.state != GameState.AfterSecondBoss) 
+            GameManager.Instance.state != GameState.AfterSecondBoss)
         {
             //if (currentState == slide)
             //{

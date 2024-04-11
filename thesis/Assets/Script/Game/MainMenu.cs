@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-
+        SaveSystem.Load();
     }
 
     private void Start()
@@ -100,7 +100,7 @@ public class MainMenu : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 CloseShop();
-               
+
             }
         }
 
@@ -122,6 +122,7 @@ public class MainMenu : MonoBehaviour
             SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.coin -= upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel];
             PlayerManager.upgradeMaxHpLevel++;
+            SaveSystem.Save();
             UpdateMaxHPInfo();
         }
     }
@@ -134,6 +135,7 @@ public class MainMenu : MonoBehaviour
             SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.coin -= upgardeStealHpCostPerLevel[PlayerManager.upgradeStealHpLevel];
             PlayerManager.upgradeStealHpLevel++;
+            SaveSystem.Save();
             UpdateStealHPInfo();
 
         }
@@ -146,6 +148,7 @@ public class MainMenu : MonoBehaviour
             SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.coin -= reviveCost;
             PlayerManager.reviveItemCount++;
+            SaveSystem.Save();
             UpdateReviveItem();
         }
     }
@@ -272,6 +275,7 @@ public class MainMenu : MonoBehaviour
     void ExitGame()
     {
         SoundManager.Instance.PlayOnShot("Button");
+        SaveSystem.Save();
         Application.Quit();
     }
 
