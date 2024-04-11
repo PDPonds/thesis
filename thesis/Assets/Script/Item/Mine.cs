@@ -30,7 +30,7 @@ public class Mine : MonoBehaviour
             {
                 //Play Explosive Sound
                 GameObject mineParticle = GameManager.Instance.mineExplosion;
-                GameManager.Instance.SpawnParticle(mineParticle, transform.position);
+                GameManager.Instance.SpawnParticle(mineParticle, transform.position, new Vector3(-90, 0, 0));
 
                 Collider2D[] player = Physics2D.OverlapCircleAll(transform.position, damageRange, playerMask);
                 if (player.Length > 0)

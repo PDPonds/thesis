@@ -250,6 +250,11 @@ public class GameManager : MonoBehaviour
         newParticle.transform.SetParent(parent);
     }
 
+    public GameObject SpawnParticle(GameObject particle, Vector3 pos, Vector3 rot)
+    {
+        GameObject particleObj = Instantiate(particle, pos, Quaternion.Euler(rot));
+        return particleObj;
+    }
 
     public void SpawnParticle(GameObject particle, Vector3 pos, bool randomRot, Vector3 scale)
     {
