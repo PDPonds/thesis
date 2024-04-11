@@ -325,7 +325,6 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-
     public void DashPerformed()
     {
         if (canDash && !isDead && currentState != revive &&
@@ -334,10 +333,22 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.BeforeFirstBoss &&
             GameManager.Instance.state != GameState.BeforeSecondBoss &&
             GameManager.Instance.state != GameState.AfterFirstBoss &&
-            GameManager.Instance.state != GameState.AfterSecondBoss)
+            GameManager.Instance.state != GameState.AfterSecondBoss &&
+            !TutorialManager.instance.isTutorialPause)
         {
             SwitchState(dash);
             GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
+        }
+
+        bool Mine = !passTutorial && TutorialManager.instance.isTutorialPause &&
+          TutorialManager.instance.IsTutorial(TutorialState.Mine);
+
+        bool Dash = !passTutorial && TutorialManager.instance.isTutorialPause &&
+            TutorialManager.instance.IsTutorial(TutorialState.Dash);
+
+        if (Mine || Dash)
+        {
+            TutorialManager.instance.NextTutorial();
         }
     }
 
@@ -352,7 +363,8 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.BeforeFirstBoss &&
             GameManager.Instance.state != GameState.BeforeSecondBoss &&
             GameManager.Instance.state != GameState.AfterFirstBoss &&
-            GameManager.Instance.state != GameState.AfterSecondBoss)
+            GameManager.Instance.state != GameState.AfterSecondBoss &&
+            !TutorialManager.instance.isTutorialPause)
         {
             if (currentState != slide)
             {
@@ -410,6 +422,14 @@ public class PlayerManager : MonoBehaviour
         {
             DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterSecondBossDialogs);
         }
+
+        bool inTu = !passTutorial && TutorialManager.instance.isTutorialPause;
+
+        if (inTu)
+        {
+            TutorialManager.instance.NextTutorial();
+        }
+
     }
 
     public void Jump(float force)
@@ -479,13 +499,20 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.BeforeFirstBoss &&
             GameManager.Instance.state != GameState.BeforeSecondBoss &&
             GameManager.Instance.state != GameState.AfterFirstBoss &&
-            GameManager.Instance.state != GameState.AfterSecondBoss)
+            GameManager.Instance.state != GameState.AfterSecondBoss &&
+            !TutorialManager.instance.isTutorialPause)
         {
             isSlideButtonDown = true;
             attackCol.enabled = false;
             onSlide?.Invoke();
             GameManager.Instance.AddMomentum(MomentumAction.Slide, GameManager.Instance.slideMulSpeed);
             SwitchState(slide);
+        }
+
+        if (!passTutorial && TutorialManager.instance.isTutorialPause &&
+            TutorialManager.instance.IsTutorial(TutorialState.Slide))
+        {
+            TutorialManager.instance.NextTutorial();
         }
     }
 
@@ -518,14 +545,9 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.BeforeFirstBoss &&
             GameManager.Instance.state != GameState.BeforeSecondBoss &&
             GameManager.Instance.state != GameState.AfterFirstBoss &&
-            GameManager.Instance.state != GameState.AfterSecondBoss)
+            GameManager.Instance.state != GameState.AfterSecondBoss &&
+            !TutorialManager.instance.isTutorialPause)
         {
-            //if (currentState == slide)
-            //{
-            //    anim.Play("SlideAttack");
-            //}
-            //else
-            //{
             if (currentState == slide)
             {
                 anim.Play("SlideAttack");
@@ -555,6 +577,26 @@ public class PlayerManager : MonoBehaviour
             onAttack?.Invoke();
             canAttack = false;
         }
+
+        bool Attack = !passTutorial && TutorialManager.instance.isTutorialPause &&
+            TutorialManager.instance.IsTutorial(TutorialState.Attack);
+
+        bool Counter = !passTutorial && TutorialManager.instance.isTutorialPause &&
+         TutorialManager.instance.IsTutorial(TutorialState.Counter);
+
+        bool Shuriken = !passTutorial && TutorialManager.instance.isTutorialPause &&
+           TutorialManager.instance.IsTutorial(TutorialState.Shuriken);
+
+        bool Smoke = !passTutorial && TutorialManager.instance.isTutorialPause &&
+          TutorialManager.instance.IsTutorial(TutorialState.Smoke);
+
+
+
+        if (Attack || Shuriken || Smoke || Counter)
+        {
+            TutorialManager.instance.NextTutorial();
+        }
+
     }
 
     public IEnumerator TakeDamage(float damage)

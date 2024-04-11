@@ -66,7 +66,7 @@ public class PauseManager : MonoBehaviour
         return isPause;
     }
 
-    void ToggleEnableScript(bool enable)
+    public void ToggleEnableScript(bool enable)
     {
         PlayerManager.Instance.enabled = enable;
         CenterMove.instance.enabled = enable;
