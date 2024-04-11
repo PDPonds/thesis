@@ -142,8 +142,9 @@ public class GameManager : MonoBehaviour
 
     void DecreaseTime()
     {
-        if (state == GameState.Normal ||
-            state == GameState.BossFight)
+        bool inState = state == GameState.Normal || state == GameState.BossFight;
+        bool noTutorial = PlayerManager.passTutorial;
+        if (inState && noTutorial)
         {
             curGameTime -= Time.deltaTime;
             if (curGameTime < 0)
