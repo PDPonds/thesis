@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     public Map tutorailMap;
     public Map[] normalMap;
 
-    Map curMap;
+    [HideInInspector] public Map curMap;
 
     public Transform DestroyGroundAndEnemy;
     public float xOffset;
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
     {
         bool inState = state == GameState.Normal || state == GameState.BossFight;
         bool noTutorial = PlayerManager.passTutorial;
-        if (inState && noTutorial)
+        if (inState && noTutorial && !PauseManager.Instance.IsPauseState())
         {
             curGameTime -= Time.deltaTime;
             if (curGameTime < 0)
@@ -281,7 +281,7 @@ public class GameManager : MonoBehaviour
         GameObject floor = new GameObject();
         if (state == GameState.Normal)
         {
-            if (curFloorIndex == curMap.floors.Count) curFloorIndex = 0;
+            if (curFloorIndex >= curMap.floors.Count) curFloorIndex = 0;
             floor = curMap.floors[curFloorIndex];
             curFloorIndex++;
         }

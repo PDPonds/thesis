@@ -202,7 +202,7 @@ public class UIManager : MonoBehaviour
 
     void ReturnToLobby()
     {
-        if (PauseManager.Instance.GetPauseState())
+        if (PauseManager.Instance.IsPauseState())
             Time.timeScale = 1f;
 
         SoundManager.Instance.PlayOnShot("Button");

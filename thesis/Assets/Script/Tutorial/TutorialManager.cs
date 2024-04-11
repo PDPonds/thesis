@@ -128,6 +128,7 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.Mine:
                 PlayerManager.passTutorial = true;
                 SaveSystem.Save();
+                GameManager.Instance.curMap = GameManager.Instance.normalMap[Random.Range(0, GameManager.Instance.normalMap.Length)];
                 break;
         }
 

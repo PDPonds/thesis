@@ -61,7 +61,7 @@ public class PauseManager : MonoBehaviour
         }
     }
 
-    public bool GetPauseState()
+    public bool IsPauseState()
     {
         return isPause;
     }
