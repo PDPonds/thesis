@@ -15,7 +15,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject upgradeUI;
     [SerializeField] Button closeButton;
     [SerializeField] CanvasGroup fadeCanvas;
-
+    [Header("========== Setting")]
+    [SerializeField] Button settingBut;
+    [SerializeField] Button closeSettingBut;
+    [SerializeField] GameObject setting;
+    [SerializeField] GameObject settingBorder;
     [Header("========== ShopUI")]
     [Header("- GameObject")]
     [SerializeField] GameObject shopBorder;
@@ -56,6 +60,9 @@ public class MainMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(startButton.gameObject);
         startButton.onClick.AddListener(() => StartGame());
+
+        settingBut.onClick.AddListener(ShowSetting);
+        closeSettingBut.onClick.AddListener(() => CloseSetting());
     }
 
     private void Awake()
@@ -114,6 +121,21 @@ public class MainMenu : MonoBehaviour
     }
 
     #region Function
+
+    void ShowSetting()
+    {
+        setting.SetActive(true);
+        LeanTween.scale(settingBorder.GetComponent<RectTransform>(), Vector2.one, .3f)
+            .setEaseInOutCubic();
+    }
+
+    void CloseSetting()
+    {
+        LeanTween.scale(settingBorder.GetComponent<RectTransform>(), Vector2.zero, .3f)
+            .setEaseInOutCubic()
+            .setOnComplete(() => setting.SetActive(false));
+    }
+
     void UpgradeMaxHpBut()
     {
         if (PlayerManager.coin >= upgardeMaxHpCostPerLevel[PlayerManager.upgradeMaxHpLevel] &&
