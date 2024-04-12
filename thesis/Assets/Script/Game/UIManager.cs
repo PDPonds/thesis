@@ -44,7 +44,10 @@ public class UIManager : MonoBehaviour
     [Header("===== Pause =====")]
     public GameObject pausePanel;
     public Button resumeBut;
+    public Button settingBut;
+    public GameObject settingBorder;
     public Button goBackToMenuBut;
+
     [Header("===== Boss =====")]
     public GameObject bossHPBar;
     public Image bossHPFill;
@@ -78,6 +81,7 @@ public class UIManager : MonoBehaviour
         returnTolobbyButton.onClick.AddListener(() => ReturnToLobby());
         goBackToMenuBut.onClick.AddListener(() => ReturnToLobby());
         resumeBut.onClick.AddListener(() => PauseManager.Instance.TogglePause());
+        settingBut.onClick.AddListener(ToggleSettingBorder);
     }
 
     private void Update()
@@ -178,7 +182,7 @@ public class UIManager : MonoBehaviour
     public void ReviveBut()
     {
         if (PlayerManager.reviveItemCount > 0 &&
-                PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame 
+                PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame
                 && curReviveTime < reviveTime)
         {
             SoundManager.Instance.PlayOnShot("Button");
@@ -269,6 +273,25 @@ public class UIManager : MonoBehaviour
     {
         DisableAllProgressPoint();
         progressPoint[Phase].gameObject.SetActive(true);
+    }
+
+    void ToggleSettingBorder()
+    {
+
+        if (settingBorder.transform.localScale.y == 0)
+        {
+            settingBorder.SetActive(true);
+            LeanTween.scaleY(settingBorder.gameObject, 1, 0.5f).setEaseInOutCubic();
+            LeanTween.move(goBackToMenuBut.GetComponent<RectTransform>(),
+                new Vector3(0, -400, 0), 0.5f).setEaseInOutCubic();
+        }
+        else if (settingBorder.transform.localScale.y > 0)
+        {
+            LeanTween.scaleY(settingBorder.gameObject, 0, 0.5f).setEaseInOutCubic();
+            LeanTween.move(goBackToMenuBut.GetComponent<RectTransform>(),
+                new Vector3(0, -100, 0), 0.5f).setEaseInOutCubic()
+                .setOnComplete(() => settingBorder.SetActive(false));
+        }
     }
 
 }
