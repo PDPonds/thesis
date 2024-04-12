@@ -33,8 +33,17 @@ public class PauseManager : MonoBehaviour
                 UIManager.Instance.pausePanel.SetActive(true);
                 GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
                 GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
+                GameObject setting = UIManager.Instance.settingBut.gameObject;
+                GameObject settingBorder = UIManager.Instance.settingBorder;
                 LeanTween.scale(resumeBut, new Vector3(1, 1, 1), 0.3f)
                     .setEase(LeanTweenType.easeInOutCubic);
+                LeanTween.scale(setting, Vector3.one, 0.3f)
+                    .setEase(LeanTweenType.easeInOutCubic);
+                if (UIManager.Instance.settingBorder.activeSelf)
+                {
+                    LeanTween.scale(settingBorder, Vector3.one, 0.3f)
+                    .setEase(LeanTweenType.easeInOutCubic);
+                }
                 LeanTween.scale(quitBut, new Vector3(1, 1, 1), 0.3f)
                    .setEase(LeanTweenType.easeInOutCubic);
                 ToggleEnableScript(false);
@@ -49,8 +58,20 @@ public class PauseManager : MonoBehaviour
 
                 GameObject resumeBut = UIManager.Instance.resumeBut.gameObject;
                 GameObject quitBut = UIManager.Instance.goBackToMenuBut.gameObject;
+                GameObject setting = UIManager.Instance.settingBut.gameObject;
+                GameObject settingBorder = UIManager.Instance.settingBorder;
+
                 LeanTween.scale(resumeBut, new Vector3(0, 0, 0), 0.3f)
            .setEase(LeanTweenType.easeInOutCubic);
+                LeanTween.scale(setting, Vector3.zero, 0.3f)
+                    .setEase(LeanTweenType.easeInOutCubic);
+
+                if (UIManager.Instance.settingBorder.activeSelf)
+                {
+                    LeanTween.scale(settingBorder, Vector3.zero, 0.3f)
+                    .setEase(LeanTweenType.easeInOutCubic);
+                }
+
                 LeanTween.scale(quitBut, new Vector3(0, 0, 0), 0.3f)
                    .setEase(LeanTweenType.easeInOutCubic)
                    .setOnComplete(SetPauseActiveFalse);
