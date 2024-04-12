@@ -80,6 +80,12 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float delayBeam;
     [SerializeField] float beamTime;
 
+    [Header("- Attack Animation")]
+    [SerializeField] float missileAnimation;
+    [SerializeField] float lasserAnimation;
+    [SerializeField] float bombAnimation;
+    [SerializeField] float beamAnimation;
+
     [Header("===== Escape Behavior =====")]
     [SerializeField] float hurtTime;
     float curHurtTime;
@@ -367,10 +373,7 @@ public class BossController : MonoBehaviour, IDamageable
     IEnumerator SpawnMissile()
     {
         anim.Play("Missile Power Start");
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(missileAnimation);
         int fireCount = 0;
         while (fireCount < missliePerMax)
         {
@@ -387,10 +390,7 @@ public class BossController : MonoBehaviour, IDamageable
     IEnumerator FireLasser()
     {
         anim.Play("Gatling Start");
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(lasserAnimation);
         int fireCount = 0;
         while (fireCount < countPerMax)
         {
@@ -450,10 +450,8 @@ public class BossController : MonoBehaviour, IDamageable
     IEnumerator FireBomb()
     {
         anim.Play("Bouncing Ball Start");
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(bombAnimation);
+
         int fireCount = 0;
         while (fireCount < bombCountPerMax)
         {
@@ -484,10 +482,8 @@ public class BossController : MonoBehaviour, IDamageable
     public IEnumerator SpawnBeam()
     {
         anim.Play("Particle Cannon Start");
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(beamAnimation);
+
         beam.SetActive(true);
         beamCollider.enabled = false;
         yield return new WaitForSecondsRealtime(delayBeam);
