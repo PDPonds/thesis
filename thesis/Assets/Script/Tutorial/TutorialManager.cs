@@ -16,7 +16,6 @@ public class TutorialManager : MonoBehaviour
     public TutorialState tutorialState;
 
     [SerializeField] GameObject tutorailInfo;
-    [SerializeField] Image tutorialImage;
     [SerializeField] TextMeshProUGUI tutorialText;
 
     [HideInInspector]
@@ -24,28 +23,20 @@ public class TutorialManager : MonoBehaviour
 
     [Header("===== Info =====")]
     [Header("- Jump")]
-    [SerializeField] Sprite JumpSprite;
     [SerializeField] string JumpText;
     [Header("- Slide")]
-    [SerializeField] Sprite SlideSprite;
     [SerializeField] string SlideText;
     [Header("- Dash")]
-    [SerializeField] Sprite DashSprite;
     [SerializeField] string DashText;
     [Header("- Attack")]
-    [SerializeField] Sprite AttackSprite;
     [SerializeField] string AttackText;
     [Header("- Counter")]
-    [SerializeField] Sprite CounterSprite;
     [SerializeField] string CounterText;
     [Header("- Shuriken")]
-    [SerializeField] Sprite ShurikenSprite;
     [SerializeField] string ShurikenText;
     [Header("- Smoke")]
-    [SerializeField] Sprite SmokeSprite;
     [SerializeField] string SmokeText;
     [Header("- Mine")]
-    [SerializeField] Sprite MineSprite;
     [SerializeField] string MineText;
 
     private void Awake()
@@ -60,44 +51,34 @@ public class TutorialManager : MonoBehaviour
         switch (tutorialState)
         {
             case TutorialState.Jump:
-                tutorialImage.sprite = JumpSprite;
                 tutorialText.text = JumpText;
                 break;
             case TutorialState.Slide:
-                tutorialImage.sprite = SlideSprite;
                 tutorialText.text = SlideText;
                 break;
             case TutorialState.Dash:
-                tutorialImage.sprite = DashSprite;
                 tutorialText.text = DashText;
                 break;
             case TutorialState.Attack:
-                tutorialImage.sprite = AttackSprite;
                 tutorialText.text = AttackText;
                 break;
             case TutorialState.Counter:
-                tutorialImage.sprite = CounterSprite;
                 tutorialText.text = CounterText;
                 break;
             case TutorialState.Shuriken:
-                tutorialImage.sprite = ShurikenSprite;
                 tutorialText.text = ShurikenText;
                 break;
             case TutorialState.Smoke:
-                tutorialImage.sprite = SmokeSprite;
                 tutorialText.text = SmokeText;
                 break;
             case TutorialState.Mine:
-                tutorialImage.sprite = MineSprite;
                 tutorialText.text = MineText;
                 break;
         }
 
-        LeanTween.scale(tutorialImage.gameObject, Vector3.one, 0.5f)
-            .setEaseInOutCubic();
-
-        PauseManager.Instance.ToggleEnableScript(false);
+        Time.timeScale = 0.5f;
         isTutorialPause = true;
+
     }
 
     public void NextTutorial()
@@ -132,10 +113,10 @@ public class TutorialManager : MonoBehaviour
                 break;
         }
 
-        LeanTween.scale(tutorialImage.gameObject, Vector3.zero, 0.5f)
-            .setEaseInOutCubic().setOnComplete(() => tutorailInfo.SetActive(false));
+        tutorailInfo.SetActive(false);
 
-        PauseManager.Instance.ToggleEnableScript(true);
+        //PauseManager.Instance.ToggleEnableScript(true);
+        Time.timeScale = 1f;
         isTutorialPause = false;
 
     }
@@ -143,11 +124,6 @@ public class TutorialManager : MonoBehaviour
     public bool IsTutorial(TutorialState state)
     {
         return tutorialState == state;
-    }
-
-    public bool CheckCanSkip()
-    {
-        return tutorialImage.transform.localScale == Vector3.one;
     }
 
 }
