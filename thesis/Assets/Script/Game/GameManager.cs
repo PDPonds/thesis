@@ -352,8 +352,7 @@ public class GameManager : MonoBehaviour
 
                 if (!PlayerManager.passTutorial)
                 {
-                    SpawnBoss();
-                    DialogueManager.Instance.StrartDialog(DialogueManager.Instance.tutorialDialogs);
+                    DialogueManager.Instance.StrartDialog(DialogueManager.Instance.beforeBossTutorialDialogs);
                 }
                 else DialogueManager.Instance.StrartDialog(DialogueManager.Instance.dialogs);
                 UIManager.Instance.EnableProgressPoint(0);

@@ -402,7 +402,22 @@ public class PlayerManager : MonoBehaviour
         }
         else if (GameManager.Instance.state == GameState.BeforeGameStart)
         {
-            DialogueManager.Instance.NextDialog(DialogueManager.Instance.dialogs);
+            if (passTutorial)
+            {
+                DialogueManager.Instance.NextDialog(DialogueManager.Instance.dialogs);
+            }
+            else
+            {
+                if (!DialogueManager.Instance.bossIsSpawn)
+                {
+
+                    DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeBossTutorialDialogs);
+                }
+                else
+                {
+                    DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterBossTutorialDialogs);
+                }
+            }
         }
         else if (GameManager.Instance.state == GameState.BeforeFirstBoss)
         {
@@ -686,20 +701,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (gadgetSlot.gadget != null)
         {
-            //if (gadgetSlot.gadget is ProjectileGadget projectileGadget)
-            //{
-            //    GameObject projectileObj = Instantiate(projectileGadget.projectilePrefab,
-            //        shurikenSpawnPoint.position, Quaternion.identity);
-
-            //    Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
-            //    rb.AddForce(Vector2.right * projectileGadget.bulletSpeed, ForceMode2D.Impulse);
-
-            //    RemoveGadget(1);
-
-            //    SoundManager.Instance.PlayOnShot("ShurikenThrow");
-
-            //}
-
             if (noDamage)
             {
                 curNoDamageTime = noDamageTime;

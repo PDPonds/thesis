@@ -25,7 +25,6 @@ public class UIManager : MonoBehaviour
 
     [Header("===== Dead Scene =====")]
     public Transform deadScene;
-    public TextMeshProUGUI scoreOnDeadScene;
     public TextMeshProUGUI coinText;
     public GameObject reviveButton;
     public Image reviveFill;
@@ -194,7 +193,6 @@ public class UIManager : MonoBehaviour
     {
         deadScene.gameObject.SetActive(true);
 
-        LeanTween.scale(scoreOnDeadScene.gameObject, new Vector3(1, 1, 1), 0.3f);
         LeanTween.scale(coinParent, new Vector3(1, 1, 1), 0.3f);
         LeanTween.scale(reviveInfoText, new Vector3(1, 1, 1), 1.25f).setLoopClamp();
         coinInGameText.gameObject.SetActive(false);

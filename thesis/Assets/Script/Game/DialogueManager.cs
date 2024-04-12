@@ -12,7 +12,8 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
     [Header("===== Tutorial =====")]
-    public Dialog[] tutorialDialogs;
+    public Dialog[] beforeBossTutorialDialogs;
+    public Dialog[] afterBossTutorialDialogs;
     [Header("===== Before Game Start =====")]
     public Dialog[] dialogs;
     [Header("===== First State Boss =====")]
@@ -36,6 +37,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject velonicaDialogBox;
     public GameObject operatorDialogBox;
 
+    [HideInInspector] public bool bossIsSpawn;
 
     private void Awake()
     {
@@ -74,8 +76,17 @@ public class DialogueManager : MonoBehaviour
                     }
                     else
                     {
-                        BossController bossCon = GameManager.Instance.curBoss.GetComponent<BossController>();
-                        bossCon.SwitchBehavior(BossBehavior.TutorialEscape);
+                        if (!bossIsSpawn)
+                        {
+                            GameManager.Instance.SpawnBoss();
+                            bossIsSpawn = true;
+                            StrartDialog(afterBossTutorialDialogs);
+                        }
+                        else
+                        {
+                            BossController bossCon = GameManager.Instance.curBoss.GetComponent<BossController>();
+                            bossCon.SwitchBehavior(BossBehavior.TutorialEscape);
+                        }
                     }
                     break;
                 case GameState.AfterSecondBoss:
