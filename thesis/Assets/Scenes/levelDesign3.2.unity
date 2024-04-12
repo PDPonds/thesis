@@ -10940,13 +10940,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af4832db8043947ad6ab4efbcb268f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialDialogs:
-  - sentence: Tutorial Player
+  beforeBossTutorialDialogs:
+  - sentence: Boss No Spawn Player
     owner: 0
-  - sentence: Tutorial Velonica
-    owner: 1
-  - sentence: Tutorial Operator
+  - sentence: Boss No Spawn Operator
     owner: 2
+  afterBossTutorialDialogs:
+  - sentence: Boss Spawn Aready Player
+    owner: 0
+  - sentence: Boss Spawn Aready Velonica
+    owner: 1
   dialogs:
   - sentence: Test Test Test Test Test Operator
     owner: 0
@@ -10989,6 +10992,7 @@ MonoBehaviour:
   playerDialogBox: {fileID: 5732619916753027785, guid: 03c7031543449874e8d994e0faac5cf8, type: 3}
   velonicaDialogBox: {fileID: 6714551035992466243, guid: 816eb24fa2a941f439de4722fdfa10d1, type: 3}
   operatorDialogBox: {fileID: 1382966539591836299, guid: 3dd0ffcb4ec68b74aa91f1ce426af911, type: 3}
+  bossIsSpawn: 0
 --- !u!114 &1638945993
 MonoBehaviour:
   m_ObjectHideFlags: 0
