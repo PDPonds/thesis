@@ -178,7 +178,8 @@ public class UIManager : MonoBehaviour
     public void ReviveBut()
     {
         if (PlayerManager.reviveItemCount > 0 &&
-                PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame)
+                PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame 
+                && curReviveTime < reviveTime)
         {
             SoundManager.Instance.PlayOnShot("Button");
             PlayerManager.Instance.SwitchState(PlayerManager.Instance.revive);
@@ -192,6 +193,7 @@ public class UIManager : MonoBehaviour
     void EnableDeadScene()
     {
         deadScene.gameObject.SetActive(true);
+
 
         LeanTween.scale(coinParent, new Vector3(1, 1, 1), 0.3f);
         LeanTween.scale(reviveInfoText, new Vector3(1, 1, 1), 1.25f).setLoopClamp();
