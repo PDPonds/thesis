@@ -99,16 +99,12 @@ public class UIManager : MonoBehaviour
             if (PlayerManager.reviveItemCount > 0 &&
                 PlayerManager.Instance.curReviveCount < GameManager.Instance.maxRevivePerGame)
             {
-                //reviveButton.gameObject.SetActive(true);
-                //returnTolobbyButton.gameObject.SetActive(false);
 
                 if (curReviveTime >= reviveTime)
                 {
                     LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f);
                     LeanTween.scale(lobbyButtonParent, new Vector3(1, 1, 1), 0.3f);
 
-                    //reviveButton.gameObject.SetActive(false);
-                    //returnTolobbyButton.gameObject.SetActive(true);
                 }
                 else
                 {
@@ -277,7 +273,6 @@ public class UIManager : MonoBehaviour
 
     void ToggleSettingBorder()
     {
-
         if (settingBorder.transform.localScale.y == 0)
         {
             settingBorder.SetActive(true);
