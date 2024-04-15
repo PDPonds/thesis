@@ -22,7 +22,10 @@ public class SwitchToBossFigthTrigger : MonoBehaviour
                         GameManager.Instance.SwitchState(GameState.BeforeSecondBoss);
                     }
                 }
-
+                else
+                {
+                    GameManager.Instance.SwitchState(GameState.BeforeFirstBoss);
+                }
             }
         }
     }
