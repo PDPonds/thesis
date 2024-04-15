@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
 
-    public static bool passTutorial = false;
+    public static bool passTutorial = true;
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
     public static int reviveItemCount = 50;
