@@ -147,11 +147,19 @@ public class GameManager : MonoBehaviour
 
     public void EnterBadCutScene()
     {
+        SoundManager.instance.Pause("NormalBGM");
+        SoundManager.instance.Pause("BossBGM");
+        PlayerManager.coin += PlayerManager.Instance.inGameCoin;
+        SaveSystem.Save();
         UIManager.Instance.FadeOut(() => SceneManager.LoadScene(2));
     }
 
     public void EnterGoodCutScene()
     {
+        SoundManager.instance.Pause("NormalBGM");
+        SoundManager.instance.Pause("BossBGM");
+        PlayerManager.coin += PlayerManager.Instance.inGameCoin;
+        SaveSystem.Save();
         UIManager.Instance.FadeOut(() => SceneManager.LoadScene(3));
     }
 

@@ -49,7 +49,7 @@ public class Mine : MonoBehaviour
         {
             if (other.TryGetComponent<PlayerManager>(out PlayerManager manager))
             {
-                //Play Trigger Sound
+                SoundManager.instance.PlayOnShot("MineTrigger");
                 triggerAnim.Play("MineTrigger");
                 curDelayTime = delayTime;
                 isTrigger = true;

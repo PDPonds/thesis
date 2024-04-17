@@ -347,6 +347,7 @@ public class PlayerManager : MonoBehaviour
 
         if (Mine || Dash)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             TutorialManager.instance.NextTutorial();
         }
     }
@@ -404,35 +405,41 @@ public class PlayerManager : MonoBehaviour
         {
             if (passTutorial)
             {
+                SoundManager.Instance.PlayOnShot("Button");
                 DialogueManager.Instance.NextDialog(DialogueManager.Instance.dialogs);
             }
             else
             {
                 if (!DialogueManager.Instance.bossIsSpawn)
                 {
-
+                    SoundManager.Instance.PlayOnShot("Button");
                     DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeBossTutorialDialogs);
                 }
                 else
                 {
+                    SoundManager.Instance.PlayOnShot("Button");
                     DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterBossTutorialDialogs);
                 }
             }
         }
         else if (GameManager.Instance.state == GameState.BeforeFirstBoss)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeFirstBossDialogs);
         }
         else if (GameManager.Instance.state == GameState.BeforeSecondBoss)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             DialogueManager.Instance.NextDialog(DialogueManager.Instance.beforeSecondBossDialogs);
         }
         else if (GameManager.Instance.state == GameState.AfterFirstBoss)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterFirstBossDialogs);
         }
         else if (GameManager.Instance.state == GameState.AfterSecondBoss)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             DialogueManager.Instance.NextDialog(DialogueManager.Instance.afterSecondBossDialogs);
         }
 
@@ -440,6 +447,7 @@ public class PlayerManager : MonoBehaviour
 
         if (inTu)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             TutorialManager.instance.NextTutorial();
         }
 
@@ -524,6 +532,7 @@ public class PlayerManager : MonoBehaviour
         if (!passTutorial && TutorialManager.instance.isTutorialPause &&
             TutorialManager.instance.IsTutorial(TutorialState.Slide))
         {
+            SoundManager.Instance.PlayOnShot("Button");
             TutorialManager.instance.NextTutorial();
         }
     }
@@ -605,6 +614,7 @@ public class PlayerManager : MonoBehaviour
 
         if (Attack || Shuriken || Smoke || Counter)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             TutorialManager.instance.NextTutorial();
         }
 

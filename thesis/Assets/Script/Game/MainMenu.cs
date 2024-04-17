@@ -68,13 +68,14 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         SaveSystem.Load();
+        
     }
 
     private void Start()
     {
         SoundManager.Instance.Pause("BossBGM");
         SoundManager.Instance.Play("NormalBGM");
-
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void Update()
