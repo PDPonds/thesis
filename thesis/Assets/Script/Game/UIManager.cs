@@ -67,9 +67,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        fadeCanvas.gameObject.SetActive(true);
-        LeanTween.alphaCanvas(fadeCanvas, 0, .25f)
-            .setEase(LeanTweenType.easeInOutCubic);
+
+        FadeIn();
 
         deadScene.gameObject.SetActive(false);
     }
@@ -91,7 +90,9 @@ public class UIManager : MonoBehaviour
         float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
         hpFill.fillAmount = hpPercent;
 
-        timeText.text = GameManager.Instance.curGameTime.ToString("N2");
+        float minutes = Mathf.FloorToInt(GameManager.Instance.curGameTime / 60);
+        float seconds = Mathf.FloorToInt(GameManager.Instance.curGameTime % 60);
+        timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
         if (deadScene.gameObject.activeSelf)
         {
@@ -102,9 +103,9 @@ public class UIManager : MonoBehaviour
 
                 if (curReviveTime >= reviveTime)
                 {
-                    LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f);
-                    LeanTween.scale(lobbyButtonParent, new Vector3(1, 1, 1), 0.3f);
-
+                    LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f).setEaseInOutCubic()
+                        .setOnComplete(() => GameManager.Instance.EnterBadCutScene());
+                    deadScene.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -117,11 +118,9 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                //reviveButton.gameObject.SetActive(false);
-                //returnTolobbyButton.gameObject.SetActive(true);
-                LeanTween.scale(reviveParent, new Vector3(0, 0, 0), 0.3f);
-                LeanTween.scale(lobbyButtonParent, new Vector3(1, 1, 1), 0.3f);
-                EventSystem.current.SetSelectedGameObject(returnTolobbyButton.gameObject);
+                GameManager.Instance.EnterBadCutScene();
+                deadScene.gameObject.SetActive(false);
+
             }
         }
 
@@ -164,6 +163,24 @@ public class UIManager : MonoBehaviour
 
         UpdateDashTime();
 
+    }
+
+    public void FadeIn()
+    {
+        fadeCanvas.gameObject.SetActive(true);
+        LeanTween.alphaCanvas(fadeCanvas, 0f, .25f)
+            .setEase(LeanTweenType.easeInOutCubic)
+            .setOnComplete(() => fadeCanvas.gameObject.SetActive(false));
+    }
+
+    public delegate void AfterFadeEvent();
+
+    public void FadeOut(AfterFadeEvent afterFade)
+    {
+        fadeCanvas.gameObject.SetActive(true);
+        LeanTween.alphaCanvas(fadeCanvas, 1f, 1f)
+            .setEase(LeanTweenType.easeInOutCubic)
+            .setOnComplete(() => afterFade?.Invoke());
     }
 
     void UpdateDashTime()

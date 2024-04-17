@@ -90,6 +90,8 @@ public class DialogueManager : MonoBehaviour
                     }
                     break;
                 case GameState.AfterSecondBoss:
+                    GameManager.Instance.EnterGoodCutScene();
+                    break;
                 case GameState.AfterFirstBoss:
                     GameManager.Instance.SwitchState(GameState.Normal);
                     break;

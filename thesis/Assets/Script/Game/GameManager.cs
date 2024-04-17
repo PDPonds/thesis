@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public enum GameState
 {
     BeforeGameStart, Normal, BeforeFirstBoss, BeforeSecondBoss, BossFight,
@@ -33,7 +33,10 @@ public class GameManager : MonoBehaviour
     public float minSpeed;
     public float maxSpeed;
     public float targetMomentum;
+
     [SerializeField] GameObject momentumEffect;
+    public GameObject x2Text;
+
     public float decreaseSpeedMul;
     [HideInInspector] public MomentumAction lastAction = MomentumAction.None;
     public float resetMomentumTime;
@@ -128,10 +131,12 @@ public class GameManager : MonoBehaviour
         if (CheckInTargetMomentum())
         {
             momentumEffect.SetActive(true);
+            x2Text.SetActive(true);
         }
         else
         {
             momentumEffect.SetActive(false);
+            x2Text.SetActive(false);
         }
 
         #endregion
@@ -140,16 +145,27 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void EnterBadCutScene()
+    {
+        UIManager.Instance.FadeOut(() => SceneManager.LoadScene(2));
+    }
+
+    public void EnterGoodCutScene()
+    {
+        UIManager.Instance.FadeOut(() => SceneManager.LoadScene(3));
+    }
+
     void DecreaseTime()
     {
         bool inState = state == GameState.Normal || state == GameState.BossFight;
         bool noTutorial = PlayerManager.passTutorial;
-        if (inState && noTutorial && !PauseManager.Instance.IsPauseState())
+        if (inState && noTutorial && !PauseManager.Instance.IsPauseState() &&
+            curGameTime > 0)
         {
             curGameTime -= Time.deltaTime;
             if (curGameTime < 0)
             {
-                Debug.Log("Time Out");
+                EnterBadCutScene();
             }
         }
     }
