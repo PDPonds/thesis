@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public enum GameState
 {
     BeforeGameStart, Normal, BeforeFirstBoss, BeforeSecondBoss, BossFight,
@@ -140,6 +140,16 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void EnterBadCutScene()
+    {
+        UIManager.Instance.FadeOut(() => SceneManager.LoadScene(2));
+    }
+
+    public void EnterGoodCutScene()
+    {
+        UIManager.Instance.FadeOut(() => SceneManager.LoadScene(3));
+    }
+
     void DecreaseTime()
     {
         bool inState = state == GameState.Normal || state == GameState.BossFight;
@@ -149,7 +159,7 @@ public class GameManager : MonoBehaviour
             curGameTime -= Time.deltaTime;
             if (curGameTime < 0)
             {
-                Debug.Log("Time Out");
+                EnterBadCutScene();
             }
         }
     }
