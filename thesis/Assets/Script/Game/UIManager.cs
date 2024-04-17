@@ -91,7 +91,9 @@ public class UIManager : MonoBehaviour
         float hpPercent = PlayerManager.Instance.currentHp / PlayerManager.Instance.maxHp;
         hpFill.fillAmount = hpPercent;
 
-        timeText.text = GameManager.Instance.curGameTime.ToString("N2");
+        float minutes = Mathf.FloorToInt(GameManager.Instance.curGameTime / 60);
+        float seconds = Mathf.FloorToInt(GameManager.Instance.curGameTime % 60);
+        timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
         if (deadScene.gameObject.activeSelf)
         {
