@@ -33,7 +33,10 @@ public class GameManager : MonoBehaviour
     public float minSpeed;
     public float maxSpeed;
     public float targetMomentum;
+
     [SerializeField] GameObject momentumEffect;
+    public GameObject x2Text;
+
     public float decreaseSpeedMul;
     [HideInInspector] public MomentumAction lastAction = MomentumAction.None;
     public float resetMomentumTime;
@@ -128,10 +131,12 @@ public class GameManager : MonoBehaviour
         if (CheckInTargetMomentum())
         {
             momentumEffect.SetActive(true);
+            x2Text.SetActive(true);
         }
         else
         {
             momentumEffect.SetActive(false);
+            x2Text.SetActive(false);
         }
 
         #endregion
