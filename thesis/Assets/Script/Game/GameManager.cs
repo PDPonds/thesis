@@ -154,7 +154,8 @@ public class GameManager : MonoBehaviour
     {
         bool inState = state == GameState.Normal || state == GameState.BossFight;
         bool noTutorial = PlayerManager.passTutorial;
-        if (inState && noTutorial && !PauseManager.Instance.IsPauseState())
+        if (inState && noTutorial && !PauseManager.Instance.IsPauseState() &&
+            curGameTime > 0)
         {
             curGameTime -= Time.deltaTime;
             if (curGameTime < 0)
