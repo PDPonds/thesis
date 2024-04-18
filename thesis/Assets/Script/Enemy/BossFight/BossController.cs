@@ -252,13 +252,15 @@ public class BossController : MonoBehaviour, IDamageable
 
             curDyimgTime -= Time.deltaTime;
             dyingParticle.SetActive(true);
+            Debug.Log(curDyimgTime);
             if (curDyimgTime < 0 && !bigFlashParticle.activeSelf)
             {
+                Debug.Log("Big");
                 dyingParticle.SetActive(false);
                 SoundManager.Instance.Pause("SmallExplosion");
                 SoundManager.Instance.PlayOnShot("BigExplosion");
                 ParticleSystem big = bigFlashParticle.GetComponent<ParticleSystem>();
-                float duration = big.duration;
+                float duration = big.duration + .5f;
                 Destroy(gameObject, duration);
                 bigFlashParticle.SetActive(true);
                 GameManager.Instance.SwitchState(GameState.AfterSecondBoss);
