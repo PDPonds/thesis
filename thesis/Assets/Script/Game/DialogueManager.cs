@@ -58,6 +58,7 @@ public class DialogueManager : MonoBehaviour
             if (curDialogBox == null) return;
 
             StopAllCoroutines();
+            curDialogBox.textBox.text = string.Empty;
             curDialogBox.textBox.text = dialogs[curDialogIndex].sentence;
             curDialogIndex++;
             GenerateDialogBox(curDialogIndex, dialogs);
