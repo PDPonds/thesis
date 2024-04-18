@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public GameObject soundManager;
     public static GameManager Instance;
 
+    public static bool isTestBoss = false;
+
     [Header("===== Game =====")]
     public GameState state = GameState.Normal;
     GameState lastState;
@@ -83,6 +85,8 @@ public class GameManager : MonoBehaviour
     public Map tutorailMap;
     public Map[] normalMap;
 
+    public Map onlyBossMap;
+
     [HideInInspector] public Map curMap;
 
     public Transform DestroyGroundAndEnemy;
@@ -110,8 +114,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SwitchState(GameState.BeforeGameStart);
-        if (PlayerManager.passTutorial) curMap = normalMap[Random.Range(0, normalMap.Length)];
-        else curMap = tutorailMap;
+        if (!isTestBoss)
+        {
+            if (PlayerManager.passTutorial) curMap = normalMap[Random.Range(0, normalMap.Length)];
+            else curMap = tutorailMap;
+        }
+        else
+        {
+            curMap = onlyBossMap;
+        }
+
+
     }
 
     private void Update()
@@ -148,6 +161,7 @@ public class GameManager : MonoBehaviour
     public void EnterBadCutScene()
     {
         SoundManager.instance.Pause("NormalBGM");
+        SoundManager.instance.Pause("City");
         SoundManager.instance.Pause("BossBGM");
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
         SaveSystem.Save();
@@ -157,6 +171,7 @@ public class GameManager : MonoBehaviour
     public void EnterGoodCutScene()
     {
         SoundManager.instance.Pause("NormalBGM");
+        SoundManager.instance.Pause("City");
         SoundManager.instance.Pause("BossBGM");
         PlayerManager.coin += PlayerManager.Instance.inGameCoin;
         SaveSystem.Save();

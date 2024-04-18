@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
 
-    public static bool passTutorial = true;
+    public static bool passTutorial = false;
     public static int upgradeMaxHpLevel = 0;
     public static int upgradeStealHpLevel = 0;
     public static int reviveItemCount = 50;
@@ -138,7 +138,8 @@ public class PlayerManager : MonoBehaviour
 
         SwitchState(running);
         curNoDamageTime = noDamageTime;
-        //canHook = true;
+
+        SoundManager.instance.Play("City");
 
     }
 
