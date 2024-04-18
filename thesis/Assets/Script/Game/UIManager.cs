@@ -292,13 +292,17 @@ public class UIManager : MonoBehaviour
     {
         if (settingBorder.transform.localScale.y == 0)
         {
+            SoundManager.Instance.PlayOnShot("Button");
             settingBorder.SetActive(true);
+
             LeanTween.scaleY(settingBorder.gameObject, 1, 0.5f).setEaseInOutCubic();
             LeanTween.move(goBackToMenuBut.GetComponent<RectTransform>(),
                 new Vector3(0, -400, 0), 0.5f).setEaseInOutCubic();
         }
         else if (settingBorder.transform.localScale.y > 0)
         {
+            SoundManager.Instance.PlayOnShot("Button");
+
             LeanTween.scaleY(settingBorder.gameObject, 0, 0.5f).setEaseInOutCubic();
             LeanTween.move(goBackToMenuBut.GetComponent<RectTransform>(),
                 new Vector3(0, -100, 0), 0.5f).setEaseInOutCubic()

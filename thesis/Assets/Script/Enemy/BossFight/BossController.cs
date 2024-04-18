@@ -45,6 +45,7 @@ public class BossController : MonoBehaviour, IDamageable
     [Space(5f)]
 
     [SerializeField] float delayProjectile;
+    [SerializeField] float secondDelayProjectile;
     float curProjectileDelay;
 
     [Header("- Missile")]
@@ -383,7 +384,8 @@ public class BossController : MonoBehaviour, IDamageable
         }
         yield return null;
         anim.Play("Missile Power End");
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
@@ -400,7 +402,8 @@ public class BossController : MonoBehaviour, IDamageable
         }
         yield return null;
         anim.Play("Gatling End");
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
@@ -455,13 +458,15 @@ public class BossController : MonoBehaviour, IDamageable
         int fireCount = 0;
         while (fireCount < bombCountPerMax)
         {
+            SoundManager.instance.PlayOnShot("BossBB");
             SpawnBomb();
             fireCount++;
             yield return new WaitForSeconds(bombDelayPerCount);
         }
         yield return null;
         anim.Play("Bouncing Ball End");
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
@@ -486,6 +491,7 @@ public class BossController : MonoBehaviour, IDamageable
 
         beam.SetActive(true);
         beamCollider.enabled = false;
+        SoundManager.Instance.PlayOnShot("BossBeam");
         yield return new WaitForSecondsRealtime(delayBeam);
         beamCollider.enabled = true;
 
@@ -495,7 +501,8 @@ public class BossController : MonoBehaviour, IDamageable
         anim.Play("Particle Cannon End");
         beamCollider.enabled = false;
         beam.SetActive(false);
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 

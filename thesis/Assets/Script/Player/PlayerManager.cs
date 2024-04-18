@@ -335,6 +335,7 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.AfterFirstBoss &&
             GameManager.Instance.state != GameState.AfterSecondBoss)
         {
+            SoundManager.instance.PlayOnShot("Dash");
             SwitchState(dash);
             GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
         }
