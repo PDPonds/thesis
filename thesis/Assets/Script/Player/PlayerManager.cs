@@ -138,7 +138,8 @@ public class PlayerManager : MonoBehaviour
 
         SwitchState(running);
         curNoDamageTime = noDamageTime;
-        //canHook = true;
+
+        SoundManager.instance.Play("City");
 
     }
 
@@ -335,6 +336,7 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.state != GameState.AfterFirstBoss &&
             GameManager.Instance.state != GameState.AfterSecondBoss)
         {
+            SoundManager.instance.PlayOnShot("Dash");
             SwitchState(dash);
             GameManager.Instance.AddMomentum(MomentumAction.Dash, GameManager.Instance.dashMulSpeed);
         }

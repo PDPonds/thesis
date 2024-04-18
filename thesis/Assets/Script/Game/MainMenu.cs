@@ -44,6 +44,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject confirmBorder;
     [SerializeField] Button confirmBut;
     [SerializeField] Button cancleBut;
+    [Header("========== Test Boss")]
+    public Button testBossBut;
 
     private void OnEnable()
     {
@@ -63,17 +65,20 @@ public class MainMenu : MonoBehaviour
 
         settingBut.onClick.AddListener(ShowSetting);
         closeSettingBut.onClick.AddListener(() => CloseSetting());
+
+        testBossBut.onClick.AddListener(() => TestBoss());
     }
 
     private void Awake()
     {
         SaveSystem.Load();
-        
+        GameManager.isTestBoss = false;
     }
 
     private void Start()
     {
         SoundManager.Instance.Pause("BossBGM");
+        SoundManager.instance.Pause("City");
         SoundManager.Instance.Play("NormalBGM");
         Cursor.lockState = CursorLockMode.None;
     }
@@ -125,6 +130,8 @@ public class MainMenu : MonoBehaviour
 
     void ShowSetting()
     {
+        SoundManager.Instance.PlayOnShot("Button");
+
         setting.SetActive(true);
         LeanTween.scale(settingBorder.GetComponent<RectTransform>(), Vector2.one, .3f)
             .setEaseInOutCubic();
@@ -132,6 +139,8 @@ public class MainMenu : MonoBehaviour
 
     void CloseSetting()
     {
+        SoundManager.Instance.PlayOnShot("Button");
+
         LeanTween.scale(settingBorder.GetComponent<RectTransform>(), Vector2.zero, .3f)
             .setEaseInOutCubic()
             .setOnComplete(() => setting.SetActive(false));
@@ -304,5 +313,10 @@ public class MainMenu : MonoBehaviour
 
     #endregion
 
+    void TestBoss()
+    {
+        GameManager.isTestBoss = true;
+        StartGame();
+    }
 
 }

@@ -19,7 +19,8 @@ public class DialogBox : MonoBehaviour
         {
             textBox.text += c;
             yield return new WaitForSeconds(DialogueManager.Instance.textSpeed);
-            
+
         }
     }
+
 }

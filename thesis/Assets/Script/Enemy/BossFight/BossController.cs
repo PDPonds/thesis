@@ -45,10 +45,18 @@ public class BossController : MonoBehaviour, IDamageable
     [Space(5f)]
 
     [SerializeField] float delayProjectile;
+    [SerializeField] float secondDelayProjectile;
     float curProjectileDelay;
 
     [Header("- Missile")]
+
+    [Header("Missile Visual")]
+    [SerializeField] Transform visualSpawnPoint;
+    [SerializeField] float missileVisualDelayPerCount;
+    [SerializeField] GameObject missileVisual;
+
     [SerializeField] Transform spawnProjectilePos;
+
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] int missliePerMax;
     [SerializeField] float missileDelayPerCount;
@@ -61,6 +69,8 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] float delayPerCount;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform[] bulletSpawnPoint;
+    [SerializeField] GameObject[] gunEmis;
+
     [SerializeField] float bulletDamage;
     [SerializeField] float normalBulletSpeed;
 
@@ -257,7 +267,7 @@ public class BossController : MonoBehaviour, IDamageable
                 SoundManager.Instance.Pause("SmallExplosion");
                 SoundManager.Instance.PlayOnShot("BigExplosion");
                 ParticleSystem big = bigFlashParticle.GetComponent<ParticleSystem>();
-                float duration = big.duration;
+                float duration = big.duration + .5f;
                 Destroy(gameObject, duration);
                 bigFlashParticle.SetActive(true);
                 GameManager.Instance.SwitchState(GameState.AfterSecondBoss);
@@ -303,6 +313,7 @@ public class BossController : MonoBehaviour, IDamageable
                 UIManager.Instance.EnterCutScene();
                 SoundManager.Instance.Pause("BossBGM");
                 SoundManager.Instance.Play("NormalBGM");
+
                 break;
         }
     }
@@ -370,10 +381,26 @@ public class BossController : MonoBehaviour, IDamageable
         SoundManager.Instance.PlayOnShot("MissileShot");
     }
 
+    IEnumerator SpawnMissileVisual()
+    {
+        int fireCount = 0;
+        while (fireCount < missliePerMax)
+        {
+            Vector3 pos = visualSpawnPoint.position;
+            GameObject projectileObj = Instantiate(missileVisual, pos, Quaternion.Euler(0, 0, -90f));
+            MissileVisual visual = projectileObj.GetComponent<MissileVisual>();
+            visual.SetupVisual(this);
+            SoundManager.Instance.PlayOnShot("MissileShot");
+            fireCount++;
+            yield return new WaitForSeconds(missileVisualDelayPerCount);
+        }
+    }
+
     IEnumerator SpawnMissile()
     {
         anim.Play("Missile Power Start");
         yield return new WaitForSeconds(missileAnimation);
+        yield return StartCoroutine(SpawnMissileVisual());
         int fireCount = 0;
         while (fireCount < missliePerMax)
         {
@@ -383,7 +410,8 @@ public class BossController : MonoBehaviour, IDamageable
         }
         yield return null;
         anim.Play("Missile Power End");
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
@@ -397,10 +425,13 @@ public class BossController : MonoBehaviour, IDamageable
             SpawnLasser();
             fireCount++;
             yield return new WaitForSeconds(delayPerCount);
+
+            foreach (GameObject g in gunEmis) g.SetActive(false);
         }
         yield return null;
         anim.Play("Gatling End");
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
@@ -408,6 +439,7 @@ public class BossController : MonoBehaviour, IDamageable
     {
         int ran = UnityEngine.Random.Range(0, bulletSpawnPoint.Length);
         Vector3 pos = bulletSpawnPoint[ran].position;
+        gunEmis[ran].SetActive(true);
         GameObject bulletObj = Instantiate(bullet, pos, Quaternion.identity);
         EnemyBullet ebullet = bulletObj.GetComponent<EnemyBullet>();
         ebullet.damage = bulletDamage;
@@ -455,13 +487,15 @@ public class BossController : MonoBehaviour, IDamageable
         int fireCount = 0;
         while (fireCount < bombCountPerMax)
         {
+            SoundManager.instance.PlayOnShot("BossBB");
             SpawnBomb();
             fireCount++;
             yield return new WaitForSeconds(bombDelayPerCount);
         }
         yield return null;
         anim.Play("Bouncing Ball End");
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
@@ -486,6 +520,7 @@ public class BossController : MonoBehaviour, IDamageable
 
         beam.SetActive(true);
         beamCollider.enabled = false;
+        SoundManager.Instance.PlayOnShot("BossBeam");
         yield return new WaitForSecondsRealtime(delayBeam);
         beamCollider.enabled = true;
 
@@ -495,7 +530,8 @@ public class BossController : MonoBehaviour, IDamageable
         anim.Play("Particle Cannon End");
         beamCollider.enabled = false;
         beam.SetActive(false);
-        curProjectileDelay = delayProjectile;
+        if (isEnterHalfHP) curProjectileDelay = secondDelayProjectile;
+        else curProjectileDelay = delayProjectile;
         isFire = false;
     }
 
