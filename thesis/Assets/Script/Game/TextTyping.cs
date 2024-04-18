@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DialogBox : MonoBehaviour
+public class TextTyping : MonoBehaviour
 {
     public TextMeshProUGUI textBox;
+
+    public void Start()
+    {
+        textBox = GetComponent<TextMeshProUGUI>();
+    }
 
     public void StartDialog(string lines)
     {
@@ -18,9 +23,8 @@ public class DialogBox : MonoBehaviour
         foreach (char c in lines.ToCharArray())
         {
             textBox.text += c;
-            yield return new WaitForSeconds(DialogueManager.Instance.textSpeed);
+            yield return new WaitForSeconds(0.1f);
 
         }
     }
-
 }
