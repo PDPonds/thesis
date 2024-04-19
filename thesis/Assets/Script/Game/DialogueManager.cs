@@ -86,7 +86,8 @@ public class DialogueManager : MonoBehaviour
                         else
                         {
                             BossController bossCon = GameManager.Instance.curBoss.GetComponent<BossController>();
-                            bossCon.SwitchBehavior(BossBehavior.TutorialEscape);
+                            if (bossCon.curBehavior != BossBehavior.TutorialEscape)
+                                bossCon.SwitchBehavior(BossBehavior.TutorialEscape);
                         }
                     }
                     break;
