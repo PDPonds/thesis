@@ -90,7 +90,7 @@ public class MainMenu : MonoBehaviour
         {
             upgradeMaxHpBut.interactable = true;
         }
-        else upgradeMaxHpBut.interactable = false;
+       else upgradeMaxHpBut.interactable = false;
 
         if (PlayerManager.coin >= upgardeStealHpCostPerLevel[PlayerManager.upgradeStealHpLevel] &&
             PlayerManager.upgradeStealHpLevel < upgardeStealHpCostPerLevel.Count)
