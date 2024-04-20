@@ -72,6 +72,7 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         SaveSystem.Load();
+        SaveSystem.Save();
         GameManager.isTestBoss = false;
     }
 
